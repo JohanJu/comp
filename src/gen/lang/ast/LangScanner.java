@@ -52,12 +52,12 @@ public final class LangScanner extends beaver.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\1\1\7\3\1\4\2\0"+
-    "\1\3\1\5\1\6\3\3\1\7\1\10\1\11\1\12"+
+    "\1\0\1\1\1\2\1\3\1\4\7\3\1\5\1\0"+
+    "\1\3\1\6\1\7\3\3\1\10\1\11\1\4\1\12"+
     "\1\3\1\13\2\3\1\14\1\15";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[31];
+    int [] result = new int[30];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -83,12 +83,12 @@ public final class LangScanner extends beaver.Scanner {
 
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\21\0\21\0\42\0\63\0\104\0\125\0\146"+
-    "\0\167\0\210\0\231\0\252\0\21\0\63\0\273\0\314"+
-    "\0\42\0\42\0\335\0\356\0\377\0\42\0\42\0\273"+
-    "\0\42\0\u0110\0\42\0\u0121\0\u0132\0\42\0\42";
+    "\0\167\0\210\0\231\0\252\0\21\0\273\0\314\0\42"+
+    "\0\42\0\335\0\356\0\377\0\42\0\42\0\273\0\42"+
+    "\0\u0110\0\42\0\u0121\0\u0132\0\42\0\42";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[31];
+    int [] result = new int[30];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -113,21 +113,21 @@ public final class LangScanner extends beaver.Scanner {
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\4\1\5\1\2\1\6\1\7\1\4"+
     "\1\10\1\11\1\12\1\13\1\4\1\14\1\15\2\4"+
-    "\23\0\1\4\2\0\11\4\1\0\2\4\3\0\1\16"+
-    "\1\17\16\0\1\4\2\0\1\4\1\20\4\4\1\21"+
-    "\2\4\1\0\2\4\2\0\1\4\2\0\10\4\1\22"+
-    "\1\0\2\4\2\0\1\4\2\0\4\4\1\23\4\4"+
-    "\1\0\2\4\2\0\1\4\2\0\1\4\1\24\7\4"+
-    "\1\0\2\4\2\0\1\4\2\0\11\4\1\0\1\25"+
-    "\1\4\2\0\1\4\2\0\1\26\10\4\1\0\2\4"+
-    "\2\0\1\4\2\0\1\4\1\27\7\4\1\0\2\4"+
-    "\3\0\1\30\17\0\1\4\2\0\2\4\1\31\6\4"+
+    "\23\0\1\4\2\0\11\4\1\0\2\4\3\0\1\5"+
+    "\1\16\16\0\1\4\2\0\1\4\1\17\4\4\1\20"+
+    "\2\4\1\0\2\4\2\0\1\4\2\0\10\4\1\21"+
+    "\1\0\2\4\2\0\1\4\2\0\4\4\1\22\4\4"+
+    "\1\0\2\4\2\0\1\4\2\0\1\4\1\23\7\4"+
+    "\1\0\2\4\2\0\1\4\2\0\11\4\1\0\1\24"+
+    "\1\4\2\0\1\4\2\0\1\25\10\4\1\0\2\4"+
+    "\2\0\1\4\2\0\1\4\1\26\7\4\1\0\2\4"+
+    "\3\0\1\27\17\0\1\4\2\0\2\4\1\30\6\4"+
+    "\1\0\2\4\2\0\1\4\2\0\5\4\1\31\3\4"+
     "\1\0\2\4\2\0\1\4\2\0\5\4\1\32\3\4"+
-    "\1\0\2\4\2\0\1\4\2\0\5\4\1\33\3\4"+
     "\1\0\2\4\2\0\1\4\2\0\11\4\1\0\1\4"+
-    "\1\34\2\0\1\4\2\0\6\4\1\35\2\4\1\0"+
-    "\2\4\2\0\1\4\2\0\4\4\1\36\4\4\1\0"+
-    "\2\4\2\0\1\4\2\0\7\4\1\37\1\4\1\0"+
+    "\1\33\2\0\1\4\2\0\6\4\1\34\2\4\1\0"+
+    "\2\4\2\0\1\4\2\0\4\4\1\35\4\4\1\0"+
+    "\2\4\2\0\1\4\2\0\7\4\1\36\1\4\1\0"+
     "\2\4";
 
   private static int [] zzUnpackTrans() {
@@ -169,10 +169,10 @@ public final class LangScanner extends beaver.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\2\11\11\1\1\11\2\0\20\1";
+    "\1\0\2\11\11\1\1\11\1\0\20\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[31];
+    int [] result = new int[30];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -630,27 +630,27 @@ public final class LangScanner extends beaver.Scanner {
           }
         case 16: break;
         case 4: 
-          { return sym(Terminals.EQ);
+          { return sym(Terminals.NUMERAL);
           }
         case 17: break;
         case 5: 
-          { return sym(Terminals.FI);
+          { return sym(Terminals.EQ);
           }
         case 18: break;
         case 6: 
-          { return sym(Terminals.OD);
+          { return sym(Terminals.FI);
           }
         case 19: break;
         case 7: 
-          { return sym(Terminals.IF);
+          { return sym(Terminals.OD);
           }
         case 20: break;
         case 8: 
-          { return sym(Terminals.DO);
+          { return sym(Terminals.IF);
           }
         case 21: break;
         case 9: 
-          { return sym(Terminals.NUMERAL);
+          { return sym(Terminals.DO);
           }
         case 22: break;
         case 10: 
@@ -672,7 +672,9 @@ public final class LangScanner extends beaver.Scanner {
         default: 
           if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
             zzAtEOF = true;
-            return null;
+              {
+                return sym(Terminals.EOF);
+              }
           } 
           else {
             zzScanError(ZZ_NO_MATCH);

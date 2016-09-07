@@ -29,7 +29,7 @@ import lang.ast.LangParser.SyntaxError;
 // macros
 WhiteSpace = [ ] | \t | \f | \n | \r
 ID = [a-zA-Z]+
-Numeral = [0-9]+ "." [0-9]+
+Numeral = [0-9]+( "." [0-9]+)?
 
 %%
 
@@ -48,6 +48,7 @@ Numeral = [0-9]+ "." [0-9]+
 "not"           { return sym(Terminals.NOT); }
 {ID}          { return sym(Terminals.ID); }
 {Numeral}     { return sym(Terminals.NUMERAL); }
+<<EOF>>       { return sym(Terminals.EOF); }
 
 /* error fallback */
 [^]           { throw new SyntaxError("Illegal character <"+yytext()+">"); }

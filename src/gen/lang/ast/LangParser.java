@@ -12,34 +12,61 @@ public class LangParser extends Parser {
 	static public class Terminals {
 		static public final short EOF = 0;
 		static public final short ID = 1;
-		static public final short LET = 2;
-		static public final short NUMERAL = 3;
-		static public final short MUL = 4;
-		static public final short ASSIGN = 5;
-		static public final short IN = 6;
-		static public final short END = 7;
+		static public final short NUMERAL = 2;
+		static public final short NOT = 3;
+		static public final short FOR = 4;
+		static public final short IF = 5;
+		static public final short EQ = 6;
+		static public final short UNTIL = 7;
+		static public final short DO = 8;
+		static public final short OD = 9;
+		static public final short THEN = 10;
+		static public final short FI = 11;
 
 		static public final String[] NAMES = {
 			"EOF",
 			"ID",
-			"LET",
 			"NUMERAL",
-			"MUL",
-			"ASSIGN",
-			"IN",
-			"END"
+			"NOT",
+			"FOR",
+			"IF",
+			"EQ",
+			"UNTIL",
+			"DO",
+			"OD",
+			"THEN",
+			"FI"
 		};
 	}
 
 	static final ParsingTables PARSING_TABLES = new ParsingTables(
-		"U9njaEaAmZ0GX2Szj6bjlK0Gl43yuLlwrBLU7ISXbcAxuTjCbjriDW2kc6AE51D4h3jTTAg" +
-		"KIhnQ8iDYw4d4MZDHAMAHA#fyeLZPqqDb4AbgwA6EYJecwcsKdIgoki7RMfp4nftxo2xYBB" +
-		"PYBtRYy9$d8Dc4ccpadcF8QSCv7hl3lGd1#E6RBpxHCpxOik5TqkeVZEOs$fUizX#v9YpyZ" +
-		"0RL5xLvApC=");
+		"U9nbaESEmZ0CXAziIabRA1i9n2ZYDo$8EoFsC9UGG1KiVVRPSTpK07OeeOmAgd94#wFGiJ4" +
+		"JGGCrn1XWY97r6Ufe5gePGhJ#kY8aw4AXXnHzZ3bRiIDXvfIB0S3R#dk1UOlp0MSKgtKlrx" +
+		"x1Miky9gIAE6coXp6jbTOEsf0qIKh692DBCY1hspCbEPcHXQrjoSgRjN5QH0x5CwzFsTYtl" +
+		"PV2sTpM7jwTjPVdDau#GLxob0Sya$jNtOo$oaNEZ2Sc8VyvuCP$A6uYvZOJRZ4okzQKq7a3" +
+		"vCetyG==");
 
-	static final Action RETURN7 = new Action() {
+	static final Action RETURN9 = new Action() {
 		public Symbol reduce(Symbol[] _symbols, int offset) {
-			return _symbols[offset + 7];
+			return _symbols[offset + 9];
+		}
+	};
+
+	static final Action RETURN5 = new Action() {
+		public Symbol reduce(Symbol[] _symbols, int offset) {
+			return _symbols[offset + 5];
+		}
+	};
+
+	static final Action RETURN3 = new Action() {
+		public Symbol reduce(Symbol[] _symbols, int offset) {
+			return _symbols[offset + 3];
+		}
+	};
+
+	static final Action RETURN2 = new Action() {
+		public Symbol reduce(Symbol[] _symbols, int offset) {
+			return _symbols[offset + 2];
 		}
 	};
 
@@ -54,23 +81,16 @@ public class LangParser extends Parser {
 	public LangParser() {
 		super(PARSING_TABLES);
 		actions = new Action[] {
-			Action.RETURN,	// [0] program = exp
-			new Action() {	// [1] exp = factor
-				public Symbol reduce(Symbol[] _symbols, int offset) {
-					ArrayList lst = new ArrayList(); lst.add(_symbols[offset + 1]); return new Symbol(lst);
-				}
-			},
-			new Action() {	// [2] exp = exp MUL factor
-				public Symbol reduce(Symbol[] _symbols, int offset) {
-					((ArrayList) _symbols[offset + 1].value).add(_symbols[offset + 3]); return _symbols[offset + 1];
-				}
-			},
-			Action.RETURN,	// [3] factor = let
-			Action.RETURN,	// [4] factor = numeral
-			Action.RETURN,	// [5] factor = id
-			RETURN7,	// [6] let = LET id ASSIGN exp IN exp END; returns 'END' although none is marked
-			Action.RETURN,	// [7] numeral = NUMERAL
-			Action.RETURN	// [8] id = ID
+			Action.RETURN,	// [0] program = stmt
+			Action.RETURN,	// [1] stmt = forStmt
+			Action.RETURN,	// [2] stmt = ifStmt
+			Action.RETURN,	// [3] stmt = assignment
+			RETURN9,	// [4] forStmt = FOR ID EQ expr UNTIL expr DO stmt OD; returns 'OD' although none is marked
+			RETURN5,	// [5] ifStmt = IF expr THEN stmt FI; returns 'FI' although none is marked
+			RETURN3,	// [6] assignment = ID EQ expr; returns 'expr' although none is marked
+			Action.RETURN,	// [7] expr = ID
+			Action.RETURN,	// [8] expr = NUMERAL
+			RETURN2	// [9] expr = NOT expr; returns 'expr' although none is marked
 		};
 	}
 

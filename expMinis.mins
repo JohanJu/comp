@@ -1,1 +1,1 @@
-if not a then for b = 2 do a = 1 fi 
+if not a then for b = 2.0 until 3.0 do a = 1.0 od fi

@@ -1,6 +1,6 @@
 int a() {
 	int x;
-	int y;
+	int y;//sc
 	x = 5;
-	y = x;//sc
+	y = x;
 }

@@ -27,14 +27,16 @@ import lang.ast.LangParser.SyntaxError;
 %}
 
 // macros
-WhiteSpace = [ ] | \t | \f | \n | \r
+WhiteSpace = [ ] | \t | \f | \n | \r 
 ID = [a-zA-Z]+
 TYPE = "int"
 NUM = [0-9]+
+Comment = \/\/.*(\r|\n|\r\n)
 %%
 
 // discard whitespace information
 {WhiteSpace}  { }
+{Comment}  { }
 
 // token definitions
 ";"           { /*System.out.println("SC");*/ return sym(Terminals.SC); }

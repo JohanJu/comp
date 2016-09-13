@@ -45,6 +45,8 @@ Comment = \/\/.*(\r|\n|\r\n)
 ")"           { /*System.out.println("RP");*/ return sym(Terminals.RP); }
 "{"           { /*System.out.println("LB");*/ return sym(Terminals.LB); }
 "}"           { /*System.out.println("RB");*/ return sym(Terminals.RB); }
+"*"           { /*System.out.println("LB");*/ return sym(Terminals.MUL); }
+"+"           { /*System.out.println("RB");*/ return sym(Terminals.ADD); }
 {TYPE}        { /*System.out.println("TYPE");*/ return sym(Terminals.TYPE); }
 {ID}          { /*System.out.println("ID");*/ return sym(Terminals.ID); }
 {NUM}         { /*System.out.println("NUM");*/ return sym(Terminals.NUM); }

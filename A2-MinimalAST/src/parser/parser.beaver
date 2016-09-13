@@ -9,45 +9,69 @@
 	}
 :};
 
-%terminals ID, TYPE, LB, RB, LP, RP, NUM, EQ, SC;
+%terminals ID, TYPE, LB, RB, LP, RP, NUM, EQ, SC, ADD, MUL;
 
 %typeof program = "Program";
 %typeof funcList = "List";
 %typeof func = "Func";
 %typeof statList = "List";
 %typeof stat = "Stat";
-%typeof use = "Use";
+%typeof idUse = "IdUse";
 %typeof decl = "Decl";
+%typeof factor = "Expr";
+%typeof term = "Expr";
+%typeof num = "Num";
+%typeof assi = "Assi";
+%typeof exp = "Expr";
 
 %goal program;
 
-program = funcList.a 							{: return new Program(a); :} ;
+program = funcList.a 							{: return new Program(a); :};
 
 funcList =
-		  func.a 								{: return new List().add(a);:}
-		| funcList.a func.b 					{: return a.add(b); 		:}
+		  func.a 								{: return new List().add(a); :}
+		| funcList.a func.b 					{: return a.add(b); :}
 		;
 
 func = 
-		TYPE ID.a LP RP LB statList.b RB 		{: return new Func(a,b);  :}
+		TYPE ID.a LP RP LB statList.b RB 		{: return new Func(a,b); :}
 		;
 
 statList =
-		  stat.a 								{: return new List().add(a);:}
-		| statList.a stat.b 					{: return a.add(b); 		:}
+		  stat.a SC								{: return new List().add(a); :}
+		| statList.a stat.b SC					{: return a.add(b); :}
 		| //empty
 		;
 
 stat = 
-		decl
-		| use
+		decl 
+		| assi 
 		;
 
 decl = 
-		TYPE ID.a SC							{: return new Decl(a);  :}
+		TYPE ID.a								{: return new Decl(a, new Opt());  :}
+		| TYPE ID.a EQ exp.b  					{: return new Decl(a, new Opt(b)); :}
 		;
 
-use = 
-		ID.a EQ NUM.b SC						{: return new Use(a,b);  :}
-		| ID.a EQ ID.b SC						{: return new Use(a,b);  :}
+assi = 
+		ID.a EQ exp.b							{: return new Assi(a, b); :}
 		;
+
+exp =
+	term 										
+	| exp.a ADD term.b 							{: return new Add(a, b); :}
+	;
+
+factor =
+	num
+	| idUse
+	| LP exp.a RP
+	;
+term =
+	factor
+	| term.a MUL factor.b 						{: return new Mul(a, b); :}
+	;
+
+num = NUM.a 								{: return new Num(a); :} ;
+
+idUse = ID.a									{: return new IdUse(a);  :} ;

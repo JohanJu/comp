@@ -1,5 +1,13 @@
 Program ::= Func*;
 Func ::= <ID> Stat*;
+
 abstract Stat;
-Decl : Stat ::= <ID>;
-Use : Stat ::= <ID> <NUM>;
+Decl : Stat ::= <ID> [Expr];
+Assi : Stat ::= <ID> Expr;
+
+abstract Expr;
+Mul : Expr ::= Left:Expr Right:Expr;
+Add : Expr ::= Left:Expr Right:Expr;
+Num : Expr ::= <NUM>;
+IdUse : Expr ::= <ID>;
+

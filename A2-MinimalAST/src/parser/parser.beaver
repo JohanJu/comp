@@ -21,7 +21,7 @@
 
 %goal program;
 
-program = funcList.a 							{: System.out.println("PROG"); return new Program(a); :} ;
+program = funcList.a 							{: return new Program(a); :} ;
 
 funcList =
 		  func.a 								{: return new List().add(a);:}
@@ -29,12 +29,13 @@ funcList =
 		;
 
 func = 
-		TYPE ID.a LP RP LB statList.b RB 		{:System.out.println("FUNC"); return new Func(a,b);  :}
+		TYPE ID.a LP RP LB statList.b RB 		{: return new Func(a,b);  :}
 		;
 
 statList =
 		  stat.a 								{: return new List().add(a);:}
 		| statList.a stat.b 					{: return a.add(b); 		:}
+		| //empty
 		;
 
 stat = 

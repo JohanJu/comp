@@ -1,2 +1,5 @@
 Program ::= Func*;
-Func ::= <ID>;
+Func ::= <ID> Stat*;
+abstract Stat;
+Decl : Stat ::= <ID>;
+Use : Stat ::= <ID> <NUM>;

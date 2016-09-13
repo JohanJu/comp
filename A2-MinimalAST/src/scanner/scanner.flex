@@ -30,19 +30,23 @@ import lang.ast.LangParser.SyntaxError;
 WhiteSpace = [ ] | \t | \f | \n | \r
 ID = [a-zA-Z]+
 TYPE = "int"
+NUM = [0-9]+
 %%
 
 // discard whitespace information
 {WhiteSpace}  { }
 
 // token definitions
-"("           { return sym(Terminals.LP); }
-")"           { return sym(Terminals.RP); }
-"{"           { return sym(Terminals.LB); }
-"}"           { return sym(Terminals.RB); }
-{TYPE}        { return sym(Terminals.TYPE); }
-{ID}          { return sym(Terminals.ID); }
-<<EOF>>       { return sym(Terminals.EOF); }
+";"           { System.out.println("SC"); return sym(Terminals.SC); }
+"="           { System.out.println("EQ"); return sym(Terminals.EQ); }
+"("           { System.out.println("LP"); return sym(Terminals.LP); }
+")"           { System.out.println("RP"); return sym(Terminals.RP); }
+"{"           { System.out.println("LB"); return sym(Terminals.LB); }
+"}"           { System.out.println("RB"); return sym(Terminals.RB); }
+{TYPE}        { System.out.println("TYPE"); return sym(Terminals.TYPE); }
+{ID}          { System.out.println("ID"); return sym(Terminals.ID); }
+{NUM}         { System.out.println("NUM"); return sym(Terminals.NUM); }
+<<EOF>>       { System.out.println("EOF"); return sym(Terminals.EOF); }
 
 /* error fallback */
 [^]           { throw new SyntaxError("Illegal character <"+yytext()+">"); }

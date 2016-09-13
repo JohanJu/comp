@@ -9,21 +9,44 @@
 	}
 :};
 
-%terminals ID, TYPE, LB, RB, LP, RP;
+%terminals ID, TYPE, LB, RB, LP, RP, NUM, EQ, SC;
 
 %typeof program = "Program";
-%typeof list = "List";
+%typeof funcList = "List";
 %typeof func = "Func";
+%typeof statList = "List";
+%typeof stat = "Stat";
+%typeof use = "Use";
+%typeof decl = "Decl";
 
 %goal program;
 
-program = list.a {: return new Program(a); :} ;
+program = funcList.a 							{: System.out.println("PROG"); return new Program(a); :} ;
 
-list =
-		  func.a 					{: return new List().add(a);:}
-		| list.a func.b 			{: return a.add(b); 		:}
+funcList =
+		  func.a 								{: return new List().add(a);:}
+		| funcList.a func.b 					{: return a.add(b); 		:}
 		;
 
 func = 
-		TYPE ID.id LP RP LB RB 		{: return new Func(id);  :}
+		TYPE ID.a LP RP LB statList.b RB 		{:System.out.println("FUNC"); return new Func(a,b);  :}
+		;
+
+statList =
+		  stat.a 								{: return new List().add(a);:}
+		| statList.a stat.b 					{: return a.add(b); 		:}
+		;
+
+stat = 
+		decl
+		| use
+		;
+
+decl = 
+		TYPE ID.a SC							{: return new Decl(a);  :}
+		;
+
+use = 
+		ID.a EQ NUM.b SC						{: return new Use(a,b);  :}
+		| ID.a EQ ID.b SC						{: return new Use(a,b);  :}
 		;

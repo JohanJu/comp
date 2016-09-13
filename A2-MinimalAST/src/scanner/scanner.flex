@@ -29,13 +29,18 @@ import lang.ast.LangParser.SyntaxError;
 // macros
 WhiteSpace = [ ] | \t | \f | \n | \r
 ID = [a-zA-Z]+
-
+TYPE = "int"
 %%
 
 // discard whitespace information
 {WhiteSpace}  { }
 
 // token definitions
+"("           { return sym(Terminals.LP); }
+")"           { return sym(Terminals.RP); }
+"{"           { return sym(Terminals.LB); }
+"}"           { return sym(Terminals.RB); }
+{TYPE}        { return sym(Terminals.TYPE); }
 {ID}          { return sym(Terminals.ID); }
 <<EOF>>       { return sym(Terminals.EOF); }
 

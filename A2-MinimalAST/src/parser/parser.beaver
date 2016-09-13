@@ -9,10 +9,21 @@
 	}
 :};
 
-%terminals ID;
+%terminals ID, TYPE, LB, RB, LP, RP;
 
 %typeof program = "Program";
+%typeof list = "List";
+%typeof func = "Func";
 
 %goal program;
 
-program = ID.id {: return new Program(id); :} ;
+program = list.a {: return new Program(a); :} ;
+
+list =
+		  func.a 					{: return new List().add(a);:}
+		| list.a func.b 			{: return a.add(b); 		:}
+		;
+
+func = 
+		TYPE ID.id LP RP LB RB 		{: return new Func(id);  :}
+		;

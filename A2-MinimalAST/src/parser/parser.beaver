@@ -16,6 +16,8 @@
 %typeof func = "Func";
 %typeof statList = "List";
 %typeof stat = "Stat";
+%typeof ifstat = "Stat";
+%typeof whilestat = "Stat";
 %typeof idUse = "IdUse";
 %typeof decl = "Decl";
 %typeof factor = "Expr";
@@ -47,6 +49,12 @@ statList =
 stat = 
 		decl 
 		| assi 
+		;
+ifstat = 
+		IF cmpexp.a statList.b 					{: return new If(a,b, new Opt()); :} 
+		; IF cmpexp.a statList.b statList.c 					{: return new If(a,b, new Opt(c)); :} 
+whilestat = 
+		WHILE cmpexp.a statList.b 					{: return new If(a,b); :} 
 		;
 
 decl = 

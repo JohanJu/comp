@@ -1,0 +1,14 @@
+Program
+  List
+    Func ID="a"
+      List
+        Decl ID="x"
+          Opt
+        Assi ID="x"
+          CmpExp CMP=">"
+            Add
+              Num NUM="3"
+              Num NUM="1"
+            Sub
+              Num NUM="2"
+              Num NUM="3"

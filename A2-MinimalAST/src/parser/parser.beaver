@@ -60,7 +60,7 @@ assi =
 
 cmpexp =
 	exp 										
-	| exp.a CMP.b exp.c							{: return new CmpExp(a, b, c); :}
+	| exp.a CMP.b exp.c							{:return new CmpExp(a, b, c); :}
 	;
 
 exp =

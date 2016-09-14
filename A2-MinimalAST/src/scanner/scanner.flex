@@ -28,7 +28,7 @@ import lang.ast.LangParser.SyntaxError;
 
 // macros
 WhiteSpace = [ ] | \t | \f | \n | \r 
-ID = [a-zA-Z]+
+ID = [a-zA-Z][a-zA-Z0-9]*
 TYPE = "int"
 NUM = [0-9]+
 Comment = \/\/.*(\r|\n|\r\n)
@@ -40,11 +40,11 @@ Cmp = "==" | "!=" | ">=" | "<=" | ">" | "<"
 {Comment}  { }
 
 // token definitions
-// "while"		{ return sym(Terminals.WHILE); 	}
+"while"		{ return sym(Terminals.WHILE); 	}
 // "print"		{ return sym(Terminals.PRINT);	}
-// "else"		{ return sym(Terminals.ELSE); 	}
+"else"		{ return sym(Terminals.ELSE); 	}
 // "read"		{ return sym(Terminals.READ);	}
-// "if"		{ return sym(Terminals.IF); 	}
+"if"		{ return sym(Terminals.IF); 	}
 "/"			{ return sym(Terminals.DIV); 	}
 "%"			{ return sym(Terminals.MOD); 	}
 "-"			{ return sym(Terminals.SUB); 	}

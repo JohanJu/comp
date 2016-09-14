@@ -4,7 +4,8 @@ Func ::= <ID> Stat*;
 abstract Stat;
 Decl : Stat ::= <ID> [Expr];
 Assi : Stat ::= <ID> Expr;
-If : Stat ::= Expr Stat* [Stat*];
+If : Stat ::= Expr Stat* [Else];
+Else : Stat ::= Stat*;
 While : Stat ::= Expr Stat*;
 
 abstract Expr;

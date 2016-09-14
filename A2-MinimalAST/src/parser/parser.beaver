@@ -17,6 +17,7 @@
 %typeof statList = "List";
 %typeof stat = "Stat";
 %typeof ifstat = "Stat";
+%typeof elsestat = "Stat";
 %typeof whilestat = "Stat";
 %typeof idUse = "IdUse";
 %typeof decl = "Decl";
@@ -48,13 +49,21 @@ statList =
 
 stat = 
 		decl 
-		| assi 
+		| assi
+		| ifstat 
+		| whilestat  
 		;
 ifstat = 
-		IF cmpexp.a statList.b 					{: return new If(a,b, new Opt()); :} 
-		; IF cmpexp.a statList.b statList.c 					{: return new If(a,b, new Opt(c)); :} 
+		IF LP cmpexp.a RP LB statList.b RB					{: return new If(a,b,new Opt()); :} 
+		| IF LP cmpexp.a RP LB statList.b RB elsestat.c		{: return new If(a,b,new Opt(c)); :}
+		; 
+
+elsestat = 
+		ELSE LB statList.a RB					{: return new Else(a); :} 
+		;
+
 whilestat = 
-		WHILE cmpexp.a statList.b 					{: return new If(a,b); :} 
+		WHILE LP cmpexp.a RP LB statList.b RB 					{: return new While(a,b); :} 
 		;
 
 decl = 

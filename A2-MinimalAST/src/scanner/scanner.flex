@@ -32,6 +32,7 @@ ID = [a-zA-Z]+
 TYPE = "int"
 NUM = [0-9]+
 Comment = \/\/.*(\r|\n|\r\n)
+Cmp = "==" | "!=" | ">=" | "<=" | ">" | "<"
 %%
 
 // discard whitespace information
@@ -39,14 +40,24 @@ Comment = \/\/.*(\r|\n|\r\n)
 {Comment}  { }
 
 // token definitions
-";"           { /*System.out.println("SC");*/ return sym(Terminals.SC); }
-"="           { /*System.out.println("EQ");*/ return sym(Terminals.EQ); }
+// "while"		{ return sym(Terminals.WHILE); 	}
+// "print"		{ return sym(Terminals.PRINT);	}
+// "else"		{ return sym(Terminals.ELSE); 	}
+// "read"		{ return sym(Terminals.READ);	}
+// "if"		{ return sym(Terminals.IF); 	}
+"/"			{ return sym(Terminals.DIV); 	}
+"%"			{ return sym(Terminals.MOD); 	}
+"-"			{ return sym(Terminals.SUB); 	}
+// ","			{ return sym(Terminals.COMMA); 	}
+";"           { /*System.out.println("SC");*/ return sym(Terminals.SEMI); }
+"="           { /*System.out.println("EQ");*/ return sym(Terminals.ASSIGN); }
 "("           { /*System.out.println("LP");*/ return sym(Terminals.LP); }
 ")"           { /*System.out.println("RP");*/ return sym(Terminals.RP); }
 "{"           { /*System.out.println("LB");*/ return sym(Terminals.LB); }
 "}"           { /*System.out.println("RB");*/ return sym(Terminals.RB); }
 "*"           { /*System.out.println("LB");*/ return sym(Terminals.MUL); }
 "+"           { /*System.out.println("RB");*/ return sym(Terminals.ADD); }
+{Cmp}		{ /*System.out.println("RB");*/ return sym(Terminals.CMP); }
 {TYPE}        { /*System.out.println("TYPE");*/ return sym(Terminals.TYPE); }
 {ID}          { /*System.out.println("ID");*/ return sym(Terminals.ID); }
 {NUM}         { /*System.out.println("NUM");*/ return sym(Terminals.NUM); }

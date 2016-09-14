@@ -6,8 +6,12 @@ Decl : Stat ::= <ID> [Expr];
 Assi : Stat ::= <ID> Expr;
 
 abstract Expr;
+CmpExp : Expr ::= Left:Expr <CMP> Right:Expr;
 Mul : Expr ::= Left:Expr Right:Expr;
+Div : Expr ::= Left:Expr Right:Expr;
+Mod : Expr ::= Left:Expr Right:Expr;
 Add : Expr ::= Left:Expr Right:Expr;
+Sub : Expr ::= Left:Expr Right:Expr;
 Num : Expr ::= <NUM>;
 IdUse : Expr ::= <ID>;
 

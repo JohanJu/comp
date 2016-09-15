@@ -15,6 +15,7 @@
 %typeof funcList = "List";
 %typeof func = "Func";
 %typeof statList = "List";
+%typeof statListOpt = "List";
 %typeof stat = "Stat";
 %typeof ifstat = "Stat";
 %typeof elsestat = "Stat";
@@ -38,13 +39,13 @@ funcList =
 		;
 
 func = 
-		TYPE ID.a LP RP LB statList.b RB 		{: return new Func(a,b); :}
+		TYPE ID.a LP RP LB statListOpt.b RB 		{: return new Func(a,b); :}
 		;
 
+statListOpt = {: return new List(); :} | statList;
 statList =
 		  stat.a SEMI								{: return new List().add(a); :}
 		| statList.a stat.b SEMI					{: return a.add(b); :}
-		| //empty
 		;
 
 stat = 
@@ -54,16 +55,16 @@ stat =
 		| whilestat  
 		;
 ifstat = 
-		IF LP cmpexp.a RP LB statList.b RB					{: return new If(a,b,new Opt()); :} 
-		| IF LP cmpexp.a RP LB statList.b RB elsestat.c		{: return new If(a,b,new Opt(c)); :}
+		IF LP cmpexp.a RP LB statListOpt.b RB					{: return new If(a,b,new Opt()); :} 
+		| IF LP cmpexp.a RP LB statListOpt.b RB elsestat.c		{: return new If(a,b,new Opt(c)); :}
 		; 
 
 elsestat = 
-		ELSE LB statList.a RB					{: return new Else(a); :} 
+		ELSE LB statListOpt.b RB					{: return new Else(a); :} 
 		;
 
 whilestat = 
-		WHILE LP cmpexp.a RP LB statList.b RB 					{: return new While(a,b); :} 
+		WHILE LP cmpexp.a RP LB statListOpt.b RB 					{: return new While(a,b); :} 
 		;
 
 decl = 

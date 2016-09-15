@@ -11,6 +11,7 @@ Ret : Stat ::= Expr;
 
 abstract Expr;
 CmpExp : Expr ::= Left:Expr <CMP> Right:Expr;
+Fcall : Expr ::= <ID> Expr*;
 Mul : Expr ::= Left:Expr Right:Expr;
 Div : Expr ::= Left:Expr Right:Expr;
 Mod : Expr ::= Left:Expr Right:Expr;

@@ -44,6 +44,20 @@ func =
 		TYPE ID.a LP RP LB statListOpt.b RB 		{: return new Func(a,b); :}
 		;
 
+funcCall = 
+		ID.a LP expListOpt RP SEMI		{: return new Func(a,b); :}
+		;
+
+args = 
+		TYPE ID.a LP RP LB statListOpt.b RB 		{: return new Func(a,b); :}
+		;
+
+expListOpt = {: return new List(); :} | expList;
+expList =
+		  exp.a								{: return new List().add(a); :}
+		| expList.a COMMA exp.b 					{: return a.add(b); :}
+		;
+
 statListOpt = {: return new List(); :} | statList;
 statList =
 		  stat.a								{: return new List().add(a); :}

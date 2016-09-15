@@ -50,7 +50,7 @@ Cmp = "==" | "!=" | ">=" | "<=" | ">" | "<"
 "/"			{ return sym(Terminals.DIV); 	}
 "%"			{ return sym(Terminals.MOD); 	}
 "-"			{ return sym(Terminals.SUB); 	}
-// ","			{ return sym(Terminals.COMMA); 	}
+","			{ return sym(Terminals.COMMA); 	}
 ";"           { /*System.out.println("SC");*/ return sym(Terminals.SEMI); }
 "="           { /*System.out.println("EQ");*/ return sym(Terminals.ASSIGN); }
 "("           { /*System.out.println("LP");*/ return sym(Terminals.LP); }

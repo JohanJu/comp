@@ -21,7 +21,7 @@ import lang.ast.LangParser.SyntaxError;
 
 // this code will be inlined in the body of the generated scanner class
 %{
-	static final boolean DEBUG = true;
+	static final boolean DEBUG = false;
   private beaver.Symbol sym(short id) {
     return new beaver.Symbol(id, yyline + 1, yycolumn + 1, yylength(), yytext());
   }

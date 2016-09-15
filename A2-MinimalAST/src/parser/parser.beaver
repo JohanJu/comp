@@ -2,6 +2,7 @@
 %package "lang.ast";
 
 %embed {:
+	static final boolean DEBUG = true;
 	static public class SyntaxError extends RuntimeException { public SyntaxError(String msg) {super(msg);}}
 	// Disable syntax error recovery
 	protected void recoverFromError(Symbol token, TokenStream in) {
@@ -62,7 +63,7 @@ ifstat =
 		; 
 
 elsestat = 
-		ELSE LB statListOpt.b RB					{: return new Else(a); :} 
+		ELSE LB statListOpt.a RB					{: return new Else(a); :} 
 		;
 
 whilestat = 
@@ -70,7 +71,7 @@ whilestat =
 		;
 
 retstat = 
-		RET cmpexp.a 					{: return new Ret(a); :} 
+		RET cmpexp.a					{: return new Ret(a); :} 
 		;
 
 decl = 

@@ -21,6 +21,7 @@ import lang.ast.LangParser.SyntaxError;
 
 // this code will be inlined in the body of the generated scanner class
 %{
+	static final boolean DEBUG = true;
   private beaver.Symbol sym(short id) {
     return new beaver.Symbol(id, yyline + 1, yycolumn + 1, yylength(), yytext());
   }
@@ -41,7 +42,7 @@ Cmp = "==" | "!=" | ">=" | "<=" | ">" | "<"
 
 // token definitions
 "while"		{ return sym(Terminals.WHILE); 	}
-"return"		{ return sym(Terminals.RET); 	}
+"return"		{if(DEBUG){System.out.println("ret");} return sym(Terminals.RET); 	}
 // "print"		{ return sym(Terminals.PRINT);	}
 "else"		{ return sym(Terminals.ELSE); 	}
 // "read"		{ return sym(Terminals.READ);	}

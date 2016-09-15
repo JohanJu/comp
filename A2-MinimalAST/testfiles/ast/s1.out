@@ -1,6 +1,6 @@
 Program
   List
     Func ID="a"
-      null
+      List
     Func ID="b"
-      null
+      List

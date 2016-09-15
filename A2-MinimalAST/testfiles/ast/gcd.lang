@@ -9,8 +9,8 @@ int gcd1()
         else
         {
             b = b - a;
-        }
-    }
+        };
+    };
     return a;
 }
 int gcd2()

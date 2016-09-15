@@ -41,6 +41,7 @@ Cmp = "==" | "!=" | ">=" | "<=" | ">" | "<"
 
 // token definitions
 "while"		{ return sym(Terminals.WHILE); 	}
+"return"		{ return sym(Terminals.RET); 	}
 // "print"		{ return sym(Terminals.PRINT);	}
 "else"		{ return sym(Terminals.ELSE); 	}
 // "read"		{ return sym(Terminals.READ);	}

@@ -7,6 +7,7 @@ Assi : Stat ::= <ID> Expr;
 If : Stat ::= Expr Stat* [Else];
 Else : Stat ::= Stat*;
 While : Stat ::= Expr Stat*;
+Ret : Stat ::= Expr;
 
 abstract Expr;
 CmpExp : Expr ::= Left:Expr <CMP> Right:Expr;

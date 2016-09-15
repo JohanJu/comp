@@ -9,7 +9,7 @@
 	}
 :};
 
-%terminals ID, TYPE, LB, RB, LP, RP, NUM, ASSIGN, SEMI, ADD, SUB, MUL, DIV, MOD, CMP, COMMA, READ, PRINT, WHILE, IF, ELSE;
+%terminals ID, TYPE, LB, RB, LP, RP, NUM, ASSIGN, SEMI, ADD, SUB, MUL, DIV, MOD, CMP, COMMA, READ, PRINT, WHILE, IF, ELSE, RET;
 
 %typeof program = "Program";
 %typeof funcList = "List";
@@ -20,6 +20,7 @@
 %typeof ifstat = "Stat";
 %typeof elsestat = "Stat";
 %typeof whilestat = "Stat";
+%typeof retstat = "Stat";
 %typeof idUse = "IdUse";
 %typeof decl = "Decl";
 %typeof factor = "Expr";
@@ -53,6 +54,7 @@ stat =
 		| assi
 		| ifstat 
 		| whilestat  
+		| retstat  
 		;
 ifstat = 
 		IF LP cmpexp.a RP LB statListOpt.b RB					{: return new If(a,b,new Opt()); :} 
@@ -65,6 +67,10 @@ elsestat =
 
 whilestat = 
 		WHILE LP cmpexp.a RP LB statListOpt.b RB 					{: return new While(a,b); :} 
+		;
+
+retstat = 
+		RET cmpexp.a 					{: return new Ret(a); :} 
 		;
 
 decl = 

@@ -2,6 +2,7 @@ Program
   List
     Func ID="a"
       List
+      List
         Decl ID="x"
           Opt
         Decl ID="y"

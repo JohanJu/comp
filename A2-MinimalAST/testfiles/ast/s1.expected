@@ -2,5 +2,7 @@ Program
   List
     Func ID="a"
       List
+      List
     Func ID="b"
+      List
       List

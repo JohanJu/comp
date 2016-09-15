@@ -59,7 +59,12 @@ Cmp = "==" | "!=" | ">=" | "<=" | ">" | "<"
 "}"           { /*System.out.println("RB");*/ return sym(Terminals.RB); }
 "*"           { /*System.out.println("LB");*/ return sym(Terminals.MUL); }
 "+"           { /*System.out.println("RB");*/ return sym(Terminals.ADD); }
-{Cmp}		{ /*System.out.println("RB");*/ return sym(Terminals.CMP); }
+"=="		{ return sym(Terminals.EQ); 	}
+"!="		{ return sym(Terminals.NE); 	}
+">="		{ return sym(Terminals.GE); 	}
+"<="		{ return sym(Terminals.LE); 	}
+">"			{ return sym(Terminals.GT); 	}
+"<"			{ return sym(Terminals.LT); 	}
 {TYPE}        { /*System.out.println("TYPE");*/ return sym(Terminals.TYPE); }
 {ID}          { /*System.out.println("ID");*/ return sym(Terminals.ID); }
 {NUM}         { /*System.out.println("NUM");*/ return sym(Terminals.NUM); }

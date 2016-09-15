@@ -10,13 +10,18 @@
 	}
 :};
 
-%terminals ID, TYPE, LB, RB, LP, RP, NUM, ASSIGN, SEMI, ADD, SUB, MUL, DIV, MOD, CMP, COMMA, READ, PRINT, WHILE, IF, ELSE, RET;
+%terminals ID, TYPE, LB, RB, LP, RP, NUM, ASSIGN, SEMI, ADD, SUB, MUL, DIV, MOD, GT, NE, EQ, GE, LT, LE, COMMA, READ, PRINT, WHILE, IF, ELSE, RET;
 
 %typeof program = "Program";
 %typeof funcList = "List";
 %typeof func = "Func";
+%typeof funcCall = "Expr";
 %typeof statList = "List";
 %typeof statListOpt = "List";
+%typeof expList = "List";
+%typeof expListOpt = "List";
+%typeof argList = "List";
+%typeof argListOpt = "List";
 %typeof stat = "Stat";
 %typeof ifstat = "Stat";
 %typeof elsestat = "Stat";
@@ -30,6 +35,12 @@
 %typeof assi = "Assi";
 %typeof exp = "Expr";
 %typeof cmpexp = "Expr";
+%typeof gtexp = "Expr";
+%typeof ltexp = "Expr";
+%typeof geexp = "Expr";
+%typeof leexp = "Expr";
+%typeof eqexp = "Expr";
+%typeof neexp = "Expr";
 
 %goal program;
 
@@ -41,15 +52,17 @@ funcList =
 		;
 
 func = 
-		TYPE ID.a LP RP LB statListOpt.b RB 		{: return new Func(a,b); :}
+		TYPE ID.a LP argListOpt.b RP LB statListOpt.c RB 		{: return new Func(a,b,c); :}
 		;
 
 funcCall = 
-		ID.a LP expListOpt RP SEMI		{: return new Func(a,b); :}
+		ID.a LP expListOpt.b RP		{: return new Fcall(a,b); :}
 		;
 
-args = 
-		TYPE ID.a LP RP LB statListOpt.b RB 		{: return new Func(a,b); :}
+argListOpt = {: return new List(); :} | argList;
+argList =
+		  decl.a								{: return new List().add(a); :}
+		| argList.a COMMA decl.b 					{: return a.add(b); :}
 		;
 
 expListOpt = {: return new List(); :} | expList;
@@ -70,6 +83,7 @@ stat =
 		| ifstat 
 		| whilestat  
 		| retstat.a SEMI {: return a; :}
+		| funcCall.a SEMI {: return a; :}
 		;
 ifstat = 
 		IF LP cmpexp.a RP LB statListOpt.b RB					{: return new If(a,b,new Opt()); :} 
@@ -97,12 +111,38 @@ assi =
 		ID.a ASSIGN cmpexp.b							{: return new Assi(a, b); :}
 		;
 
-cmpexp =
-	exp 										
-	| exp.a CMP.b exp.c							{:return new CmpExp(a, b, c); :}
+cmpexp = 
+		exp
+		| eqexp
+		| neexp
+		| ltexp
+		| gtexp
+		| geexp
+		| leexp
+		;
+
+
+eqexp =
+	 exp.a EQ exp.b							{:return new EqExp(a, b); :}
+	;
+neexp =
+	 exp.a NE exp.b							{:return new NeExp(a, b); :}
+	;
+ltexp =
+	 exp.a LT exp.b							{:return new LtExp(a, b); :}
+	;
+gtexp =
+	 exp.a GT exp.b							{:return new GtExp(a, b); :}
+	;
+geexp =
+	 exp.a GE exp.b							{:return new GeExp(a, b); :}
+	;
+leexp =
+	 exp.a LE exp.b							{:return new LeExp(a, b); :}
 	;
 
 exp =
+
 	term 										
 	| exp.a ADD term.b 							{: return new Add(a, b); :}
 	| exp.a SUB term.b 							{: return new Sub(a, b); :}
@@ -112,6 +152,7 @@ factor =
 	num
 	| idUse
 	| LP exp.a RP
+	| funcCall
 	;
 term =
 	factor

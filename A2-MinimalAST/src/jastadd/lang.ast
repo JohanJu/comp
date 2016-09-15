@@ -1,5 +1,5 @@
 Program ::= Func*;
-Func ::= <ID> Stat*;
+Func ::= <ID> Args:Stat* Stats:Stat*;
 
 abstract Stat;
 Decl : Stat ::= <ID> [Expr];
@@ -9,8 +9,13 @@ Else : Stat ::= Stat*;
 While : Stat ::= Expr Stat*;
 Ret : Stat ::= Expr;
 
-abstract Expr;
-CmpExp : Expr ::= Left:Expr <CMP> Right:Expr;
+abstract Expr : Stat;
+EqExp : Expr ::= Left:Expr  Right:Expr;
+NeExp : Expr ::= Left:Expr  Right:Expr;
+GtExp : Expr ::= Left:Expr  Right:Expr;
+LtExp : Expr ::= Left:Expr  Right:Expr;
+LeExp : Expr ::= Left:Expr  Right:Expr;
+GeExp : Expr ::= Left:Expr  Right:Expr;
 Fcall : Expr ::= <ID> Expr*;
 Mul : Expr ::= Left:Expr Right:Expr;
 Div : Expr ::= Left:Expr Right:Expr;

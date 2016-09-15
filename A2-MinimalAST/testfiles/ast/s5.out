@@ -2,10 +2,11 @@ Program
   List
     Func ID="a"
       List
+      List
         Decl ID="x"
           Opt
         Assi ID="x"
-          CmpExp CMP=">"
+          GtExp
             Add
               Num NUM="3"
               Num NUM="1"

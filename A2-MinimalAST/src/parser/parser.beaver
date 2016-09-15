@@ -46,16 +46,16 @@ func =
 
 statListOpt = {: return new List(); :} | statList;
 statList =
-		  stat.a SEMI								{: return new List().add(a); :}
-		| statList.a stat.b SEMI					{: return a.add(b); :}
+		  stat.a								{: return new List().add(a); :}
+		| statList.a stat.b 					{: return a.add(b); :}
 		;
 
 stat = 
-		decl 
-		| assi
+		decl SEMI
+		| assi SEMI
 		| ifstat 
 		| whilestat  
-		| retstat  
+		| retstat SEMI 
 		;
 ifstat = 
 		IF LP cmpexp.a RP LB statListOpt.b RB					{: return new If(a,b,new Opt()); :} 

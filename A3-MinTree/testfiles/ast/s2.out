@@ -1,0 +1,13 @@
+Program
+  List
+    Func ID="a"
+      List
+      List
+        Decl ID="x"
+          Opt
+        Decl ID="y"
+          Opt
+        Assi ID="x"
+          Num NUM="5"
+        Assi ID="y"
+          IdUse ID="x"

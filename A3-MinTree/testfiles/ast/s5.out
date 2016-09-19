@@ -1,0 +1,15 @@
+Program
+  List
+    Func ID="a"
+      List
+      List
+        Decl ID="x"
+          Opt
+        Assi ID="x"
+          GtExp
+            Add
+              Num NUM="3"
+              Num NUM="1"
+            Sub
+              Num NUM="2"
+              Num NUM="3"

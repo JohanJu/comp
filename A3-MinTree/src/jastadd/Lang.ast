@@ -1,5 +1,30 @@
-Program ::= Node;
+Program ::= Func*;
+Func ::= <ID> Args:Stat* Stats:Stat*;
 
-abstract Node;
-Pair : Node ::= Left:Node Right:Node;
-Leaf : Node ::= <Number:int>;
+abstract Stat;
+Decl : Stat ::= <ID> [Expr];
+Assi : Stat ::= <ID> Expr;
+If : Stat ::= Expr Stat* [Else];
+Else : Stat ::= Stat*;
+While : Stat ::= Expr Stat*;
+Ret : Stat ::= Expr;
+
+abstract Expr : Stat;
+abstract Binary: Expr ::= Left:Expr Right:Expr;
+
+EqExp : Binary;
+NeExp : Binary;
+GtExp : Binary;
+LtExp : Binary;
+LeExp : Binary;
+GeExp : Binary;
+
+Fcall : Expr ::= <ID> Expr*;
+
+Mul : Binary;
+Div : Binary;
+Mod : Binary;
+Add : Binary;
+Sub : Binary;
+Num : Expr ::= <NUM>;
+IdUse : Expr ::= <ID>;

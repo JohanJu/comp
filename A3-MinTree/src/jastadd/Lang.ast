@@ -10,21 +10,20 @@ While : Stat ::= Expr Stat*;
 Ret : Stat ::= Expr;
 
 abstract Expr : Stat;
-abstract Binary: Expr ::= Left:Expr Right:Expr;
-
-EqExp : Binary;
-NeExp : Binary;
-GtExp : Binary;
-LtExp : Binary;
-LeExp : Binary;
-GeExp : Binary;
-
+EqExp : Expr ::= Left:Expr  Right:Expr;
+NeExp : Expr ::= Left:Expr  Right:Expr;
+GtExp : Expr ::= Left:Expr  Right:Expr;
+LtExp : Expr ::= Left:Expr  Right:Expr;
+LeExp : Expr ::= Left:Expr  Right:Expr;
+GeExp : Expr ::= Left:Expr  Right:Expr;
 Fcall : Expr ::= <ID> Expr*;
-
+abstract Binary: Expr ::= Left:Expr Right:Expr;
 Mul : Binary;
-Div : Binary;
-Mod : Binary;
-Add : Binary;
-Sub : Binary;
+Div : Expr ::= Left:Expr Right:Expr;
+Mod : Expr ::= Left:Expr Right:Expr;
+Add : Expr ::= Left:Expr Right:Expr;
+Sub : Expr ::= Left:Expr Right:Expr;
 Num : Expr ::= <NUM>;
 IdUse : Expr ::= <ID>;
+
+

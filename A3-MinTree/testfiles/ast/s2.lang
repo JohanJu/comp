@@ -1,6 +1,0 @@
-int a() {
-	int x;
-	int y;//sc
-	x = 5;
-	y = x;
-}

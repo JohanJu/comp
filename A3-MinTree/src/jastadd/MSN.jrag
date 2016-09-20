@@ -1,0 +1,46 @@
+import java.util.Set;
+import java.util.HashSet;
+import java.io.PrintStream;
+
+aspect MSN {
+	public class depthTable {
+	private HashSet<Integer> depth;
+
+	public void add(Integer d) {
+	depth.add(d);
+	}
+
+	}
+
+	public void Program.getDepth(PrintStream out) {
+		depthTable depth = new depthTable();
+		int d = 0;
+		getDepth(out, depth, d);
+		out.println(depth.toString());
+	}
+
+	public void ASTNode.getDepth(PrintStream out, depthTable depth, int d) {
+		for (int i = 0; i < getNumChild(); ++i) {
+			getDepth(out, depth, d);
+		}
+	}
+	public void While.getDepth(PrintStream out, depthTable depth, int d) {
+		if(hasStat()) {
+				for (int i = 0; i < getNumStat(); ++i) {
+					getDepth(out, depth, d + 1);
+			}
+			depth.add(d + 1);
+		}
+	
+	}
+	public void If.getDepth(PrintStream out, depthTable depth, int d) {
+		if(hasStat()) {
+				for (int i = 0; i < getNumStat(); ++i) {
+					getDepth(out, depth, d + 1);
+			}
+			depth.add(d + 1);
+		}
+	
+	}
+	
+}

@@ -12,6 +12,22 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class Func extends ASTNode<ASTNode> implements Cloneable {
   /**
+   * @aspect PrettyPrint
+   * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\PrettyPrint.jrag:19
+   */
+  public void prettyPrint(PrintStream out, String ind) {
+		out.print("int " + getID() + "(");
+		for (int i = 0; i < getNumArgs(); ++i) {
+			getArgs(i).prettyPrint(out, "");
+		}
+		out.println(") {");
+		for (int i = 0; i < getNumStats(); ++i) {
+			getStats(i).prettyPrint(out, ind+"  ");
+			out.print(";\n");
+		}
+		out.println("}");
+	}
+  /**
    * @aspect Visitor
    * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\Visitor.jrag:33
    */

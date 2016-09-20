@@ -1,0 +1,31 @@
+import java.io.PrintStream;
+
+aspect PrettyPrint {
+	public void ASTNode.prettyPrint(PrintStream out) {
+		prettyPrint(out, "");
+		out.println();
+	}
+
+	public void ASTNode.prettyPrint(PrintStream out, String ind) {
+		for (int i = 0; i < getNumChild(); ++i) {
+			getChild(i).prettyPrint(out, ind);
+		}
+	}
+
+	public void Stat.prettyPrint(PrintStream out, String ind) {
+		out.print(ind+"Stat");
+	}
+
+	public void Func.prettyPrint(PrintStream out, String ind) {
+		out.print("int " + getID() + "(");
+		for (int i = 0; i < getNumArgs(); ++i) {
+			getArgs(i).prettyPrint(out, "");
+		}
+		out.println(") {");
+		for (int i = 0; i < getNumStats(); ++i) {
+			getStats(i).prettyPrint(out, ind+"  ");
+			out.print(";\n");
+		}
+		out.println("}");
+	}
+}

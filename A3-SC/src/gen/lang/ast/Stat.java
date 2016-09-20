@@ -12,6 +12,13 @@ import java.lang.reflect.InvocationTargetException;
  */
 public abstract class Stat extends ASTNode<ASTNode> implements Cloneable {
   /**
+   * @aspect PrettyPrint
+   * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\PrettyPrint.jrag:15
+   */
+  public void prettyPrint(PrintStream out, String ind) {
+		out.print(ind+"Stat");
+	}
+  /**
    * @aspect Visitor
    * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\Visitor.jrag:37
    */

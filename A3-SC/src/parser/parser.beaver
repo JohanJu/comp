@@ -1,0 +1,166 @@
+%class "LangParser";
+%package "lang.ast";
+
+%embed {:
+	static final boolean DEBUG = false;
+	static public class SyntaxError extends RuntimeException { public SyntaxError(String msg) {super(msg);}}
+	// Disable syntax error recovery
+	protected void recoverFromError(Symbol token, TokenStream in) {
+		throw new SyntaxError("Cannot recover from the syntax error");
+	}
+:};
+
+%terminals ID, TYPE, LB, RB, LP, RP, NUM, ASSIGN, SEMI, ADD, SUB, MUL, DIV, MOD, GT, NE, EQ, GE, LT, LE, COMMA, READ, PRINT, WHILE, IF, ELSE, RET;
+
+%typeof program = "Program";
+%typeof funcList = "List";
+%typeof func = "Func";
+%typeof funcCall = "Expr";
+%typeof statList = "List";
+%typeof statListOpt = "List";
+%typeof expList = "List";
+%typeof expListOpt = "List";
+%typeof argList = "List";
+%typeof argListOpt = "List";
+%typeof stat = "Stat";
+%typeof ifstat = "Stat";
+%typeof elsestat = "Stat";
+%typeof whilestat = "Stat";
+%typeof retstat = "Stat";
+%typeof idUse = "IdUse";
+%typeof decl = "Decl";
+%typeof factor = "Expr";
+%typeof term = "Expr";
+%typeof num = "Num";
+%typeof assi = "Assi";
+%typeof exp = "Expr";
+%typeof cmpexp = "Expr";
+%typeof gtexp = "Expr";
+%typeof ltexp = "Expr";
+%typeof geexp = "Expr";
+%typeof leexp = "Expr";
+%typeof eqexp = "Expr";
+%typeof neexp = "Expr";
+
+%goal program;
+
+program = funcList.a 							{: return new Program(a); :};
+
+funcList =
+		  func.a 								{: return new List().add(a); :}
+		| funcList.a func.b 					{: return a.add(b); :}
+		;
+
+func = 
+		TYPE ID.a LP argListOpt.b RP LB statListOpt.c RB 		{: return new Func(a,b,c); :}
+		;
+
+funcCall = 
+		ID.a LP expListOpt.b RP		{: return new Fcall(a,b); :}
+		;
+
+argListOpt = {: return new List(); :} | argList;
+argList =
+		  decl.a								{: return new List().add(a); :}
+		| argList.a COMMA decl.b 					{: return a.add(b); :}
+		;
+
+expListOpt = {: return new List(); :} | expList;
+expList =
+		  exp.a								{: return new List().add(a); :}
+		| expList.a COMMA exp.b 					{: return a.add(b); :}
+		;
+
+statListOpt = {: return new List(); :} | statList;
+statList =
+		  stat.a								{: return new List().add(a); :}
+		| statList.a stat.b 					{: return a.add(b); :}
+		;
+
+stat = 
+		decl.a SEMI {: return a; :}
+		| assi.a SEMI {: return a; :}
+		| ifstat 
+		| whilestat  
+		| retstat.a SEMI {: return a; :}
+		| funcCall.a SEMI {: return a; :}
+		;
+ifstat = 
+		IF LP cmpexp.a RP LB statListOpt.b RB					{: return new If(a,b,new Opt()); :} 
+		| IF LP cmpexp.a RP LB statListOpt.b RB elsestat.c		{: return new If(a,b,new Opt(c)); :}
+		; 
+
+elsestat = 
+		ELSE LB statListOpt.a RB					{: return new Else(a); :} 
+		;
+
+whilestat = 
+		WHILE LP cmpexp.a RP LB statListOpt.b RB 					{: return new While(a,b); :} 
+		;
+
+retstat = 
+		RET cmpexp.a					{: return new Ret(a); :} 
+		;
+
+decl = 
+		TYPE ID.a								{: return new Decl(a, new Opt());  :}
+		| TYPE ID.a ASSIGN cmpexp.b  					{: return new Decl(a, new Opt(b)); :}
+		;
+
+assi = 
+		ID.a ASSIGN cmpexp.b							{: return new Assi(a, b); :}
+		;
+
+cmpexp = 
+		exp
+		| eqexp
+		| neexp
+		| ltexp
+		| gtexp
+		| geexp
+		| leexp
+		;
+
+
+eqexp =
+	 exp.a EQ exp.b							{:return new EqExp(a, b); :}
+	;
+neexp =
+	 exp.a NE exp.b							{:return new NeExp(a, b); :}
+	;
+ltexp =
+	 exp.a LT exp.b							{:return new LtExp(a, b); :}
+	;
+gtexp =
+	 exp.a GT exp.b							{:return new GtExp(a, b); :}
+	;
+geexp =
+	 exp.a GE exp.b							{:return new GeExp(a, b); :}
+	;
+leexp =
+	 exp.a LE exp.b							{:return new LeExp(a, b); :}
+	;
+
+exp =
+
+	term 										
+	| exp.a ADD term.b 							{: return new Add(a, b); :}
+	| exp.a SUB term.b 							{: return new Sub(a, b); :}
+	;
+
+factor =
+	num
+	| idUse
+	| LP exp.a RP
+	| funcCall
+	;
+term =
+	factor
+	| term.a MUL factor.b 						{: return new Mul(a, b); :}
+	| term.a DIV factor.b 						{: return new Div(a, b); :}
+	| term.a MOD factor.b 						{: return new Mod(a, b); :}
+	;
+
+num = NUM.a 								{: return new Num(a); :} ;
+
+idUse = ID.a									{: return new IdUse(a);  :} ;

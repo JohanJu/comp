@@ -1,0 +1,95 @@
+Program
+  List
+    Func ID="gcd1"
+      List
+        Decl ID="a"
+          Opt
+        Decl ID="b"
+          Opt
+      List
+        While
+          NeExp
+            IdUse ID="a"
+            IdUse ID="b"
+          List
+            If
+              GtExp
+                IdUse ID="a"
+                IdUse ID="b"
+              List
+                Assi ID="a"
+                  Sub
+                    IdUse ID="a"
+                    IdUse ID="b"
+              Opt
+                Else
+                  List
+                    Assi ID="b"
+                      Sub
+                        IdUse ID="b"
+                        IdUse ID="a"
+        Ret
+          IdUse ID="a"
+    Func ID="gcd2"
+      List
+        Decl ID="a"
+          Opt
+        Decl ID="b"
+          Opt
+      List
+        If
+          EqExp
+            IdUse ID="b"
+            Num NUM="0"
+          List
+            Ret
+              IdUse ID="a"
+          Opt
+        Ret
+          Fcall ID="gcd2"
+            List
+              IdUse ID="b"
+              Mod
+                IdUse ID="a"
+                IdUse ID="b"
+    Func ID="main"
+      List
+      List
+        Decl ID="a"
+          Opt
+        Decl ID="b"
+          Opt
+        Assi ID="a"
+          Fcall ID="read"
+            List
+        Assi ID="b"
+          Fcall ID="read"
+            List
+        Fcall ID="print"
+          List
+            Fcall ID="gcd1"
+              List
+                IdUse ID="a"
+                IdUse ID="b"
+        Fcall ID="print"
+          List
+            Fcall ID="gcd2"
+              List
+                IdUse ID="a"
+                IdUse ID="b"
+        Decl ID="diff"
+          Opt
+            Sub
+              Fcall ID="gcd1"
+                List
+                  IdUse ID="a"
+                  IdUse ID="b"
+              Fcall ID="gcd2"
+                List
+                  IdUse ID="a"
+                  IdUse ID="b"
+        Fcall ID="print"
+          List
+            IdUse ID="diff"
+        Ret
+          Num NUM="0"

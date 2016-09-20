@@ -1,0 +1,37 @@
+Program
+  List
+    Func ID="main"
+      List
+      List
+        Decl ID="i"
+          Opt
+            Num NUM="100"
+        While
+          GtExp
+            IdUse ID="i"
+            Num NUM="0"
+          List
+            If
+              EqExp
+                IdUse ID="i"
+                Num NUM="5"
+              List
+                Fcall ID="print"
+                  List
+                    IdUse ID="i"
+              Opt
+            Assi ID="i"
+              Sub
+                IdUse ID="i"
+                Num NUM="1"
+        If
+          EqExp
+            IdUse ID="i"
+            Num NUM="0"
+          List
+            Fcall ID="print"
+              List
+                IdUse ID="i"
+          Opt
+        Ret
+          Num NUM="0"

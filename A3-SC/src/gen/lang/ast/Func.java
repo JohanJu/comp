@@ -17,13 +17,16 @@ public class Func extends ASTNode<ASTNode> implements Cloneable {
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print("int " + getID() + "(");
+		String s = "";
 		for (int i = 0; i < getNumArgs(); ++i) {
+			out.print(s);
 			getArgs(i).prettyPrint(out, "");
+			s = ", ";
 		}
 		out.println(") {");
 		for (int i = 0; i < getNumStats(); ++i) {
 			getStats(i).prettyPrint(out, ind+"  ");
-			out.print(";\n");
+			out.print("\n");
 		}
 		out.println("}");
 	}

@@ -12,6 +12,23 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class If extends Stat implements Cloneable {
   /**
+   * @aspect PrettyPrint
+   * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\PrettyPrint.jrag:44
+   */
+  public void prettyPrint(PrintStream out, String ind) {
+		out.print(ind+"if" + "(");
+		getExpr().prettyPrint(out, "");
+		out.println(") {");
+		for (int i = 0; i < getNumStat(); ++i) {
+			getStat(i).prettyPrint(out, ind+"  ");
+			out.print("\n");
+		}
+		out.print(ind+"} ");
+		if (hasElse()) {
+			getElse().prettyPrint(out, ind);
+		}
+	}
+  /**
    * @aspect Visitor
    * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\Visitor.jrag:41
    */

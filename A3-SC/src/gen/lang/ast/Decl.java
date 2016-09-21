@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.*;
 /**
  * @ast node
  * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\lang.ast:5
@@ -11,6 +14,16 @@ import java.lang.reflect.InvocationTargetException;
 
  */
 public class Decl extends Stat implements Cloneable {
+  /**
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\NameAnalysis.jrag:132
+   */
+  public void checkNames(PrintStream err, SymbolTable symbols) {
+		if (!symbols.declare(getID())) {
+			err.format("Error at line %d: symbol \'%s\' is already declared!", getLine(), getID());
+			err.println();
+		}
+	}
   /**
    * @declaredat ASTNode:1
    */

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.*;
 /**
  * @ast node
  * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\lang.ast:2
@@ -11,6 +14,25 @@ import java.lang.reflect.InvocationTargetException;
 
  */
 public class Func extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\NameAnalysis.jrag:93
+   */
+  public void checkNames(PrintStream err, SymbolTable symbols) {
+		// System.out.println("dec "+getID());
+		if (!symbols.declaref(getID())) {
+			err.format("Error at line %d: func \'%s\' is already declared!", getLine(), getID());
+			err.println();
+		}
+		// System.out.println(symbols.lookupf(getID()));
+		symbols = symbols.push();
+		for (int i = 0; i < getNumArgs(); ++i) {
+			getArgs(i).checkNames(err, symbols);
+		}
+		for (int i = 0; i < getNumStats(); ++i) {
+			getStats(i).checkNames(err, symbols);
+		}
+	}
   /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\PrettyPrint.jrag:19

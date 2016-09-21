@@ -1,0 +1,160 @@
+import java.util.Set;
+import java.util.HashSet;
+import java.util.*;
+
+aspect NameAnalysis {
+	public class SymbolTable {
+		private static final SymbolTable BOTTOM = new SymbolTable() {
+			@Override
+			public boolean declare(String name) {
+				throw new UnsupportedOperationException(
+						"can not add name to bottom of name stack");
+			}
+			@Override
+			public boolean lookup(String name) {
+				return false;
+			}
+		};
+
+		private final SymbolTable tail;
+		private final Set<String> names = new HashSet<String>();
+		private final static Set<String> funcs = new HashSet<String>();
+		public void clean() {
+			funcs.clear();
+		}
+		public boolean lookupf(String name) {
+			Iterator iter = funcs.iterator();
+			// while (iter.hasNext()) {
+			//     System.out.println("it "+iter.next());
+			// }
+			return funcs.contains(name);
+		}
+		public boolean declaref(String name) {
+			return funcs.add(name);
+		}
+
+		public SymbolTable() {
+			tail = BOTTOM;
+		}
+
+		public SymbolTable(SymbolTable tail) {
+			this.tail = tail;
+		}
+
+		/**
+		 * Attempt to add a new name to the symbol table.
+		 * @return true if name was not already declared
+		 */
+		public boolean declare(String name) {
+			return names.add(name);
+		}
+
+		/**
+		 * @return true if name has been declared
+		 */
+		public boolean lookup(String name) {
+			return names.contains(name) || tail.lookup(name);
+		}
+
+		/**
+		 * Push a new table on the stack.
+		 * @return the new top of the stack
+		 */
+		public SymbolTable push() {
+			return new SymbolTable(this);
+		}
+	}
+
+	/**
+	 * @param err where to write error messages
+	 */
+	public void Program.checkNames(PrintStream err) {
+		SymbolTable symbols = new SymbolTable();
+		symbols.clean();
+		symbols.declaref("read");
+		symbols.declaref("print");
+		checkNames(err, symbols);
+		
+	}
+
+	/**
+	 * @param err where to write error messages
+	 * @param symbols symbol table
+	 */
+	public void ASTNode.checkNames(PrintStream err, SymbolTable symbols) {
+
+		// symbols.clean();
+
+		for (int i = 0; i < getNumChild(); ++i) {
+			getChild(i).checkNames(err, symbols);
+		}
+	}
+
+	public void Func.checkNames(PrintStream err, SymbolTable symbols) {
+		// System.out.println("dec "+getID());
+		if (!symbols.declaref(getID())) {
+			err.format("Error at line %d: func \'%s\' is already declared!", getLine(), getID());
+			err.println();
+		}
+		// System.out.println(symbols.lookupf(getID()));
+		symbols = symbols.push();
+		for (int i = 0; i < getNumArgs(); ++i) {
+			getArgs(i).checkNames(err, symbols);
+		}
+		for (int i = 0; i < getNumStats(); ++i) {
+			getStats(i).checkNames(err, symbols);
+		}
+	}
+
+	public void While.checkNames(PrintStream err, SymbolTable symbols) {
+		symbols = symbols.push();
+		getExpr().checkNames(err, symbols);
+		for (int i = 0; i < getNumStat(); ++i) {
+			getStat(i).checkNames(err, symbols);
+		}
+	}
+
+	public void If.checkNames(PrintStream err, SymbolTable symbols) {
+		symbols = symbols.push();
+		getExpr().checkNames(err, symbols);
+		for (int i = 0; i < getNumStat(); ++i) {
+			getStat(i).checkNames(err, symbols);
+		}
+	}
+
+	public void Else.checkNames(PrintStream err, SymbolTable symbols) {
+		symbols = symbols.push();
+		for (int i = 0; i < getNumStat(); ++i) {
+			getStat(i).checkNames(err, symbols);
+		}
+	}
+
+	public void Decl.checkNames(PrintStream err, SymbolTable symbols) {
+		if (!symbols.declare(getID())) {
+			err.format("Error at line %d: symbol \'%s\' is already declared!", getLine(), getID());
+			err.println();
+		}
+	}
+
+	public void IdUse.checkNames(PrintStream err, SymbolTable symbols) {
+		if (!symbols.lookup(getID())) {
+			err.format("Error at line %d: symbol \'%s\' has not been declared before this use!", getLine(), getID());
+			err.println();
+		}
+	}
+
+	public void Fcall.checkNames(PrintStream err, SymbolTable symbols) {
+		if (!symbols.lookupf(getID())) {
+			err.format("Error at line %d: func \'%s\' has not been declared before this use!", getLine(), getID());
+			err.println();
+		}
+	}
+
+	/**
+	 * Helper method
+	 * @return line number of this token
+	 */
+	public int ASTNode.getLine() {
+		return getLine(getStart());
+	}
+}

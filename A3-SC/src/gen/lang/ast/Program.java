@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.*;
 /**
  * @ast node
  * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\lang.ast:1
@@ -11,6 +14,19 @@ import java.lang.reflect.InvocationTargetException;
 
  */
 public class Program extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @param err where to write error messages
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\NameAnalysis.jrag:71
+   */
+  public void checkNames(PrintStream err) {
+		SymbolTable symbols = new SymbolTable();
+		symbols.clean();
+		symbols.declaref("read");
+		symbols.declaref("print");
+		checkNames(err, symbols);
+		
+	}
   /**
    * @aspect Visitor
    * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\Visitor.jrag:29

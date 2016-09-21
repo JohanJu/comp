@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.*;
 /**
  * @ast node
  * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\lang.ast:13
@@ -11,6 +14,16 @@ import java.lang.reflect.InvocationTargetException;
 
  */
 public class Fcall extends Expr implements Cloneable {
+  /**
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\NameAnalysis.jrag:146
+   */
+  public void checkNames(PrintStream err, SymbolTable symbols) {
+		if (!symbols.lookupf(getID())) {
+			err.format("Error at line %d: func \'%s\' has not been declared before this use!", getLine(), getID());
+			err.println();
+		}
+	}
   /**
    * @declaredat ASTNode:1
    */

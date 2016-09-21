@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.*;
 /**
  * @ast node
  * @production ASTNode;
@@ -66,6 +69,29 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 			}
 		}
 		return sb.toString();
+	}
+  /**
+   * @param err where to write error messages
+   * @param symbols symbol table
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\NameAnalysis.jrag:84
+   */
+  public void checkNames(PrintStream err, SymbolTable symbols) {
+
+		// symbols.clean();
+
+		for (int i = 0; i < getNumChild(); ++i) {
+			getChild(i).checkNames(err, symbols);
+		}
+	}
+  /**
+   * Helper method
+   * @return line number of this token
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\A3-SC\\src\\jastadd\\NameAnalysis.jrag:157
+   */
+  public int getLine() {
+		return getLine(getStart());
 	}
   /**
    * @aspect PrettyPrint

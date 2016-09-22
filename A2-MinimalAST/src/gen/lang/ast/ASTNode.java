@@ -79,6 +79,23 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 		}
 	}
   /**
+   * @aspect PrettyPrint
+   * @declaredat C:\\Users\\Gustav\\Desktop\\Kompilatorer\\comp\\A2-MinimalAST\\src\\jastadd\\Prettyprint.jrag:4
+   */
+  public void prettyPrint(PrintStream out) {
+		out.print("");
+		out.println();
+	}
+  /**
+   * @aspect PrettyPrint
+   * @declaredat C:\\Users\\Gustav\\Desktop\\Kompilatorer\\comp\\A2-MinimalAST\\src\\jastadd\\Prettyprint.jrag:9
+   */
+  public void prettyPrint(PrintStream out, String ind) {
+		for (int i = 0; i < getNumChild(); ++i) {
+			getChild(i).prettyPrint(out, ind);
+		}
+	}
+  /**
    * @aspect Visitor
    * @declaredat C:\\Users\\Gustav\\Desktop\\Kompilatorer\\comp\\A2-MinimalAST\\src\\jastadd\\Visitor.jrag:38
    */

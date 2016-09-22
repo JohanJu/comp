@@ -15,7 +15,7 @@ import java.util.HashSet;
 public class While extends Stat implements Cloneable {
   /**
    * @aspect MSN
-   * @declaredat C:\\Users\\Gustav\\Desktop\\Kompilatorer\\comp\\A2-MinimalAST\\src\\jastadd\\MSN.jrag:27
+   * @declaredat C:\\Users\\Gustav\\Desktop\\Kompilatorer\\comp\\A2-MinimalAST\\src\\jastadd\\MSN.jrag:37
    */
   public void getDepth(PrintStream out, depthTable depth, int d) {
 		if(hasStat()) {

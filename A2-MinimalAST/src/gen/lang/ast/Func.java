@@ -14,6 +14,26 @@ import java.util.HashSet;
  */
 public class Func extends ASTNode<ASTNode> implements Cloneable {
   /**
+   * @aspect MSN
+   * @declaredat C:\\Users\\Gustav\\Desktop\\Kompilatorer\\comp\\A2-MinimalAST\\src\\jastadd\\MSN.jrag:28
+   */
+  public void getDepth(PrintStream out, depthTable depth, int d) {
+		if(hasStats()) {
+				for (int i = 0; i < getNumStats(); ++i) {
+					getDepth(out, depth, d + 1);
+			}
+			depth.add(d + 1);
+		}
+	
+	}
+  /**
+   * @aspect PrettyPrint
+   * @declaredat C:\\Users\\Gustav\\Desktop\\Kompilatorer\\comp\\A2-MinimalAST\\src\\jastadd\\Prettyprint.jrag:15
+   */
+  public void prettyPrint(PrintStream out, String ind) {
+		out.print(getID());
+	}
+  /**
    * @aspect Visitor
    * @declaredat C:\\Users\\Gustav\\Desktop\\Kompilatorer\\comp\\A2-MinimalAST\\src\\jastadd\\Visitor.jrag:50
    */

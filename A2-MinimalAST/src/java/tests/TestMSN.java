@@ -31,13 +31,15 @@ public class TestMSN extends AbstractParameterizedTest {
 	 */
 	@Test
 	public void runTest() throws Exception {
-			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-			Program program = (Program) parse(inFile);
-			program.getDepth(new PrintStream(bytes));
-			compareOutput(bytes.toString(), outFile, expectedFile);
-
-		
-	}
+			try {
+				Program program = (Program) parse(inFile);
+				ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+				program.getDepth(new PrintStream(bytes));
+				compareOutput(bytes.toString(), outFile, expectedFile);
+			} catch (Exception e) {
+			fail(e.getMessage());
+			}
+		}
 
 	@SuppressWarnings("javadoc")
 	@Parameters(name = "{0}")

@@ -75,6 +75,14 @@ public abstract class Node extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:52
    */
   public abstract Node treeCopy();
+  /**
+   * @attribute syn
+   * @aspect MinValue
+   * @declaredat C:\\avx\\ws\\comp\\A3-MinTree\\src\\jastadd\\MinValue.jrag:21
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="MinValue", declaredAt="C:\\avx\\ws\\comp\\A3-MinTree\\src\\jastadd\\MinValue.jrag:21")
+  public abstract int nbrOfMinValues();
 /** @apilevel internal */
 protected boolean localMin_visited = false;
   /**
@@ -92,24 +100,6 @@ protected boolean localMin_visited = false;
     int localMin_value = 0;
     localMin_visited = false;
     return localMin_value;
-  }
-/** @apilevel internal */
-protected boolean nbrOfMinValues_visited = false;
-  /**
-   * @attribute syn
-   * @aspect MinValue
-   * @declaredat C:\\avx\\ws\\comp\\A3-MinTree\\src\\jastadd\\MinValue.jrag:21
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="MinValue", declaredAt="C:\\avx\\ws\\comp\\A3-MinTree\\src\\jastadd\\MinValue.jrag:21")
-  public int nbrOfMinValues() {
-    if (nbrOfMinValues_visited) {
-      throw new RuntimeException("Circular definition of attribute Node.nbrOfMinValues().");
-    }
-    nbrOfMinValues_visited = true;
-    int nbrOfMinValues_value = 0;
-    nbrOfMinValues_visited = false;
-    return nbrOfMinValues_value;
   }
   /**
    * @attribute inh

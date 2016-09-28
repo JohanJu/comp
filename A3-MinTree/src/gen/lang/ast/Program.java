@@ -176,7 +176,7 @@ protected boolean nbrOfMinValues_visited = false;
       throw new RuntimeException("Circular definition of attribute Program.nbrOfMinValues().");
     }
     nbrOfMinValues_visited = true;
-    int nbrOfMinValues_value = 0;
+    int nbrOfMinValues_value = getNode().nbrOfMinValues();
     nbrOfMinValues_visited = false;
     return nbrOfMinValues_value;
   }

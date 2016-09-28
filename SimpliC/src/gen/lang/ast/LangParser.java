@@ -68,25 +68,25 @@ public class LangParser extends Parser {
 	}
 
 	static final ParsingTables PARSING_TABLES = new ParsingTables(
-		"U9orbKbmL5KKXl#NRjBTc8Gf80aXYP0GGi8WCOoA8a4a34OCCmYAA2iNkh3SwSegowqkh6A" +
-		"ZBYsNhhIeaYgC4quuuOGJ82euAoeUltVVJVVjPxS52r$gU#USUyuzvzwR#qvBqNxrQB5cga" +
-		"DNgKLPJIlQxHhGQjsWDRfHQykYCbfVj6TNYpBJJTWpd9sjcckCTc7FSNPjrQYyRiTUvEpBo" +
-		"gAcQAuwrQkfzeSQx5TjrtXDr2GrwauLYjwngbE3vWNUDdNXpMcV$Q9Dphiky8xJmkBShSux" +
-		"8JKtyJLf3zxIIfSuttGjqzLQeUjqlGPrXRhLR#SrLSts8ratQ8TkqvMQJzOxL5$CEgYxD5a" +
-		"rkfp8UVQ37V6HfUojWJuhqFi2VNcWNnFermRwoa1VHTraBmkekv4L3YPrxJFicqksXh1lmT" +
-		"xixMJMiDln5YtrjjkjrwkDNEfxcwjHYPtQgzsiwrRxKllLpErjuVHRyTLIjsHtSK#xkMKzP" +
-		"0kZvbzKb8AesgfHKH1LKpKg5qJbKr4Hyp9KoF7jvVoNqyb$kfrRCkgToorkHojvitn3pTpN" +
-		"FkOatWc1jy3jAfzRICrDV97pXYkDVOtSo2dkHZOHqS1tCPugjLJ84pkMRx6EEzHFreb1reX" +
-		"pBN332qJM4Bd8HuRP$myzydl9#RgHhnklepwmOt#UlqdUJcOjS3kknvlOoMv7JwVooAM#yw" +
-		"v69UBrvjmw2vocTE015PzUhw#0LR0Rri5UU0Q6lF#mbmzw#N0iH#5vtij3NXw4f#1kRpyAZ" +
-		"y1zy3Wy8PPTdYEQ1Yqm4vgWErLZ1FR01M$VJqmlyada35WOvDhePJyCmHBO1CjX6DXlj0LM" +
-		"mhQmJghclVW780DPM0Fr4E4pP0ECyRKcGmxM1klO1OEm7JR3EDZgVHjW1yhJo9qLQZzcPcT" +
-		"IO#i3VNMW7wosX$#2$2U37C$wiRFURapLVixBoCkk2cj#A6M$4EZBAiIFU7dKosDU7lVon4" +
-		"NiuNoGhoxGXxqy5upjgx26ja2$9z33#pIGcdCW4NP1PO$z1UVWB7ndtzeto3FmDNm1dzi9t" +
-		"X$0M$2AlM6l#vblmilscetOYyx#qxr$ihTvlsIlsizs5ErzU0$UXNVWc7rgdzZ7zf5zQCVr" +
-		"hyTEsocldRJlopnV5RNVx7Vx6sKftJIYjyRKq6VZFfob#tCIZFKvCdHaGKHlZeaxlo2YmyV" +
-		"4lnwZH9x4xg07TP0pxeMTwBCOQtTawUuPVhkYgdJXdmtTC0Twe1VYljpcP8PU7NaIlTMHAT" +
-		"A2FHqM$mEpyqGZ");
+		"U9orbSjpL4KKXtzt9cOI7ff8m4WCcS24419CCYGYe2W2Hi5e40GH0r5yK9ORtRYoIXUwroe" +
+		"M$WCkt6bfwKAjignIyOKlLCJt0nKK5V4HK8$VxTkPzDpCMB3mLdttd5#Vqy$RtLUAxb91tL" +
+		"gc1HhGUQfHIqddjLRhTBc6T8MkBClAwggINbGjoqpNE3qVNLErhJDqezEBqRLLi#fqizCNe" +
+		"AUNPQtN72rHXtfKhpDrbhQfGMThbfhKgDjSjDbEQ9fc49qTHDlKwQ8vxTArSTH#gn0zHqLj" +
+		"TNNFhH2DxKuNdQkPfUZvQjKANQHLkbIN1REua74c8#rJipROCTImRj1DzWNwQlj58ubMltg" +
+		"3UlC2Vs7WBmtybO5$SU1V4lYh0tzDQImRwNlJv5Xq7NfpeAz7Rq5lzpgfTRj6bR7VrQuk3T" +
+		"fBlZHvxt3hCgRbNhkSieof9QVvjgzT7obidB7UglHp2r#dXJtKoagsiSVQ0zt9$krYxtNJS" +
+		"fZLUqfP2h9ggsP5GLQcQbOkoAgRaXLHCyiUoxFBu$DKO1KMukTTj9RQIzXtvT4QpbOSBR9J" +
+		"acYkGhIUNPj4emhHs2RHnY2QOPVFTgUZcNDHFjTaf3d6rCWy8axUT4v8FJg3pdazmFSFw$q" +
+		"VVbHQjLfwdXpBB7HVeElGCtbdl4vgzJBMVeZlb0RkdQHqeiLuNUBP93h92JEcbfpkkzxraI" +
+		"PUrxob7hwWjFk#oHtVu$rLi0RkW0sm5Pw44Hz$rjjHRtV5TWAUExrzmDk7uI4OyteFF0Ntm" +
+		"4afQe3syZQY0dH03yo7OggFHocRWtt2wtlHWzW7iTsmCiXznBV9l2Bc4gs6RR0MjiCGZC9w" +
+		"s1dsa#hpCUB3s6VW1VmHxFDm34x0E1ptVTL01dB1d1fX4pH12qo31Jws1JR23XYhqFSHFjZ" +
+		"XLDbmuAyB$FkhpU6$eFr3GHkF#xAZNZUb#dxQsyZRpWfZtfFIpmN#YWhvBtgxrzjztkxtzk" +
+		"0fp64yQ6z6u6$sza1GLhPlVLbRuDyT#CL9FnfArTcT6FjRPO$z1J$1KVZHVh0ZsCFmFNm5N" +
+		"zhdl0$0E$2QlMNxVCstuLLxmrwnbvq#wTw$shkyzzhhTjpUnFiGFe3tOJ#yPv$Pf$Q9VMm7" +
+		"xIDDUUmx#zPxX#pdiiWt9UyF#zF#mLdkxgv#HuPRhSxTwiLu9IXRwiWgFd63#0EEB7U#8EB" +
+		"cZybmzqyGUH9Tu4Ogq6OVRNRWn$#6lAE6lqMMVrfKbKxYYw0B5aCtz41ySxSvc#KkZpo9Fy" +
+		"#HBT6AdWlB$WMRtLWe");
 
 	static final Action RETURN2 = new Action() {
 		public Symbol reduce(Symbol[] _symbols, int offset) {
@@ -156,7 +156,7 @@ public class LangParser extends Parser {
 			new Action() {	// [7] argList = decl.a
 				public Symbol reduce(Symbol[] _symbols, int offset) {
 					final Symbol _symbol_a = _symbols[offset + 1];
-					final Decl a = (Decl) _symbol_a.value;
+					final IdDecl a = (IdDecl) _symbol_a.value;
 					 return new List().add(a);
 				}
 			},
@@ -165,7 +165,7 @@ public class LangParser extends Parser {
 					final Symbol _symbol_a = _symbols[offset + 1];
 					final List a = (List) _symbol_a.value;
 					final Symbol _symbol_b = _symbols[offset + 3];
-					final Decl b = (Decl) _symbol_b.value;
+					final IdDecl b = (IdDecl) _symbol_b.value;
 					 return a.add(b);
 				}
 			},
@@ -216,7 +216,7 @@ public class LangParser extends Parser {
 			new Action() {	// [17] stat = decl.a SEMI
 				public Symbol reduce(Symbol[] _symbols, int offset) {
 					final Symbol _symbol_a = _symbols[offset + 1];
-					final Decl a = (Decl) _symbol_a.value;
+					final IdDecl a = (IdDecl) _symbol_a.value;
 					 return a;
 				}
 			},
@@ -289,7 +289,7 @@ public class LangParser extends Parser {
 			new Action() {	// [28] decl = TYPE ID.a
 				public Symbol reduce(Symbol[] _symbols, int offset) {
 					final Symbol a = _symbols[offset + 2];
-					 return new Decl(a, new Opt());
+					 return new IdDecl(a, new Opt());
 				}
 			},
 			new Action() {	// [29] decl = TYPE ID.a ASSIGN cmpexp.b
@@ -297,12 +297,13 @@ public class LangParser extends Parser {
 					final Symbol a = _symbols[offset + 2];
 					final Symbol _symbol_b = _symbols[offset + 4];
 					final Expr b = (Expr) _symbol_b.value;
-					 return new Decl(a, new Opt(b));
+					 return new IdDecl(a, new Opt(b));
 				}
 			},
-			new Action() {	// [30] assi = ID.a ASSIGN cmpexp.b
+			new Action() {	// [30] assi = idUse.a ASSIGN cmpexp.b
 				public Symbol reduce(Symbol[] _symbols, int offset) {
-					final Symbol a = _symbols[offset + 1];
+					final Symbol _symbol_a = _symbols[offset + 1];
+					final IdUse a = (IdUse) _symbol_a.value;
 					final Symbol _symbol_b = _symbols[offset + 3];
 					final Expr b = (Expr) _symbol_b.value;
 					 return new Assi(a, b);

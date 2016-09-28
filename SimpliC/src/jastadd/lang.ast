@@ -2,8 +2,8 @@ Program ::= Func*;
 Func ::= <ID> Args:Stat* Stats:Stat*;
 
 abstract Stat;
-Decl : Stat ::= <ID> [Expr];
-Assi : Stat ::= <ID> Expr;
+IdDecl : Stat ::= <ID> [Expr];
+Assi : Stat ::= IdUse Expr;
 If : Stat ::= Expr Stat* [Else];
 Else : Stat ::= Stat*;
 While : Stat ::= Expr Stat*;

@@ -19,8 +19,8 @@ public class Ret extends Stat implements Cloneable {
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:151
    */
   public void prettyPrint(PrintStream out, String ind) {
-		out.print("return ");
-		getExpr().prettyPrint(out, ind);
+		out.print(ind+"return ");
+		getExpr().prettyPrint(out, "");
 	}
   /**
    * @declaredat ASTNode:1

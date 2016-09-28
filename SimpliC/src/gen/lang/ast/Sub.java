@@ -20,7 +20,7 @@ public class Sub extends Binary implements Cloneable {
    */
   public void prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" - ");
 		getRight().prettyPrint(out, ind);
 	}
   /**

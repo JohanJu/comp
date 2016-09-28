@@ -129,7 +129,7 @@ aspect NameAnalysis {
 		}
 	}
 
-	public void Decl.checkNames(PrintStream err, SymbolTable symbols) {
+	public void IdDecl.checkNames(PrintStream err, SymbolTable symbols) {
 		if (!symbols.declare(getID())) {
 			err.format("Error at line %d: symbol \'%s\' is already declared!", getLine(), getID());
 			err.println();

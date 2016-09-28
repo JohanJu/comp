@@ -2,9 +2,9 @@ Program
   List
     Func ID="gcd1"
       List
-        Decl ID="a"
+        IdDecl ID="a"
           Opt
-        Decl ID="b"
+        IdDecl ID="b"
           Opt
       List
         While
@@ -17,14 +17,16 @@ Program
                 IdUse ID="a"
                 IdUse ID="b"
               List
-                Assi ID="a"
+                Assi
+                  IdUse ID="a"
                   Sub
                     IdUse ID="a"
                     IdUse ID="b"
               Opt
                 Else
                   List
-                    Assi ID="b"
+                    Assi
+                      IdUse ID="b"
                       Sub
                         IdUse ID="b"
                         IdUse ID="a"
@@ -32,9 +34,9 @@ Program
           IdUse ID="a"
     Func ID="gcd2"
       List
-        Decl ID="a"
+        IdDecl ID="a"
           Opt
-        Decl ID="b"
+        IdDecl ID="b"
           Opt
       List
         If
@@ -55,14 +57,16 @@ Program
     Func ID="main"
       List
       List
-        Decl ID="a"
+        IdDecl ID="a"
           Opt
-        Decl ID="b"
+        IdDecl ID="b"
           Opt
-        Assi ID="a"
+        Assi
+          IdUse ID="a"
           Fcall ID="read"
             List
-        Assi ID="b"
+        Assi
+          IdUse ID="b"
           Fcall ID="read"
             List
         Fcall ID="print"
@@ -77,7 +81,7 @@ Program
               List
                 IdUse ID="a"
                 IdUse ID="b"
-        Decl ID="diff"
+        IdDecl ID="diff"
           Opt
             Sub
               Fcall ID="gcd1"

@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * @ast node
  * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:6
- * @production Assi : {@link Stat} ::= <span class="component">&lt;ID:String&gt;</span> <span class="component">{@link Expr}</span>;
+ * @production Assi : {@link Stat} ::= <span class="component">{@link IdUse}</span> <span class="component">{@link Expr}</span>;
 
  */
 public class Assi extends Stat implements Cloneable {
@@ -19,9 +19,9 @@ public class Assi extends Stat implements Cloneable {
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:72
    */
   public void prettyPrint(PrintStream out, String ind) {
-		out.print(ind+getID());
-			out.print(" = ");
-			getExpr().prettyPrint(out, ind);
+		getIdUse().prettyPrint(out, ind);
+		out.print(" = ");
+		getExpr().prettyPrint(out, "");
 	}
   /**
    * @declaredat ASTNode:1
@@ -37,49 +37,42 @@ public class Assi extends Stat implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[1];
+    children = new ASTNode[2];
   }
   /**
    * @declaredat ASTNode:13
    */
-  public Assi(String p0, Expr p1) {
-    setID(p0);
-    setChild(p1, 0);
-  }
-  /**
-   * @declaredat ASTNode:17
-   */
-  public Assi(beaver.Symbol p0, Expr p1) {
-    setID(p0);
-    setChild(p1, 0);
+  public Assi(IdUse p0, Expr p1) {
+    setChild(p0, 0);
+    setChild(p1, 1);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:22
+   * @declaredat ASTNode:18
    */
   protected int numChildren() {
-    return 1;
+    return 2;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:26
+   * @declaredat ASTNode:22
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:30
+   * @declaredat ASTNode:26
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:34
+   * @declaredat ASTNode:30
    */
   public Assi clone() throws CloneNotSupportedException {
     Assi node = (Assi) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:35
    */
   public Assi copy() {
     try {
@@ -99,7 +92,7 @@ public class Assi extends Stat implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:58
+   * @declaredat ASTNode:54
    */
   @Deprecated
   public Assi fullCopy() {
@@ -110,7 +103,7 @@ public class Assi extends Stat implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:68
+   * @declaredat ASTNode:64
    */
   public Assi treeCopyNoTransform() {
     Assi tree = (Assi) copy();
@@ -131,7 +124,7 @@ public class Assi extends Stat implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:88
+   * @declaredat ASTNode:84
    */
   public Assi treeCopy() {
     Assi tree = (Assi) copy();
@@ -147,48 +140,36 @@ public class Assi extends Stat implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:102
+   * @declaredat ASTNode:98
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_ID == ((Assi) node).tokenString_ID);    
+    return super.is$Equal(node);    
   }
   /**
-   * Replaces the lexeme ID.
-   * @param value The new value for the lexeme ID.
+   * Replaces the IdUse child.
+   * @param node The new node to replace the IdUse child.
    * @apilevel high-level
    */
-  public void setID(String value) {
-    tokenString_ID = value;
-  }
-  /** @apilevel internal 
-   */
-  protected String tokenString_ID;
-  /**
-   */
-  public int IDstart;
-  /**
-   */
-  public int IDend;
-  /**
-   * JastAdd-internal setter for lexeme ID using the Beaver parser.
-   * @param symbol Symbol containing the new value for the lexeme ID
-   * @apilevel internal
-   */
-  public void setID(beaver.Symbol symbol) {
-    if (symbol.value != null && !(symbol.value instanceof String))
-    throw new UnsupportedOperationException("setID is only valid for String lexemes");
-    tokenString_ID = (String)symbol.value;
-    IDstart = symbol.getStart();
-    IDend = symbol.getEnd();
+  public void setIdUse(IdUse node) {
+    setChild(node, 0);
   }
   /**
-   * Retrieves the value for the lexeme ID.
-   * @return The value for the lexeme ID.
+   * Retrieves the IdUse child.
+   * @return The current node used as the IdUse child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="ID")
-  public String getID() {
-    return tokenString_ID != null ? tokenString_ID : "";
+  @ASTNodeAnnotation.Child(name="IdUse")
+  public IdUse getIdUse() {
+    return (IdUse) getChild(0);
+  }
+  /**
+   * Retrieves the IdUse child.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The current node used as the IdUse child.
+   * @apilevel low-level
+   */
+  public IdUse getIdUseNoTransform() {
+    return (IdUse) getChildNoTransform(0);
   }
   /**
    * Replaces the Expr child.
@@ -196,7 +177,7 @@ public class Assi extends Stat implements Cloneable {
    * @apilevel high-level
    */
   public void setExpr(Expr node) {
-    setChild(node, 0);
+    setChild(node, 1);
   }
   /**
    * Retrieves the Expr child.
@@ -205,7 +186,7 @@ public class Assi extends Stat implements Cloneable {
    */
   @ASTNodeAnnotation.Child(name="Expr")
   public Expr getExpr() {
-    return (Expr) getChild(0);
+    return (Expr) getChild(1);
   }
   /**
    * Retrieves the Expr child.
@@ -214,6 +195,6 @@ public class Assi extends Stat implements Cloneable {
    * @apilevel low-level
    */
   public Expr getExprNoTransform() {
-    return (Expr) getChildNoTransform(0);
+    return (Expr) getChildNoTransform(1);
   }
 }

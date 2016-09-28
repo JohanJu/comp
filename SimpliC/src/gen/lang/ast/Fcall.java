@@ -29,11 +29,11 @@ public class Fcall extends Expr implements Cloneable {
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:139
    */
   public void prettyPrint(PrintStream out, String ind) {
-		out.print(getID()+"(");
+		out.print(ind+getID()+"(");
 		String s = "";
 		for (int i = 0; i < getNumExpr(); ++i) {
 			out.print(s);
-			getExpr(i).prettyPrint(out, ind+"  ");
+			getExpr(i).prettyPrint(out, "");
 			s = ", ";
 
 		}

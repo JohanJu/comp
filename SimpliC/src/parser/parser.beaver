@@ -28,7 +28,7 @@
 %typeof whilestat = "Stat";
 %typeof retstat = "Stat";
 %typeof idUse = "IdUse";
-%typeof decl = "Decl";
+%typeof decl = "IdDecl";
 %typeof factor = "Expr";
 %typeof term = "Expr";
 %typeof num = "Num";
@@ -103,12 +103,12 @@ retstat =
 		;
 
 decl = 
-		TYPE ID.a								{: return new Decl(a, new Opt());  :}
-		| TYPE ID.a ASSIGN cmpexp.b  					{: return new Decl(a, new Opt(b)); :}
+		TYPE ID.a								{: return new IdDecl(a, new Opt());  :}
+		| TYPE ID.a ASSIGN cmpexp.b  					{: return new IdDecl(a, new Opt(b)); :}
 		;
 
 assi = 
-		ID.a ASSIGN cmpexp.b							{: return new Assi(a, b); :}
+		idUse.a ASSIGN cmpexp.b							{: return new Assi(a, b); :}
 		;
 
 cmpexp = 

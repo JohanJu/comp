@@ -29,7 +29,7 @@ public class IdUse extends Expr implements Cloneable {
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:161
    */
   public void prettyPrint(PrintStream out, String ind) {
-		out.print(getID());
+		out.print(ind+getID());
 	}
   /**
    * @declaredat ASTNode:1

@@ -62,7 +62,7 @@ aspect PrettyPrint {
 		}
 		out.print(ind+"}");
 	}
-	public void Decl.prettyPrint(PrintStream out, String ind) {
+	public void IdDecl.prettyPrint(PrintStream out, String ind) {
 		out.print(ind+"int "+getID());
 		if (hasExpr()) {
 			out.print(" = ");
@@ -70,48 +70,48 @@ aspect PrettyPrint {
 		}
 	}
 	public void Assi.prettyPrint(PrintStream out, String ind) {
-		out.print(ind+getID());
-			out.print(" = ");
-			getExpr().prettyPrint(out, ind);
+		getIdUse().prettyPrint(out, ind);
+		out.print(" = ");
+		getExpr().prettyPrint(out, "");
 	}
 	public void EqExp.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" * ");
+		out.print(" == ");
 		getRight().prettyPrint(out, ind);
 	}
 
 	public void NeExp.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" != ");
 		getRight().prettyPrint(out, ind);
 	}
 
 	public void GtExp.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" > ");
 		getRight().prettyPrint(out, ind);
 	}
 
 	public void LtExp.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" < ");
 		getRight().prettyPrint(out, ind);
 	}
 	public void LeExp.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" <= ");
 		getRight().prettyPrint(out, ind);
 	}
 
 	public void GeExp.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" >= ");
 		getRight().prettyPrint(out, ind);
 	}
 
 	public void Mul.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" * ");
 		getRight().prettyPrint(out, ind);
 	}
 	public void Div.prettyPrint(PrintStream out, String ind) {
@@ -121,27 +121,27 @@ aspect PrettyPrint {
 	}
 	public void Mod.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" % ");
 		getRight().prettyPrint(out, ind);
 	}
 
 	public void Add.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" + ");
 		getRight().prettyPrint(out, ind);
 	}
 
 	public void Sub.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
-		out.print(" / ");
+		out.print(" - ");
 		getRight().prettyPrint(out, ind);
 	}
 	public void Fcall.prettyPrint(PrintStream out, String ind) {
-		out.print(getID()+"(");
+		out.print(ind+getID()+"(");
 		String s = "";
 		for (int i = 0; i < getNumExpr(); ++i) {
 			out.print(s);
-			getExpr(i).prettyPrint(out, ind+"  ");
+			getExpr(i).prettyPrint(out, "");
 			s = ", ";
 
 		}
@@ -149,8 +149,8 @@ aspect PrettyPrint {
 	}
 
 	public void Ret.prettyPrint(PrintStream out, String ind) {
-		out.print("return ");
-		getExpr().prettyPrint(out, ind);
+		out.print(ind+"return ");
+		getExpr().prettyPrint(out, "");
 	}
 
 
@@ -159,7 +159,7 @@ aspect PrettyPrint {
 	}
 
 	public void IdUse.prettyPrint(PrintStream out, String ind) {
-		out.print(getID());
+		out.print(ind+getID());
 	}
 
 }

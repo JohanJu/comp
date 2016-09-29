@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:5
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:6
  * @production Stat : {@link ASTNode};
 
  */

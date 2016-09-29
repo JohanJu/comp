@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:17
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:18
  * @production IdUse : {@link Expr} ::= <span class="component">&lt;ID:String&gt;</span>;
 
  */

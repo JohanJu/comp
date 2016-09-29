@@ -8,11 +8,11 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:30
- * @production Sub : {@link Binary};
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:33
+ * @production Sub : {@link Art};
 
  */
-public class Sub extends Binary implements Cloneable {
+public class Sub extends Art implements Cloneable {
   /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:134

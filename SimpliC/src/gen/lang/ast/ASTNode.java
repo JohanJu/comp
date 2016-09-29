@@ -557,6 +557,24 @@ protected boolean unknownDecl_visited = false;
   }
 /** @apilevel internal */
 protected boolean UnknownFunc_visited = false;
+  /**
+   * @attribute inh
+   * @aspect UnknownDecl
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:20
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:20")
+  public Type Type() {
+    if (Type_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.Type().");
+    }
+    Type_visited = true;
+    Type Type_value = getParent().Define_Type(this, null);
+    Type_visited = false;
+    return Type_value;
+  }
+/** @apilevel internal */
+protected boolean Type_visited = false;
   /** @apilevel internal */
   public Program Define_program(ASTNode _callerNode, ASTNode _childNode) {
     ASTNode self = this;
@@ -655,6 +673,26 @@ protected boolean UnknownFunc_visited = false;
    * @return {@code true} if this node has an equation for the inherited attribute UnknownFunc
    */
   protected boolean canDefine_UnknownFunc(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
+  public Type Define_Type(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_Type(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_Type(self, _callerNode);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:21
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute Type
+   */
+  protected boolean canDefine_Type(ASTNode _callerNode, ASTNode _childNode) {
     return false;
   }
 public ASTNode rewrittenNode() { throw new Error("rewrittenNode is undefined for ASTNode"); }

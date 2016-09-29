@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:9
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:10
  * @production If : {@link Stat} ::= <span class="component">{@link Expr}</span> <span class="component">{@link Stat}*</span> <span class="component">[{@link Else}]</span>;
 
  */

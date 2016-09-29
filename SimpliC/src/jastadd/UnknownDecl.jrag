@@ -14,4 +14,12 @@ aspect UnknownDecl {
 	
 	syn boolean Func.isUnknown() = false;
 	eq UnknownFunc.isUnknown() = true;
+
+	syn nta Type Program.Type() = new Type("<unknown>");
+	
+	inh Type ASTNode.Type();
+	eq Program.getChild().Type() = Type();
+	
+	// syn boolean Func.isUnknown() = false;
+	// eq UnknownFunc.isUnknown() = true;
 }

@@ -1,0 +1,13 @@
+aspect Type {
+
+	syn nta Type Program.unknownType() = new UnknownType("<unknown>");
+	inh Type ASTNode.unknownType();
+	eq Program.getChild().unknownType() = unknownType();
+	
+
+	eq Bool.Type() = new Type("Bool");
+	eq Art.Type() = new Type("Art");
+	syn boolean If.isWrong() {
+		return getExpr().Type().getID().equals("Bool")
+	}
+}

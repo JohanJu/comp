@@ -8,24 +8,15 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:23
- * @production EqExp : {@link Bool};
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:4
+ * @production Type : {@link ASTNode} ::= <span class="component">&lt;String:String&gt;</span>;
 
  */
-public class EqExp extends Bool implements Cloneable {
-  /**
-   * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:77
-   */
-  public void prettyPrint(PrintStream out, String ind) {
-		getLeft().prettyPrint(out, ind);
-		out.print(" == ");
-		getRight().prettyPrint(out, ind);
-	}
+public class Type extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
-  public EqExp() {
+  public Type() {
     super();
   }
   /**
@@ -36,46 +27,50 @@ public class EqExp extends Bool implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[2];
   }
   /**
-   * @declaredat ASTNode:13
+   * @declaredat ASTNode:12
    */
-  public EqExp(Expr p0, Expr p1) {
-    setChild(p0, 0);
-    setChild(p1, 1);
+  public Type(String p0) {
+    setString(p0);
+  }
+  /**
+   * @declaredat ASTNode:15
+   */
+  public Type(beaver.Symbol p0) {
+    setString(p0);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:18
+   * @declaredat ASTNode:19
    */
   protected int numChildren() {
-    return 2;
+    return 0;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:22
+   * @declaredat ASTNode:23
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:26
+   * @declaredat ASTNode:27
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:30
+   * @declaredat ASTNode:31
    */
-  public EqExp clone() throws CloneNotSupportedException {
-    EqExp node = (EqExp) super.clone();
+  public Type clone() throws CloneNotSupportedException {
+    Type node = (Type) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:36
    */
-  public EqExp copy() {
+  public Type copy() {
     try {
-      EqExp node = (EqExp) clone();
+      Type node = (Type) clone();
       node.parent = null;
       if (children != null) {
         node.children = (ASTNode[]) children.clone();
@@ -91,10 +86,10 @@ public class EqExp extends Bool implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:54
+   * @declaredat ASTNode:55
    */
   @Deprecated
-  public EqExp fullCopy() {
+  public Type fullCopy() {
     return treeCopyNoTransform();
   }
   /**
@@ -102,10 +97,10 @@ public class EqExp extends Bool implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:64
+   * @declaredat ASTNode:65
    */
-  public EqExp treeCopyNoTransform() {
-    EqExp tree = (EqExp) copy();
+  public Type treeCopyNoTransform() {
+    Type tree = (Type) copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
         ASTNode child = (ASTNode) children[i];
@@ -123,10 +118,10 @@ public class EqExp extends Bool implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:84
+   * @declaredat ASTNode:85
    */
-  public EqExp treeCopy() {
-    EqExp tree = (EqExp) copy();
+  public Type treeCopy() {
+    Type tree = (Type) copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
         ASTNode child = (ASTNode) getChild(i);
@@ -139,61 +134,47 @@ public class EqExp extends Bool implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:98
+   * @declaredat ASTNode:99
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node);    
+    return super.is$Equal(node) && (tokenString_String == ((Type) node).tokenString_String);    
   }
   /**
-   * Replaces the Left child.
-   * @param node The new node to replace the Left child.
+   * Replaces the lexeme String.
+   * @param value The new value for the lexeme String.
    * @apilevel high-level
    */
-  public void setLeft(Expr node) {
-    setChild(node, 0);
+  public void setString(String value) {
+    tokenString_String = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_String;
+  /**
+   */
+  public int Stringstart;
+  /**
+   */
+  public int Stringend;
+  /**
+   * JastAdd-internal setter for lexeme String using the Beaver parser.
+   * @param symbol Symbol containing the new value for the lexeme String
+   * @apilevel internal
+   */
+  public void setString(beaver.Symbol symbol) {
+    if (symbol.value != null && !(symbol.value instanceof String))
+    throw new UnsupportedOperationException("setString is only valid for String lexemes");
+    tokenString_String = (String)symbol.value;
+    Stringstart = symbol.getStart();
+    Stringend = symbol.getEnd();
   }
   /**
-   * Retrieves the Left child.
-   * @return The current node used as the Left child.
+   * Retrieves the value for the lexeme String.
+   * @return The value for the lexeme String.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="Left")
-  public Expr getLeft() {
-    return (Expr) getChild(0);
-  }
-  /**
-   * Retrieves the Left child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the Left child.
-   * @apilevel low-level
-   */
-  public Expr getLeftNoTransform() {
-    return (Expr) getChildNoTransform(0);
-  }
-  /**
-   * Replaces the Right child.
-   * @param node The new node to replace the Right child.
-   * @apilevel high-level
-   */
-  public void setRight(Expr node) {
-    setChild(node, 1);
-  }
-  /**
-   * Retrieves the Right child.
-   * @return The current node used as the Right child.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Child(name="Right")
-  public Expr getRight() {
-    return (Expr) getChild(1);
-  }
-  /**
-   * Retrieves the Right child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the Right child.
-   * @apilevel low-level
-   */
-  public Expr getRightNoTransform() {
-    return (Expr) getChildNoTransform(1);
+  @ASTNodeAnnotation.Token(name="String")
+  public String getString() {
+    return tokenString_String != null ? tokenString_String : "";
   }
 }

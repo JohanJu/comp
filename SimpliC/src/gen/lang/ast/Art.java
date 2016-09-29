@@ -8,24 +8,15 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:23
- * @production EqExp : {@link Bool};
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:22
+ * @production Art : {@link Binary};
 
  */
-public class EqExp extends Bool implements Cloneable {
-  /**
-   * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:77
-   */
-  public void prettyPrint(PrintStream out, String ind) {
-		getLeft().prettyPrint(out, ind);
-		out.print(" == ");
-		getRight().prettyPrint(out, ind);
-	}
+public abstract class Art extends Binary implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
-  public EqExp() {
+  public Art() {
     super();
   }
   /**
@@ -41,7 +32,7 @@ public class EqExp extends Bool implements Cloneable {
   /**
    * @declaredat ASTNode:13
    */
-  public EqExp(Expr p0, Expr p1) {
+  public Art(Expr p0, Expr p1) {
     setChild(p0, 0);
     setChild(p1, 1);
   }
@@ -66,24 +57,9 @@ public class EqExp extends Bool implements Cloneable {
   /** @apilevel internal 
    * @declaredat ASTNode:30
    */
-  public EqExp clone() throws CloneNotSupportedException {
-    EqExp node = (EqExp) super.clone();
+  public Art clone() throws CloneNotSupportedException {
+    Art node = (Art) super.clone();
     return node;
-  }
-  /** @apilevel internal 
-   * @declaredat ASTNode:35
-   */
-  public EqExp copy() {
-    try {
-      EqExp node = (EqExp) clone();
-      node.parent = null;
-      if (children != null) {
-        node.children = (ASTNode[]) children.clone();
-      }
-      return node;
-    } catch (CloneNotSupportedException e) {
-      throw new Error("Error: clone not supported for " + getClass().getName());
-    }
   }
   /**
    * Create a deep copy of the AST subtree at this node.
@@ -91,59 +67,27 @@ public class EqExp extends Bool implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:54
+   * @declaredat ASTNode:41
    */
   @Deprecated
-  public EqExp fullCopy() {
-    return treeCopyNoTransform();
-  }
+  public abstract Art fullCopy();
   /**
    * Create a deep copy of the AST subtree at this node.
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:64
+   * @declaredat ASTNode:49
    */
-  public EqExp treeCopyNoTransform() {
-    EqExp tree = (EqExp) copy();
-    if (children != null) {
-      for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
-        if (child != null) {
-          child = child.treeCopyNoTransform();
-          tree.setChild(child, i);
-        }
-      }
-    }
-    return tree;
-  }
+  public abstract Art treeCopyNoTransform();
   /**
    * Create a deep copy of the AST subtree at this node.
    * The subtree of this node is traversed to trigger rewrites before copy.
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:84
+   * @declaredat ASTNode:57
    */
-  public EqExp treeCopy() {
-    EqExp tree = (EqExp) copy();
-    if (children != null) {
-      for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) getChild(i);
-        if (child != null) {
-          child = child.treeCopy();
-          tree.setChild(child, i);
-        }
-      }
-    }
-    return tree;
-  }
-  /** @apilevel internal 
-   * @declaredat ASTNode:98
-   */
-  protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node);    
-  }
+  public abstract Art treeCopy();
   /**
    * Replaces the Left child.
    * @param node The new node to replace the Left child.

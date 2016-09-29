@@ -58,9 +58,10 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
     predefinedFunctions_reset();
     unknownDecl_reset();
     UnknownFunc_reset();
+    Type_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:29
+   * @declaredat ASTNode:30
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
@@ -71,14 +72,14 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
     contributorMap_Program_errors = null;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:38
+   * @declaredat ASTNode:39
    */
   public Program clone() throws CloneNotSupportedException {
     Program node = (Program) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:44
    */
   public Program copy() {
     try {
@@ -98,7 +99,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:62
+   * @declaredat ASTNode:63
    */
   @Deprecated
   public Program fullCopy() {
@@ -109,7 +110,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:72
+   * @declaredat ASTNode:73
    */
   public Program treeCopyNoTransform() {
     Program tree = (Program) copy();
@@ -130,7 +131,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:92
+   * @declaredat ASTNode:93
    */
   public Program treeCopy() {
     Program tree = (Program) copy();
@@ -146,7 +147,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:106
+   * @declaredat ASTNode:107
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node);    
@@ -398,6 +399,45 @@ protected boolean UnknownFunc_visited = false;
     UnknownFunc_visited = false;
     return UnknownFunc_value;
   }
+/** @apilevel internal */
+protected boolean Type_visited = false;
+  /** @apilevel internal */
+  private void Type_reset() {
+    Type_computed = false;
+    
+    Type_value = null;
+    Type_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean Type_computed = false;
+
+  /** @apilevel internal */
+  protected Type Type_value;
+
+  /**
+   * @attribute syn
+   * @aspect UnknownDecl
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:18
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:18")
+  public Type Type() {
+    ASTNode$State state = state();
+    if (Type_computed) {
+      return Type_value;
+    }
+    if (Type_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.Type().");
+    }
+    Type_visited = true;
+    state().enterLazyAttribute();
+    Type_value = new Type("<unknown>");
+    Type_value.setParent(this);
+    Type_computed = true;
+    state().leaveLazyAttribute();
+    Type_visited = false;
+    return Type_value;
+  }
   /**
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:28
    * @apilevel internal
@@ -465,6 +505,17 @@ protected boolean UnknownFunc_visited = false;
     return UnknownFunc();
   }
   protected boolean canDefine_UnknownFunc(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:20
+   * @apilevel internal
+   */
+  public Type Define_Type(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return Type();
+  }
+  protected boolean canDefine_Type(ASTNode _callerNode, ASTNode _childNode) {
     return true;
   }
 /** @apilevel internal */

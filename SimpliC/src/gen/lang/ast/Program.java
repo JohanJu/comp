@@ -55,11 +55,12 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
+    predefinedFunctions_reset();
     unknownDecl_reset();
     UnknownFunc_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:28
+   * @declaredat ASTNode:29
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
@@ -70,14 +71,14 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
     contributorMap_Program_errors = null;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:37
+   * @declaredat ASTNode:38
    */
   public Program clone() throws CloneNotSupportedException {
     Program node = (Program) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:42
+   * @declaredat ASTNode:43
    */
   public Program copy() {
     try {
@@ -97,7 +98,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:61
+   * @declaredat ASTNode:62
    */
   @Deprecated
   public Program fullCopy() {
@@ -108,7 +109,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:71
+   * @declaredat ASTNode:72
    */
   public Program treeCopyNoTransform() {
     Program tree = (Program) copy();
@@ -129,7 +130,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:91
+   * @declaredat ASTNode:92
    */
   public Program treeCopy() {
     Program tree = (Program) copy();
@@ -145,7 +146,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:105
+   * @declaredat ASTNode:106
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node);    
@@ -274,6 +275,52 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
   }
 
 /** @apilevel internal */
+protected boolean predefinedFunctions_visited = false;
+  /** @apilevel internal */
+  private void predefinedFunctions_reset() {
+    predefinedFunctions_computed = false;
+    
+    predefinedFunctions_value = null;
+    predefinedFunctions_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean predefinedFunctions_computed = false;
+
+  /** @apilevel internal */
+  protected List<Func> predefinedFunctions_value;
+
+  /**
+   * @attribute syn
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:96
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:96")
+  public List<Func> predefinedFunctions() {
+    ASTNode$State state = state();
+    if (predefinedFunctions_computed) {
+      return predefinedFunctions_value;
+    }
+    if (predefinedFunctions_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.predefinedFunctions().");
+    }
+    predefinedFunctions_visited = true;
+    state().enterLazyAttribute();
+    predefinedFunctions_value = predefinedFunctions_compute();
+    predefinedFunctions_value.setParent(this);
+    predefinedFunctions_computed = true;
+    state().leaveLazyAttribute();
+    predefinedFunctions_visited = false;
+    return predefinedFunctions_value;
+  }
+  /** @apilevel internal */
+  private List<Func> predefinedFunctions_compute() {
+  		List<Func> list = new List<Func>();
+  		list.add(new Func("print",null,null));
+  		list.add(new Func("read",null,null));
+  		return list;
+  	}
+/** @apilevel internal */
 protected boolean unknownDecl_visited = false;
   /** @apilevel internal */
   private void unknownDecl_reset() {
@@ -370,6 +417,12 @@ protected boolean UnknownFunc_visited = false;
     int childIndex = this.getIndexOfChild(_callerNode);
     {
     		//todo
+    		for(Func f : predefinedFunctions()){
+    			if(f.getID().equals(name)){
+    				return f;
+    			}	
+    			
+    		}
     		for (int i = 0; i <= getNumFunc()-1; i++) {
     			if (getFunc(i).getID().equals(name)) {
     				return getFunc(i);

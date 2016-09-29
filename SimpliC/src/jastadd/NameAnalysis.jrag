@@ -80,6 +80,12 @@ aspect NameAnalysis {
 
 	eq Program.getChild().Flookup(String name){
 		//todo
+		for(Func f : predefinedFunctions()){
+			if(f.getID().equals(name)){
+				return f;
+			}	
+			
+		}
 		for (int i = 0; i <= getNumFunc()-1; i++) {
 			if (getFunc(i).getID().equals(name)) {
 				return getFunc(i);
@@ -87,6 +93,13 @@ aspect NameAnalysis {
 		}
 		return UnknownFunc();
 	}
+	syn nta List<Func> Program.predefinedFunctions() {
+		List<Func> list = new List<Func>();
+		list.add(new Func("print",null,null));
+		list.add(new Func("read",null,null));
+		return list;
+	}
+
 	eq Program.getChild().lookup(String name, Object o) = unknownDecl();
 	
 	inh IdDecl Stat.lookup(String name, Object o);

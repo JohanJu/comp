@@ -5,26 +5,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.*;
+import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:9
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:11
  * @production While : {@link Stat} ::= <span class="component">{@link Expr}</span> <span class="component">{@link Stat}*</span>;
 
  */
 public class While extends Stat implements Cloneable {
-  /**
-   * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:109
-   */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
-		symbols = symbols.push();
-		getExpr().checkNames(err, symbols);
-		for (int i = 0; i < getNumStat(); ++i) {
-			getStat(i).checkNames(err, symbols);
-		}
-	}
   /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:34
@@ -305,5 +293,58 @@ public class While extends Stat implements Cloneable {
    */
   public List<Stat> getStatsNoTransform() {
     return getStatListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set localLookup_String_Object_visited;
+  /**
+   * @attribute syn
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:50
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:50")
+  public IdDecl localLookup(String name, Object o) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(name);
+    _parameters.add(o);
+    if (localLookup_String_Object_visited == null) localLookup_String_Object_visited = new java.util.HashSet(4);
+    if (localLookup_String_Object_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute While.localLookup(String,Object).");
+    }
+    localLookup_String_Object_visited.add(_parameters);
+    try {
+    		for (int i = 0; i <= getNumStat()-1; i++) {
+    			if (getStat(i) instanceof IdDecl && ((IdDecl)getStat(i)).getID().equals(name)) {
+    				return ((IdDecl)getStat(i));
+    			}
+    			if (getStat(i) == o) {
+    				return unknownDecl();
+    			}
+    		}
+    		return unknownDecl();
+    	}
+    finally {
+      localLookup_String_Object_visited.remove(_parameters);
+    }
+  }
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @apilevel internal
+   */
+  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
+    if (_callerNode == getStatListNoTransform()) {
+      // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:15
+      int childIndex = _callerNode.getIndexOfChild(_childNode);
+      {
+      		IdDecl decl = localLookup(name, o);
+      		return !decl.isUnknown() ? decl : lookup(name, this);
+      	}
+    }
+    else {
+      return getParent().Define_lookup(this, _callerNode, name, o);
+    }
+  }
+  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
+    return true;
   }
 }

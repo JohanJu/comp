@@ -5,11 +5,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.*;
+import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:6
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:8
  * @production Assi : {@link Stat} ::= <span class="component">{@link IdUse}</span> <span class="component">{@link Expr}</span>;
 
  */
@@ -196,5 +195,21 @@ public class Assi extends Stat implements Cloneable {
    */
   public Expr getExprNoTransform() {
     return (Expr) getChildNoTransform(1);
+  }
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @apilevel internal
+   */
+  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
+    if (_callerNode == getExprNoTransform()) {
+      // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:79
+      return lookup(name, this);
+    }
+    else {
+      return getParent().Define_lookup(this, _callerNode, name, o);
+    }
+  }
+  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
+    return true;
   }
 }

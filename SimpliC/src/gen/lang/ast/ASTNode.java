@@ -5,8 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.*;
+import java.util.TreeSet;
 /**
  * @ast node
  * @production ASTNode;
@@ -71,27 +70,11 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 		return sb.toString();
 	}
   /**
-   * @param err where to write error messages
-   * @param symbols symbol table
-   * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:84
+   * @aspect Errors
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:22
    */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
-
-		// symbols.clean();
-
-		for (int i = 0; i < getNumChild(); ++i) {
-			getChild(i).checkNames(err, symbols);
-		}
-	}
-  /**
-   * Helper method
-   * @return line number of this token
-   * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:157
-   */
-  public int getLine() {
-		return getLine(getStart());
+  protected ErrorMessage error(String message) {
+		return new ErrorMessage(message, getLine(getStart()));
 	}
   /**
    * @aspect PrettyPrint
@@ -507,6 +490,172 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
       }
     }
     return true;
+  }
+  /**
+   * @aspect <NoAspect>
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:26
+   */
+    protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_Program_errors(_root, _map);
+    }
+  }
+  protected void contributeTo_Program_errors(Set<ErrorMessage> collection) {
+  }
+
+  /**
+   * @attribute inh
+   * @aspect Errors
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:28
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="Errors", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:28")
+  public Program program() {
+    if (program_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.program().");
+    }
+    program_visited = true;
+    Program program_value = getParent().Define_program(this, null);
+    program_visited = false;
+    return program_value;
+  }
+/** @apilevel internal */
+protected boolean program_visited = false;
+  /**
+   * @attribute inh
+   * @aspect UnknownDecl
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:4
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:4")
+  public UnknownDecl unknownDecl() {
+    if (unknownDecl_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.unknownDecl().");
+    }
+    unknownDecl_visited = true;
+    UnknownDecl unknownDecl_value = getParent().Define_unknownDecl(this, null);
+    unknownDecl_visited = false;
+    return unknownDecl_value;
+  }
+/** @apilevel internal */
+protected boolean unknownDecl_visited = false;
+  /**
+   * @attribute inh
+   * @aspect UnknownDecl
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:12
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:12")
+  public UnknownFunc UnknownFunc() {
+    if (UnknownFunc_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.UnknownFunc().");
+    }
+    UnknownFunc_visited = true;
+    UnknownFunc UnknownFunc_value = getParent().Define_UnknownFunc(this, null);
+    UnknownFunc_visited = false;
+    return UnknownFunc_value;
+  }
+/** @apilevel internal */
+protected boolean UnknownFunc_visited = false;
+  /** @apilevel internal */
+  public Program Define_program(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_program(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_program(self, _callerNode);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:29
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute program
+   */
+  protected boolean canDefine_program(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
+  public Func Define_Flookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_Flookup(self, _callerNode, name)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_Flookup(self, _callerNode, name);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:81
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute Flookup
+   */
+  protected boolean canDefine_Flookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    return false;
+  }
+  /** @apilevel internal */
+  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_lookup(self, _callerNode, name, o)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_lookup(self, _callerNode, name, o);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:78
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute lookup
+   */
+  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
+    return false;
+  }
+  /** @apilevel internal */
+  public UnknownDecl Define_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_unknownDecl(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_unknownDecl(self, _callerNode);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:5
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute unknownDecl
+   */
+  protected boolean canDefine_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
+  public UnknownFunc Define_UnknownFunc(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_UnknownFunc(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_UnknownFunc(self, _callerNode);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:13
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute UnknownFunc
+   */
+  protected boolean canDefine_UnknownFunc(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
   }
 public ASTNode rewrittenNode() { throw new Error("rewrittenNode is undefined for ASTNode"); }
 }

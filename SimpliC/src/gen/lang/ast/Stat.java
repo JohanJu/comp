@@ -5,11 +5,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.*;
+import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:4
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:5
  * @production Stat : {@link ASTNode};
 
  */
@@ -96,4 +95,26 @@ public abstract class Stat extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:52
    */
   public abstract Stat treeCopy();
+  /**
+   * @attribute inh
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:92
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:92")
+  public IdDecl lookup(String name, Object o) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(name);
+    _parameters.add(o);
+    if (lookup_String_Object_visited == null) lookup_String_Object_visited = new java.util.HashSet(4);
+    if (lookup_String_Object_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute Stat.lookup(String,Object).");
+    }
+    lookup_String_Object_visited.add(_parameters);
+    IdDecl lookup_String_Object_value = getParent().Define_lookup(this, null, name, o);
+    lookup_String_Object_visited.remove(_parameters);
+    return lookup_String_Object_value;
+  }
+/** @apilevel internal */
+protected java.util.Set lookup_String_Object_visited;
 }

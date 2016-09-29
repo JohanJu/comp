@@ -5,25 +5,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.*;
+import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:13
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:15
  * @production Fcall : {@link Expr} ::= <span class="component">&lt;ID:String&gt;</span> <span class="component">{@link Expr}*</span>;
 
  */
 public class Fcall extends Expr implements Cloneable {
-  /**
-   * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:146
-   */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
-		if (!symbols.lookupf(getID())) {
-			err.format("Error at line %d: func \'%s\' has not been declared before this use!", getLine(), getID());
-			err.println();
-		}
-	}
   /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:139
@@ -316,5 +305,64 @@ public class Fcall extends Expr implements Cloneable {
    */
   public List<Expr> getExprsNoTransform() {
     return getExprListNoTransform();
+  }
+/** @apilevel internal */
+protected boolean decl_visited = false;
+  /**
+   * @attribute syn
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:4
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:4")
+  public Func decl() {
+    if (decl_visited) {
+      throw new RuntimeException("Circular definition of attribute Fcall.decl().");
+    }
+    decl_visited = true;
+    Func decl_value = Flookup(getID());
+    decl_visited = false;
+    return decl_value;
+  }
+  /**
+   * @attribute inh
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:5
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:5")
+  public Func Flookup(String name) {
+    Object _parameters = name;
+    if (Flookup_String_visited == null) Flookup_String_visited = new java.util.HashSet(4);
+    if (Flookup_String_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute Fcall.Flookup(String).");
+    }
+    Flookup_String_visited.add(_parameters);
+    Func Flookup_String_value = getParent().Define_Flookup(this, null, name);
+    Flookup_String_visited.remove(_parameters);
+    return Flookup_String_value;
+  }
+/** @apilevel internal */
+protected java.util.Set Flookup_String_visited;
+  protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:35
+    if (decl().isUnknown()) {
+      {
+        Program target = (Program) (program());
+        java.util.Set<ASTNode> contributors = _map.get(target);
+        if (contributors == null) {
+          contributors = new java.util.LinkedHashSet<ASTNode>();
+          _map.put((ASTNode) target, contributors);
+        }
+        contributors.add(this);
+      }
+    }
+    super.collect_contributors_Program_errors(_root, _map);
+  }
+  protected void contributeTo_Program_errors(Set<ErrorMessage> collection) {
+    super.contributeTo_Program_errors(collection);
+    if (decl().isUnknown()) {
+      collection.add(error("func '" + getID() + "' has not been declared before this use!"));
+    }
   }
 }

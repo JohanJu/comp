@@ -5,25 +5,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.*;
+import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:5
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:6
  * @production IdDecl : {@link Stat} ::= <span class="component">&lt;ID:String&gt;</span> <span class="component">[{@link Expr}]</span>;
 
  */
 public class IdDecl extends Stat implements Cloneable {
-  /**
-   * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:132
-   */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
-		if (!symbols.declare(getID())) {
-			err.format("Error at line %d: symbol \'%s\' is already declared!", getLine(), getID());
-			err.println();
-		}
-	}
   /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:65
@@ -253,5 +242,84 @@ public class IdDecl extends Stat implements Cloneable {
    */
   public Opt<Expr> getExprOptNoTransform() {
     return (Opt<Expr>) getChildNoTransform(0);
+  }
+/** @apilevel internal */
+protected boolean isMultiplyDeclared_visited = false;
+  /**
+   * @attribute syn
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:95
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:95")
+  public boolean isMultiplyDeclared() {
+    if (isMultiplyDeclared_visited) {
+      throw new RuntimeException("Circular definition of attribute IdDecl.isMultiplyDeclared().");
+    }
+    isMultiplyDeclared_visited = true;
+    boolean isMultiplyDeclared_value = lookup(getID(),null) != this;
+    isMultiplyDeclared_visited = false;
+    return isMultiplyDeclared_value;
+  }
+/** @apilevel internal */
+protected boolean isUnknown_visited = false;
+  /**
+   * @attribute syn
+   * @aspect UnknownDecl
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:7
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:7")
+  public boolean isUnknown() {
+    if (isUnknown_visited) {
+      throw new RuntimeException("Circular definition of attribute IdDecl.isUnknown().");
+    }
+    isUnknown_visited = true;
+    boolean isUnknown_value = false;
+    isUnknown_visited = false;
+    return isUnknown_value;
+  }
+  /**
+   * @attribute inh
+   * @aspect NameAnalysis
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:94
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:94")
+  public IdDecl lookup(String name, Object o) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(name);
+    _parameters.add(o);
+    if (lookup_String_Object_visited == null) lookup_String_Object_visited = new java.util.HashSet(4);
+    if (lookup_String_Object_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute IdDecl.lookup(String,Object).");
+    }
+    lookup_String_Object_visited.add(_parameters);
+    IdDecl lookup_String_Object_value = getParent().Define_lookup(this, null, name, o);
+    lookup_String_Object_visited.remove(_parameters);
+    return lookup_String_Object_value;
+  }
+/** @apilevel internal */
+protected java.util.Set lookup_String_Object_visited;
+  protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:43
+    if (isMultiplyDeclared()) {
+      {
+        Program target = (Program) (program());
+        java.util.Set<ASTNode> contributors = _map.get(target);
+        if (contributors == null) {
+          contributors = new java.util.LinkedHashSet<ASTNode>();
+          _map.put((ASTNode) target, contributors);
+        }
+        contributors.add(this);
+      }
+    }
+    super.collect_contributors_Program_errors(_root, _map);
+  }
+  protected void contributeTo_Program_errors(Set<ErrorMessage> collection) {
+    super.contributeTo_Program_errors(collection);
+    if (isMultiplyDeclared()) {
+      collection.add(error("symbol '" + getID() + "' is already declared!"));
+    }
   }
 }

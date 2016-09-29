@@ -1,8 +1,10 @@
 Program ::= Func*;
 Func ::= <ID> Args:Stat* Stats:Stat*;
+UnknownFunc : Func;
 
 abstract Stat;
 IdDecl : Stat ::= <ID> [Expr];
+UnknownDecl : IdDecl;
 Assi : Stat ::= IdUse Expr;
 If : Stat ::= Expr Stat* [Else];
 Else : Stat ::= Stat*;

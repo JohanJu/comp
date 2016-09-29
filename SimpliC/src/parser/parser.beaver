@@ -10,7 +10,7 @@
 	}
 :};
 
-%terminals ID, TYPE, LB, RB, LP, RP, NUM, ASSIGN, SEMI, ADD, SUB, MUL, DIV, MOD, GT, NE, EQ, GE, LT, LE, COMMA, READ, PRINT, WHILE, IF, ELSE, RET;
+%terminals ID, TYPE, LB, RB, LP, RP, NUM, ASSIGN, SEMI, ADD, SUB, MUL, DIV, MOD, GT, NE, EQ, GE, LT, LE, COMMA, WHILE, IF, ELSE, RET;
 
 %typeof program = "Program";
 %typeof funcList = "List";

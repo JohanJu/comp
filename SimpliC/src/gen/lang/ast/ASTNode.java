@@ -523,6 +523,78 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 protected boolean program_visited = false;
   /**
    * @attribute inh
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:3
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:3")
+  public Type Type() {
+    if (Type_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.Type().");
+    }
+    Type_visited = true;
+    Type Type_value = getParent().Define_Type(this, null);
+    Type_visited = false;
+    return Type_value;
+  }
+/** @apilevel internal */
+protected boolean Type_visited = false;
+  /**
+   * @attribute inh
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:7
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:7")
+  public Type unknownType() {
+    if (unknownType_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.unknownType().");
+    }
+    unknownType_visited = true;
+    Type unknownType_value = getParent().Define_unknownType(this, null);
+    unknownType_visited = false;
+    return unknownType_value;
+  }
+/** @apilevel internal */
+protected boolean unknownType_visited = false;
+  /**
+   * @attribute inh
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:11
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:11")
+  public Type intType() {
+    if (intType_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.intType().");
+    }
+    intType_visited = true;
+    Type intType_value = getParent().Define_intType(this, null);
+    intType_visited = false;
+    return intType_value;
+  }
+/** @apilevel internal */
+protected boolean intType_visited = false;
+  /**
+   * @attribute inh
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:15
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:15")
+  public Type boolType() {
+    if (boolType_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.boolType().");
+    }
+    boolType_visited = true;
+    Type boolType_value = getParent().Define_boolType(this, null);
+    boolType_visited = false;
+    return boolType_value;
+  }
+/** @apilevel internal */
+protected boolean boolType_visited = false;
+  /**
+   * @attribute inh
    * @aspect UnknownDecl
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:4
    */
@@ -557,24 +629,6 @@ protected boolean unknownDecl_visited = false;
   }
 /** @apilevel internal */
 protected boolean UnknownFunc_visited = false;
-  /**
-   * @attribute inh
-   * @aspect UnknownDecl
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:20
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:20")
-  public Type Type() {
-    if (Type_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.Type().");
-    }
-    Type_visited = true;
-    Type Type_value = getParent().Define_Type(this, null);
-    Type_visited = false;
-    return Type_value;
-  }
-/** @apilevel internal */
-protected boolean Type_visited = false;
   /** @apilevel internal */
   public Program Define_program(ASTNode _callerNode, ASTNode _childNode) {
     ASTNode self = this;
@@ -636,6 +690,86 @@ protected boolean Type_visited = false;
     return false;
   }
   /** @apilevel internal */
+  public Type Define_Type(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_Type(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_Type(self, _callerNode);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:4
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute Type
+   */
+  protected boolean canDefine_Type(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
+  public Type Define_unknownType(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_unknownType(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_unknownType(self, _callerNode);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:8
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute unknownType
+   */
+  protected boolean canDefine_unknownType(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
+  public Type Define_intType(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_intType(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_intType(self, _callerNode);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:12
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute intType
+   */
+  protected boolean canDefine_intType(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
+  public Type Define_boolType(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_boolType(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_boolType(self, _callerNode);
+  }
+
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:16
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute boolType
+   */
+  protected boolean canDefine_boolType(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
   public UnknownDecl Define_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
     ASTNode self = this;
     ASTNode parent = getParent();
@@ -673,26 +807,6 @@ protected boolean Type_visited = false;
    * @return {@code true} if this node has an equation for the inherited attribute UnknownFunc
    */
   protected boolean canDefine_UnknownFunc(ASTNode _callerNode, ASTNode _childNode) {
-    return false;
-  }
-  /** @apilevel internal */
-  public Type Define_Type(ASTNode _callerNode, ASTNode _childNode) {
-    ASTNode self = this;
-    ASTNode parent = getParent();
-    while (parent != null && !parent.canDefine_Type(self, _callerNode)) {
-      _callerNode = self;
-      self = parent;
-      parent = self.getParent();
-    }
-    return parent.Define_Type(self, _callerNode);
-  }
-
-  /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:21
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute Type
-   */
-  protected boolean canDefine_Type(ASTNode _callerNode, ASTNode _childNode) {
     return false;
   }
 public ASTNode rewrittenNode() { throw new Error("rewrittenNode is undefined for ASTNode"); }

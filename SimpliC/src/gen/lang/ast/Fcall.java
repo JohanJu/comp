@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:16
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:19
  * @production Fcall : {@link Expr} ::= <span class="component">&lt;ID:String&gt;</span> <span class="component">{@link Expr}*</span>;
 
  */
@@ -324,6 +324,33 @@ protected boolean decl_visited = false;
     decl_visited = false;
     return decl_value;
   }
+/** @apilevel internal */
+protected boolean nbrArgOk_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:38
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:38")
+  public boolean nbrArgOk() {
+    if (nbrArgOk_visited) {
+      throw new RuntimeException("Circular definition of attribute Fcall.nbrArgOk().");
+    }
+    nbrArgOk_visited = true;
+    try {
+    		
+    		// System.out.println(decl()+" asd");
+    		// System.out.println(decl().getID()+" qwe");
+    		if(decl() == UnknownFunc() || decl().getID() == "print" || decl().getID() == "read" )
+    			return true;
+    		
+    		return getNumExpr() == decl().getNumArgs();
+    	}
+    finally {
+      nbrArgOk_visited = false;
+    }
+  }
   /**
    * @attribute inh
    * @aspect NameAnalysis
@@ -357,12 +384,27 @@ protected java.util.Set Flookup_String_visited;
         contributors.add(this);
       }
     }
+    // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:51
+    if (!nbrArgOk()) {
+      {
+        Program target = (Program) (program());
+        java.util.Set<ASTNode> contributors = _map.get(target);
+        if (contributors == null) {
+          contributors = new java.util.LinkedHashSet<ASTNode>();
+          _map.put((ASTNode) target, contributors);
+        }
+        contributors.add(this);
+      }
+    }
     super.collect_contributors_Program_errors(_root, _map);
   }
   protected void contributeTo_Program_errors(Set<ErrorMessage> collection) {
     super.contributeTo_Program_errors(collection);
     if (decl().isUnknown()) {
       collection.add(error("func '" + getID() + "' has not been declared before this use!"));
+    }
+    if (!nbrArgOk()) {
+      collection.add(error("wrong nbr args: " + getID()));
     }
   }
 }

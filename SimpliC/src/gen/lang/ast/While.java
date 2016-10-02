@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:12
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:15
  * @production While : {@link Stat} ::= <span class="component">{@link Expr}</span> <span class="component">{@link Stat}*</span>;
 
  */
@@ -326,6 +326,42 @@ protected java.util.Set localLookup_String_Object_visited;
     finally {
       localLookup_String_Object_visited.remove(_parameters);
     }
+  }
+/** @apilevel internal */
+protected boolean expectedType_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:24
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:24")
+  public Type expectedType() {
+    if (expectedType_visited) {
+      throw new RuntimeException("Circular definition of attribute Stat.expectedType().");
+    }
+    expectedType_visited = true;
+    Type expectedType_value = boolType();
+    expectedType_visited = false;
+    return expectedType_value;
+  }
+/** @apilevel internal */
+protected boolean typeOk_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32")
+  public boolean typeOk() {
+    if (typeOk_visited) {
+      throw new RuntimeException("Circular definition of attribute Stat.typeOk().");
+    }
+    typeOk_visited = true;
+    boolean typeOk_value = compatibleType(getExpr().Type());
+    typeOk_visited = false;
+    return typeOk_value;
   }
   /**
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3

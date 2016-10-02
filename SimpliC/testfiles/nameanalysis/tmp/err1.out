@@ -1,5 +1,1 @@
-Error at line 3: symbol 'a' is already declared!
-Error at line 4: symbol 'a' is not declared
-Error at line 4: symbol 'b' is not declared
-Error at line 5: symbol 'b' is already declared!
-Error at line 6: symbol 'a' is not declared
+Error at line 4: symbol 'b' has not been declared before this use!

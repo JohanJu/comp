@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:13
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:16
  * @production Ret : {@link Stat} ::= <span class="component">{@link Expr}</span>;
 
  */
@@ -167,6 +167,24 @@ public class Ret extends Stat implements Cloneable {
    */
   public Expr getExprNoTransform() {
     return (Expr) getChildNoTransform(0);
+  }
+/** @apilevel internal */
+protected boolean typeOk_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32")
+  public boolean typeOk() {
+    if (typeOk_visited) {
+      throw new RuntimeException("Circular definition of attribute Stat.typeOk().");
+    }
+    typeOk_visited = true;
+    boolean typeOk_value = compatibleType(getExpr().Type());
+    typeOk_visited = false;
+    return typeOk_value;
   }
   /**
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3

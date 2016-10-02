@@ -1,13 +1,48 @@
 aspect Type {
 
+	inh Type ASTNode.Type();
+	eq Program.getChild().Type() = unknownType();
+
 	syn nta Type Program.unknownType() = new UnknownType("<unknown>");
 	inh Type ASTNode.unknownType();
 	eq Program.getChild().unknownType() = unknownType();
-	
 
-	eq Bool.Type() = new Type("Bool");
-	eq Art.Type() = new Type("Art");
-	syn boolean If.isWrong() {
-		return getExpr().Type().getID().equals("Bool")
+	syn nta Type Program.intType() = new IntType("<int>");
+	inh Type ASTNode.intType();
+	eq Program.getChild().intType() = intType();
+
+	syn nta Type Program.boolType() = new BoolType("<bool>");
+	inh Type ASTNode.boolType();
+	eq Program.getChild().boolType() = boolType();
+
+	syn Type Expr.Type() = unknownType();
+	
+	eq Bool.Type() = boolType();
+	eq Art.Type() = intType();
+	syn Type IdDecl.Type() = intType();
+	
+	syn Type Stat.expectedType() = intType();
+	eq  If.expectedType() = boolType();
+	eq  While.expectedType() = boolType();
+
+	syn boolean Stat.compatibleType(Type t) {
+		// System.out.println(t.getString()+" asd");
+		return t == expectedType() || t == unknownType();
 	}
+	syn boolean Stat.typeOk() = true;
+	eq  If.typeOk() = compatibleType(getExpr().Type());
+	eq  While.typeOk() = compatibleType(getExpr().Type());
+	eq  Ret.typeOk() = compatibleType(getExpr().Type());
+
+
+	syn boolean Fcall.nbrArgOk(){
+		
+		// System.out.println(decl()+" asd");
+		// System.out.println(decl().getID()+" qwe");
+		if(decl() == UnknownFunc() || decl().getID() == "print" || decl().getID() == "read" )
+			return true;
+		
+		return getNumExpr() == decl().getNumArgs();
+	}
+
 }

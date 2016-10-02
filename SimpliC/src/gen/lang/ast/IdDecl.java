@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:7
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:10
  * @production IdDecl : {@link Stat} ::= <span class="component">&lt;ID:String&gt;</span> <span class="component">[{@link Expr}]</span>;
 
  */
@@ -260,6 +260,24 @@ protected boolean isMultiplyDeclared_visited = false;
     boolean isMultiplyDeclared_value = lookup(getID(),null) != this;
     isMultiplyDeclared_visited = false;
     return isMultiplyDeclared_value;
+  }
+/** @apilevel internal */
+protected boolean Type_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:22
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:22")
+  public Type Type() {
+    if (Type_visited) {
+      throw new RuntimeException("Circular definition of attribute IdDecl.Type().");
+    }
+    Type_visited = true;
+    Type Type_value = intType();
+    Type_visited = false;
+    return Type_value;
   }
 /** @apilevel internal */
 protected boolean isUnknown_visited = false;

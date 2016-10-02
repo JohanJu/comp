@@ -12,7 +12,7 @@ import java.util.TreeSet;
  * @production Type : {@link ASTNode} ::= <span class="component">&lt;String:String&gt;</span>;
 
  */
-public class Type extends ASTNode<ASTNode> implements Cloneable {
+public abstract class Type extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
@@ -65,80 +65,33 @@ public class Type extends ASTNode<ASTNode> implements Cloneable {
     Type node = (Type) super.clone();
     return node;
   }
-  /** @apilevel internal 
-   * @declaredat ASTNode:36
-   */
-  public Type copy() {
-    try {
-      Type node = (Type) clone();
-      node.parent = null;
-      if (children != null) {
-        node.children = (ASTNode[]) children.clone();
-      }
-      return node;
-    } catch (CloneNotSupportedException e) {
-      throw new Error("Error: clone not supported for " + getClass().getName());
-    }
-  }
   /**
    * Create a deep copy of the AST subtree at this node.
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:55
+   * @declaredat ASTNode:42
    */
   @Deprecated
-  public Type fullCopy() {
-    return treeCopyNoTransform();
-  }
+  public abstract Type fullCopy();
   /**
    * Create a deep copy of the AST subtree at this node.
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:65
+   * @declaredat ASTNode:50
    */
-  public Type treeCopyNoTransform() {
-    Type tree = (Type) copy();
-    if (children != null) {
-      for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
-        if (child != null) {
-          child = child.treeCopyNoTransform();
-          tree.setChild(child, i);
-        }
-      }
-    }
-    return tree;
-  }
+  public abstract Type treeCopyNoTransform();
   /**
    * Create a deep copy of the AST subtree at this node.
    * The subtree of this node is traversed to trigger rewrites before copy.
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:85
+   * @declaredat ASTNode:58
    */
-  public Type treeCopy() {
-    Type tree = (Type) copy();
-    if (children != null) {
-      for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) getChild(i);
-        if (child != null) {
-          child = child.treeCopy();
-          tree.setChild(child, i);
-        }
-      }
-    }
-    return tree;
-  }
-  /** @apilevel internal 
-   * @declaredat ASTNode:99
-   */
-  protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_String == ((Type) node).tokenString_String);    
-  }
+  public abstract Type treeCopy();
   /**
    * Replaces the lexeme String.
    * @param value The new value for the lexeme String.

@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:6
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:9
  * @production Stat : {@link ASTNode};
 
  */
@@ -95,6 +95,66 @@ public abstract class Stat extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:52
    */
   public abstract Stat treeCopy();
+/** @apilevel internal */
+protected boolean expectedType_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:24
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:24")
+  public Type expectedType() {
+    if (expectedType_visited) {
+      throw new RuntimeException("Circular definition of attribute Stat.expectedType().");
+    }
+    expectedType_visited = true;
+    Type expectedType_value = intType();
+    expectedType_visited = false;
+    return expectedType_value;
+  }
+/** @apilevel internal */
+protected java.util.Set compatibleType_Type_visited;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:28
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:28")
+  public boolean compatibleType(Type t) {
+    Object _parameters = t;
+    if (compatibleType_Type_visited == null) compatibleType_Type_visited = new java.util.HashSet(4);
+    if (compatibleType_Type_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute Stat.compatibleType(Type).");
+    }
+    compatibleType_Type_visited.add(_parameters);
+    try {
+    		// System.out.println(t.getString()+" asd");
+    		return t == expectedType() || t == unknownType();
+    	}
+    finally {
+      compatibleType_Type_visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected boolean typeOk_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32")
+  public boolean typeOk() {
+    if (typeOk_visited) {
+      throw new RuntimeException("Circular definition of attribute Stat.typeOk().");
+    }
+    typeOk_visited = true;
+    boolean typeOk_value = true;
+    typeOk_visited = false;
+    return typeOk_value;
+  }
   /**
    * @attribute inh
    * @aspect NameAnalysis
@@ -117,4 +177,25 @@ public abstract class Stat extends ASTNode<ASTNode> implements Cloneable {
   }
 /** @apilevel internal */
 protected java.util.Set lookup_String_Object_visited;
+  protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:47
+    if (!typeOk()) {
+      {
+        Program target = (Program) (program());
+        java.util.Set<ASTNode> contributors = _map.get(target);
+        if (contributors == null) {
+          contributors = new java.util.LinkedHashSet<ASTNode>();
+          _map.put((ASTNode) target, contributors);
+        }
+        contributors.add(this);
+      }
+    }
+    super.collect_contributors_Program_errors(_root, _map);
+  }
+  protected void contributeTo_Program_errors(Set<ErrorMessage> collection) {
+    super.contributeTo_Program_errors(collection);
+    if (!typeOk()) {
+      collection.add(error("wrong type: "));
+    }
+  }
 }

@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:22
+ * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:25
  * @production Art : {@link Binary};
 
  */
@@ -139,5 +139,23 @@ public abstract class Art extends Binary implements Cloneable {
    */
   public Expr getRightNoTransform() {
     return (Expr) getChildNoTransform(1);
+  }
+/** @apilevel internal */
+protected boolean Type_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:18
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:18")
+  public Type Type() {
+    if (Type_visited) {
+      throw new RuntimeException("Circular definition of attribute Expr.Type().");
+    }
+    Type_visited = true;
+    Type Type_value = intType();
+    Type_visited = false;
+    return Type_value;
   }
 }

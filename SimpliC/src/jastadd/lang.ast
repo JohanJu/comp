@@ -1,7 +1,10 @@
 Program ::= Func*;
 Func ::= <ID> Args:Stat* Stats:Stat*;
 UnknownFunc : Func;
-Type ::= <String>;
+abstract Type ::= <String>;
+UnknownType : Type;
+IntType : Type;
+BoolType : Type;
 
 abstract Stat;
 IdDecl : Stat ::= <ID> [Expr];
@@ -31,5 +34,3 @@ Div : Art;
 Mod : Art;
 Add : Art;
 Sub : Art;
-
-

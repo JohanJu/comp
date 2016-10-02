@@ -56,12 +56,14 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
   public void flushAttrCache() {
     super.flushAttrCache();
     predefinedFunctions_reset();
+    unknownType_reset();
+    intType_reset();
+    boolType_reset();
     unknownDecl_reset();
     UnknownFunc_reset();
-    Type_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:30
+   * @declaredat ASTNode:32
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
@@ -72,14 +74,14 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
     contributorMap_Program_errors = null;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:41
    */
   public Program clone() throws CloneNotSupportedException {
     Program node = (Program) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:44
+   * @declaredat ASTNode:46
    */
   public Program copy() {
     try {
@@ -99,7 +101,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:63
+   * @declaredat ASTNode:65
    */
   @Deprecated
   public Program fullCopy() {
@@ -110,7 +112,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:73
+   * @declaredat ASTNode:75
    */
   public Program treeCopyNoTransform() {
     Program tree = (Program) copy();
@@ -131,7 +133,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:93
+   * @declaredat ASTNode:95
    */
   public Program treeCopy() {
     Program tree = (Program) copy();
@@ -147,7 +149,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:107
+   * @declaredat ASTNode:109
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node);    
@@ -322,6 +324,123 @@ protected boolean predefinedFunctions_visited = false;
   		return list;
   	}
 /** @apilevel internal */
+protected boolean unknownType_visited = false;
+  /** @apilevel internal */
+  private void unknownType_reset() {
+    unknownType_computed = false;
+    
+    unknownType_value = null;
+    unknownType_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean unknownType_computed = false;
+
+  /** @apilevel internal */
+  protected Type unknownType_value;
+
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:6
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:6")
+  public Type unknownType() {
+    ASTNode$State state = state();
+    if (unknownType_computed) {
+      return unknownType_value;
+    }
+    if (unknownType_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.unknownType().");
+    }
+    unknownType_visited = true;
+    state().enterLazyAttribute();
+    unknownType_value = new UnknownType("<unknown>");
+    unknownType_value.setParent(this);
+    unknownType_computed = true;
+    state().leaveLazyAttribute();
+    unknownType_visited = false;
+    return unknownType_value;
+  }
+/** @apilevel internal */
+protected boolean intType_visited = false;
+  /** @apilevel internal */
+  private void intType_reset() {
+    intType_computed = false;
+    
+    intType_value = null;
+    intType_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean intType_computed = false;
+
+  /** @apilevel internal */
+  protected Type intType_value;
+
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:10
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:10")
+  public Type intType() {
+    ASTNode$State state = state();
+    if (intType_computed) {
+      return intType_value;
+    }
+    if (intType_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.intType().");
+    }
+    intType_visited = true;
+    state().enterLazyAttribute();
+    intType_value = new IntType("<int>");
+    intType_value.setParent(this);
+    intType_computed = true;
+    state().leaveLazyAttribute();
+    intType_visited = false;
+    return intType_value;
+  }
+/** @apilevel internal */
+protected boolean boolType_visited = false;
+  /** @apilevel internal */
+  private void boolType_reset() {
+    boolType_computed = false;
+    
+    boolType_value = null;
+    boolType_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean boolType_computed = false;
+
+  /** @apilevel internal */
+  protected Type boolType_value;
+
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:14
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:14")
+  public Type boolType() {
+    ASTNode$State state = state();
+    if (boolType_computed) {
+      return boolType_value;
+    }
+    if (boolType_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.boolType().");
+    }
+    boolType_visited = true;
+    state().enterLazyAttribute();
+    boolType_value = new BoolType("<bool>");
+    boolType_value.setParent(this);
+    boolType_computed = true;
+    state().leaveLazyAttribute();
+    boolType_visited = false;
+    return boolType_value;
+  }
+/** @apilevel internal */
 protected boolean unknownDecl_visited = false;
   /** @apilevel internal */
   private void unknownDecl_reset() {
@@ -399,45 +518,6 @@ protected boolean UnknownFunc_visited = false;
     UnknownFunc_visited = false;
     return UnknownFunc_value;
   }
-/** @apilevel internal */
-protected boolean Type_visited = false;
-  /** @apilevel internal */
-  private void Type_reset() {
-    Type_computed = false;
-    
-    Type_value = null;
-    Type_visited = false;
-  }
-  /** @apilevel internal */
-  protected boolean Type_computed = false;
-
-  /** @apilevel internal */
-  protected Type Type_value;
-
-  /**
-   * @attribute syn
-   * @aspect UnknownDecl
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:18
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:18")
-  public Type Type() {
-    ASTNode$State state = state();
-    if (Type_computed) {
-      return Type_value;
-    }
-    if (Type_visited) {
-      throw new RuntimeException("Circular definition of attribute Program.Type().");
-    }
-    Type_visited = true;
-    state().enterLazyAttribute();
-    Type_value = new Type("<unknown>");
-    Type_value.setParent(this);
-    Type_computed = true;
-    state().leaveLazyAttribute();
-    Type_visited = false;
-    return Type_value;
-  }
   /**
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:28
    * @apilevel internal
@@ -486,6 +566,50 @@ protected boolean Type_visited = false;
     return true;
   }
   /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:3
+   * @apilevel internal
+   */
+  public Type Define_Type(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return unknownType();
+  }
+  protected boolean canDefine_Type(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:7
+   * @apilevel internal
+   */
+  public Type Define_unknownType(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return unknownType();
+  }
+  protected boolean canDefine_unknownType(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:11
+   * @apilevel internal
+   */
+  public Type Define_intType(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return intType();
+  }
+  protected boolean canDefine_intType(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:15
+   * @apilevel internal
+   */
+  public Type Define_boolType(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return boolType();
+  }
+  protected boolean canDefine_boolType(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:4
    * @apilevel internal
    */
@@ -505,17 +629,6 @@ protected boolean Type_visited = false;
     return UnknownFunc();
   }
   protected boolean canDefine_UnknownFunc(ASTNode _callerNode, ASTNode _childNode) {
-    return true;
-  }
-  /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:20
-   * @apilevel internal
-   */
-  public Type Define_Type(ASTNode _callerNode, ASTNode _childNode) {
-    int childIndex = this.getIndexOfChild(_callerNode);
-    return Type();
-  }
-  protected boolean canDefine_Type(ASTNode _callerNode, ASTNode _childNode) {
     return true;
   }
 /** @apilevel internal */

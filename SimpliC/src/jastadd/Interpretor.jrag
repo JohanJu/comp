@@ -1,0 +1,19 @@
+import java.util.Map;
+import java.util.HashMap;
+
+aspect Interpreter {
+	public class ActivationRecord{
+		public Map<String,Integer> m = new HashMap<String,Integer>();
+	}
+	public void Program.eval(){
+		for (int i = 0; i < getNumFunc(); ++i) {
+			if(getFunc(i).getID().equals("main")){
+				System.out.println("hello");
+			}
+		}
+	}
+	// public int Func.eval(ActivationRecord actrec);
+	// public int Stat.eval(ActivationRecord actrec);
+	// public int Expr.eval(ActivationRecord actrec);
+
+}

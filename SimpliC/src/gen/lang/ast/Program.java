@@ -6,6 +6,8 @@ import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Map;
+import java.util.HashMap;
 /**
  * @ast node
  * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:1
@@ -13,6 +15,17 @@ import java.util.TreeSet;
 
  */
 public class Program extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:8
+   */
+  public void eval(){
+		for (int i = 0; i < getNumFunc(); ++i) {
+			if(getFunc(i).getID().equals("main")){
+				System.out.println("hello");
+			}
+		}
+	}
   /**
    * @aspect Visitor
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Visitor.jrag:29

@@ -16,6 +16,22 @@ import java.util.HashMap;
  */
 public class Func extends ASTNode<ASTNode> implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:22
+   */
+  public int eval(ActivationRecord actrec){
+		System.out.println("Call: "+getID());
+		for (int i = 0; i < getNumStats(); ++i) {
+			int r = getStats(i).eval(actrec);
+			if(getStats(i) instanceof Ret){
+				System.out.println("Ret: "+r);
+				return r;
+			}
+		}
+
+		return 0;
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:19
    */

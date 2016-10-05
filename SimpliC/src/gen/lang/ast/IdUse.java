@@ -16,6 +16,13 @@ import java.util.HashMap;
  */
 public class IdUse extends Expr implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:141
+   */
+  public int eval(ActivationRecord actrec){
+		return actrec.m.get(getID());
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:161
    */

@@ -25,6 +25,7 @@ public class Interpreter {
 				System.out.println(m);
 				System.exit(1);
 			}
+			program.eval();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		

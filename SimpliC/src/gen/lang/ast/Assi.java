@@ -16,6 +16,17 @@ import java.util.HashMap;
  */
 public class Assi extends Stat implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:44
+   */
+  public int eval(ActivationRecord actrec){
+
+		int i = getExpr().eval(actrec);
+		actrec.m.put(getIdUse().getID(),i);
+		System.out.println("A: "+getIdUse().getID()+" = "+i);
+		return i;
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:72
    */

@@ -16,6 +16,27 @@ import java.util.HashMap;
  */
 public class If extends Stat implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:51
+   */
+  public int eval(ActivationRecord actrec){
+		int i = getExpr().eval(actrec);
+		if(i==1){
+			ActivationRecord a = new ActivationRecord(actrec.m);
+			for (i = 0; i < getNumStat(); ++i) {
+				int r = getStat(i).eval(actrec);
+				if(getStat(i) instanceof Ret){
+					System.out.println("Ret: "+r);
+					return r;
+				}
+			}
+		}if(hasElse()){
+			ActivationRecord a = new ActivationRecord(actrec.m);
+			getElse().eval(a);
+		}
+		return 0;
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:44
    */

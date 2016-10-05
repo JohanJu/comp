@@ -16,6 +16,13 @@ import java.util.HashMap;
  */
 public class NeExp extends Bool implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:100
+   */
+  public int eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)!=getRight().eval(actrec)?1:0;
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:83
    */

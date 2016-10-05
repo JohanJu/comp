@@ -16,6 +16,18 @@ import java.util.HashMap;
  */
 public class Fcall extends Expr implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:130
+   */
+  public int eval(ActivationRecord actrec){
+		ActivationRecord a = new ActivationRecord();
+		Func f = decl();
+		for (int i = 0; i < f.getNumArgs(); ++i) {
+			a.m.put(((IdDecl)f.getArgs(i)).getID(),getExpr(i).eval(actrec));
+		}
+		return f.eval(a);
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:139
    */

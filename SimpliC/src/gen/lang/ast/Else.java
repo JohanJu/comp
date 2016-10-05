@@ -16,6 +16,20 @@ import java.util.HashMap;
  */
 public class Else extends Stat implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:68
+   */
+  public int eval(ActivationRecord actrec){
+		for (int i = 0; i < getNumStat(); ++i) {
+				int r = getStat(i).eval(actrec);
+				if(getStat(i) instanceof Ret){
+					System.out.println("Ret: "+r);
+					return r;
+				}
+			}
+		return 0;
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:57
    */

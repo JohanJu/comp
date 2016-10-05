@@ -17,12 +17,13 @@ import java.util.HashMap;
 public class Program extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:8
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:14
    */
   public void eval(){
+		ActivationRecord a = new ActivationRecord();
 		for (int i = 0; i < getNumFunc(); ++i) {
 			if(getFunc(i).getID().equals("main")){
-				System.out.println("hello");
+				getFunc(i).eval(a);
 			}
 		}
 	}

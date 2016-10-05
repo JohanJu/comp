@@ -16,6 +16,13 @@ import java.util.HashMap;
  */
 public class Num extends Expr implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:138
+   */
+  public int eval(ActivationRecord actrec){
+		return Integer.parseInt(getNUM());
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:157
    */

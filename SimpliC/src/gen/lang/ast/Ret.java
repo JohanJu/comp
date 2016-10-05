@@ -16,6 +16,13 @@ import java.util.HashMap;
  */
 public class Ret extends Stat implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:93
+   */
+  public int eval(ActivationRecord actrec){
+		return getExpr().eval(actrec);
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:151
    */

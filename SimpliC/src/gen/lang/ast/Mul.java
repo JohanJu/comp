@@ -16,6 +16,13 @@ import java.util.HashMap;
  */
 public class Mul extends Art implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:115
+   */
+  public int eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)*getRight().eval(actrec);
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:112
    */

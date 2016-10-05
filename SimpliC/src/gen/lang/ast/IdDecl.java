@@ -16,6 +16,19 @@ import java.util.HashMap;
  */
 public class IdDecl extends Stat implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:35
+   */
+  public int eval(ActivationRecord actrec){
+		int i = 0;
+		if (hasExpr()) {
+			i = getExpr().eval(actrec);
+		}
+		actrec.m.put(getID(),i);
+		System.out.println("D: "+getID()+" = "+i);
+		return 0;
+	}
+  /**
    * @aspect PrettyPrint
    * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:65
    */

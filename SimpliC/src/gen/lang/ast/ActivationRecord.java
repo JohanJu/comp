@@ -15,7 +15,17 @@ import java.util.HashMap;
  */
 public class ActivationRecord extends java.lang.Object {
   
-		public Map<String,Integer> m = new HashMap<String,Integer>();
+		public Map<String,Integer> m;
+
+  
+		public ActivationRecord(){
+			m = new HashMap<String,Integer>();
+		}
+
+  
+		public ActivationRecord(Map<String,Integer> map){
+			m = new HashMap<String,Integer>(map);
+		}
 
 
 }

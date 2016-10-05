@@ -3,17 +3,144 @@ import java.util.HashMap;
 
 aspect Interpreter {
 	public class ActivationRecord{
-		public Map<String,Integer> m = new HashMap<String,Integer>();
+		public Map<String,Integer> m;
+		public ActivationRecord(){
+			m = new HashMap<String,Integer>();
+		}
+		public ActivationRecord(Map<String,Integer> map){
+			m = new HashMap<String,Integer>(map);
+		}
 	}
 	public void Program.eval(){
+		ActivationRecord a = new ActivationRecord();
 		for (int i = 0; i < getNumFunc(); ++i) {
 			if(getFunc(i).getID().equals("main")){
-				System.out.println("hello");
+				getFunc(i).eval(a);
 			}
 		}
 	}
-	// public int Func.eval(ActivationRecord actrec);
-	// public int Stat.eval(ActivationRecord actrec);
-	// public int Expr.eval(ActivationRecord actrec);
+	public int Func.eval(ActivationRecord actrec){
+		System.out.println("Call: "+getID());
+		for (int i = 0; i < getNumStats(); ++i) {
+			int r = getStats(i).eval(actrec);
+			if(getStats(i) instanceof Ret){
+				System.out.println("Ret: "+r);
+				return r;
+			}
+		}
+
+		return 0;
+	}
+	public abstract int Stat.eval(ActivationRecord actrec);
+	public int IdDecl.eval(ActivationRecord actrec){
+		int i = 0;
+		if (hasExpr()) {
+			i = getExpr().eval(actrec);
+		}
+		actrec.m.put(getID(),i);
+		System.out.println("D: "+getID()+" = "+i);
+		return 0;
+	}
+	public int Assi.eval(ActivationRecord actrec){
+
+		int i = getExpr().eval(actrec);
+		actrec.m.put(getIdUse().getID(),i);
+		System.out.println("A: "+getIdUse().getID()+" = "+i);
+		return i;
+	}
+	public int If.eval(ActivationRecord actrec){
+		int i = getExpr().eval(actrec);
+		if(i==1){
+			ActivationRecord a = new ActivationRecord(actrec.m);
+			for (i = 0; i < getNumStat(); ++i) {
+				int r = getStat(i).eval(actrec);
+				if(getStat(i) instanceof Ret){
+					System.out.println("Ret: "+r);
+					return r;
+				}
+			}
+		}if(hasElse()){
+			ActivationRecord a = new ActivationRecord(actrec.m);
+			getElse().eval(a);
+		}
+		return 0;
+	}
+	public int Else.eval(ActivationRecord actrec){
+		for (int i = 0; i < getNumStat(); ++i) {
+				int r = getStat(i).eval(actrec);
+				if(getStat(i) instanceof Ret){
+					System.out.println("Ret: "+r);
+					return r;
+				}
+			}
+		return 0;
+	}
+	public int While.eval(ActivationRecord actrec){
+		int i = getExpr().eval(actrec);
+		while(i==1){
+			ActivationRecord a = new ActivationRecord(actrec.m);
+			for (i = 0; i < getNumStat(); ++i) {
+				int r = getStat(i).eval(actrec);
+				if(getStat(i) instanceof Ret){
+					System.out.println("Ret: "+r);
+					return r;
+				}
+			}
+			i = getExpr().eval(actrec);
+		}
+		return 0;
+	}
+	public int Ret.eval(ActivationRecord actrec){
+		return getExpr().eval(actrec);
+	}
+	public abstract int Expr.eval(ActivationRecord actrec);
+	public int EqExp.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)==getRight().eval(actrec)?1:0;
+	}
+	public int NeExp.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)!=getRight().eval(actrec)?1:0;
+	}
+	public int GtExp.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)>getRight().eval(actrec)?1:0;
+	}
+	public int LtExp.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)<getRight().eval(actrec)?1:0;
+	}
+	public int LeExp.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)<=getRight().eval(actrec)?1:0;
+	}
+	public int GeExp.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)>=getRight().eval(actrec)?1:0;
+	}
+	public int Mul.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)*getRight().eval(actrec);
+	}
+	public int Div.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)/getRight().eval(actrec);
+	}
+	public int Mod.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)%getRight().eval(actrec);
+	}
+	public int Add.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)+getRight().eval(actrec);
+	}
+	public int Sub.eval(ActivationRecord actrec){
+		return getLeft().eval(actrec)-getRight().eval(actrec);
+	}
+	public int Fcall.eval(ActivationRecord actrec){
+		ActivationRecord a = new ActivationRecord();
+		Func f = decl();
+		for (int i = 0; i < f.getNumArgs(); ++i) {
+			a.m.put(((IdDecl)f.getArgs(i)).getID(),getExpr(i).eval(actrec));
+		}
+		return f.eval(a);
+	}
+	public int Num.eval(ActivationRecord actrec){
+		return Integer.parseInt(getNUM());
+	}
+	public int IdUse.eval(ActivationRecord actrec){
+		return actrec.m.get(getID());
+	}
+
 
 }

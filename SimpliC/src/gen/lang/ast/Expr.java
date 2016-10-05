@@ -16,6 +16,11 @@ import java.util.HashMap;
  */
 public abstract class Expr extends Stat implements Cloneable {
   /**
+   * @aspect Interpreter
+   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:96
+   */
+  public abstract int eval(ActivationRecord actrec);
+  /**
    * @declaredat ASTNode:1
    */
   public Expr() {

@@ -8,37 +8,64 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:13
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:13
  * @production If : {@link Stat} ::= <span class="component">{@link Expr}</span> <span class="component">{@link Stat}*</span> <span class="component">[{@link Else}]</span>;
 
  */
 public class If extends Stat implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:174
+   */
+  public void genEval(PrintStream out)
+	{
+		// out.println("        1 ");
+		getExpr().genEval(out);
+		// out.println("        2 ");
+
+		for (int i = 0; i < getNumStat(); ++i) {
+
+			getStat(i).genEval(out);
+		}
+		out.println("        jmp "+flable()+"fi");
+		
+		out.println(flable()+"else:");
+		if (hasElse()) {
+			getElse().genEval(out);
+		}
+	    out.println(flable()+"fi:");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:51
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:55
    */
   public int eval(ActivationRecord actrec){
-		int i = getExpr().eval(actrec);
-		if(i==1){
-			ActivationRecord a = new ActivationRecord(actrec.m);
-			for (i = 0; i < getNumStat(); ++i) {
+		int j = getExpr().eval(actrec);
+		if(j==1){
+			// ActivationRecord a = new ActivationRecord(actrec.m);
+			for (int i = 0; i < getNumStat(); ++i) {
+				if(actrec.m.containsKey("ret")){
+					return actrec.m.get("ret");
+				}
 				int r = getStat(i).eval(actrec);
 				if(getStat(i) instanceof Ret){
-					System.out.println("Ret: "+r);
+					actrec.m.put("ret",r);
+					// System.out.println("Ret: "+r);
 					return r;
 				}
 			}
-		}if(hasElse()){
+		}if(j == 0&&hasElse()){
 			ActivationRecord a = new ActivationRecord(actrec.m);
-			getElse().eval(a);
+			getElse().eval(actrec);
 		}
 		return 0;
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:44
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:44
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind+"if" + "(");
@@ -55,7 +82,7 @@ public class If extends Stat implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Visitor.jrag:41
+   * @declaredat /home/john/SimpliC/src/jastadd/Visitor.jrag:41
    */
   public Object accept(Visitor visitor, Object data)
     {
@@ -378,10 +405,10 @@ protected java.util.Set localLookup_String_Object_visited;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:28
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:28
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:28")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:28")
   public IdDecl localLookup(String name, Object o) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(name);
@@ -411,10 +438,10 @@ protected boolean expectedType_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:24
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:27
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:24")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:27")
   public Type expectedType() {
     if (expectedType_visited) {
       throw new RuntimeException("Circular definition of attribute Stat.expectedType().");
@@ -429,10 +456,10 @@ protected boolean typeOk_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:35
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:35")
   public boolean typeOk() {
     if (typeOk_visited) {
       throw new RuntimeException("Circular definition of attribute Stat.typeOk().");
@@ -443,12 +470,45 @@ protected boolean typeOk_visited = false;
     return typeOk_value;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:126
+   * @apilevel internal
+   */
+  public String Define_flable(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getStatListNoTransform()) {
+      // @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:129
+      int index = _callerNode.getIndexOfChild(_childNode);
+      return flable()+""+index;
+    }
+    else {
+      return getParent().Define_flable(this, _callerNode);
+    }
+  }
+  protected boolean canDefine_flable(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:125
+   * @apilevel internal
+   */
+  public String Define_lable(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getExprNoTransform()) {
+      // @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:130
+      return flable()+"else";
+    }
+    else {
+      return getParent().Define_lable(this, _callerNode);
+    }
+  }
+  protected boolean canDefine_lable(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:3
    * @apilevel internal
    */
   public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
     if (_callerNode == getStatListNoTransform()) {
-      // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:7
+      // @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:7
       int childIndex = _callerNode.getIndexOfChild(_childNode);
       {
       		IdDecl decl = localLookup(name, o);

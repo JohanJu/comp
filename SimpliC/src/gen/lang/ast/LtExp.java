@@ -8,23 +8,24 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:29
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:29
  * @production LtExp : {@link Bool};
 
  */
 public class LtExp extends Bool implements Cloneable {
   /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:106
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:122
    */
   public int eval(ActivationRecord actrec){
 		return getLeft().eval(actrec)<getRight().eval(actrec)?1:0;
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:95
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:95
    */
   public void prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);

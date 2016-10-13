@@ -8,23 +8,57 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:2
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:2
  * @production Func : {@link ASTNode} ::= <span class="component">&lt;ID:String&gt;</span> <span class="component">Args:{@link Stat}*</span> <span class="component">Stats:{@link Stat}*</span>;
 
  */
 public class Func extends ASTNode<ASTNode> implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:134
+   */
+  public void genEval(PrintStream out)
+	{
+		out.println(getID()+":");
+		out.println("        pushq %rbp");
+		
+		out.println("        movq %rsp, %rbp");
+		
+
+		for (int i = 0; i < getNumArgs(); ++i)
+	    {	
+	        ((IdDecl)getArgs(i)).address = "" + ((i+2)*8)+"(%rbp)";
+	    }
+
+		int j = 1;
+	    for (int i = 0; i < getNumStats(); ++i)
+	    {	
+	    	if(getStats(i) instanceof IdDecl){
+	    		((IdDecl)getStats(i)).address = "-"+(j*8)+"(%rbp)";
+	    		j++;
+	    	}
+	        getStats(i).genEval(out);
+	    }
+	    out.println("        movq %rbp, %rsp");
+		out.println("        popq %rbp");
+		out.println("        ret");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:22
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:23
    */
   public int eval(ActivationRecord actrec){
-		System.out.println("Call: "+getID());
+		// System.out.println("Call: "+getID());
 		for (int i = 0; i < getNumStats(); ++i) {
+			if(actrec.m.containsKey("ret")){
+					return actrec.m.get("ret");
+				}
 			int r = getStats(i).eval(actrec);
 			if(getStats(i) instanceof Ret){
-				System.out.println("Ret: "+r);
+				// System.out.println("Ret: "+r);
 				return r;
 			}
 		}
@@ -33,7 +67,7 @@ public class Func extends ASTNode<ASTNode> implements Cloneable {
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:19
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:19
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print("int " + getID() + "(");
@@ -52,7 +86,7 @@ public class Func extends ASTNode<ASTNode> implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Visitor.jrag:33
+   * @declaredat /home/john/SimpliC/src/jastadd/Visitor.jrag:33
    */
   public Object accept(Visitor visitor, Object data)
     {
@@ -454,10 +488,10 @@ protected java.util.Set localLookup_String_Object_visited;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:61
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:61
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:61")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:61")
   public IdDecl localLookup(String name, Object o) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(name);
@@ -492,10 +526,10 @@ protected boolean isUnknown_visited = false;
   /**
    * @attribute syn
    * @aspect UnknownDecl
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:15
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:15
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:15")
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/home/john/SimpliC/src/jastadd/UnknownDecl.jrag:15")
   public boolean isUnknown() {
     if (isUnknown_visited) {
       throw new RuntimeException("Circular definition of attribute Func.isUnknown().");
@@ -506,12 +540,29 @@ protected boolean isUnknown_visited = false;
     return isUnknown_value;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:126
+   * @apilevel internal
+   */
+  public String Define_flable(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getStatsListNoTransform()) {
+      // @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:128
+      int index = _callerNode.getIndexOfChild(_childNode);
+      return getID()+""+index;
+    }
+    else {
+      return getParent().Define_flable(this, _callerNode);
+    }
+  }
+  protected boolean canDefine_flable(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:3
    * @apilevel internal
    */
   public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
     if (_callerNode == getArgsListNoTransform()) {
-      // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:23
+      // @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:23
       int childIndex = _callerNode.getIndexOfChild(_childNode);
       {
       		IdDecl decl = localLookup(name, o);
@@ -519,7 +570,7 @@ protected boolean isUnknown_visited = false;
       	}
     }
     else if (_callerNode == getStatsListNoTransform()) {
-      // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:19
+      // @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:19
       int childIndex = _callerNode.getIndexOfChild(_childNode);
       {
       		IdDecl decl = localLookup(name, o);

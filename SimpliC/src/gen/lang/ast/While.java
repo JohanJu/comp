@@ -8,25 +8,46 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:15
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:15
  * @production While : {@link Stat} ::= <span class="component">{@link Expr}</span> <span class="component">{@link Stat}*</span>;
 
  */
 public class While extends Stat implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:164
+   */
+  public void genEval(PrintStream out)
+	{
+		out.println("while:");
+		getExpr().genEval(out);
+		for (int i = 0; i < getNumStat(); ++i) {
+			getStat(i).genEval(out);
+		}
+		out.println("        jmp while");
+	    out.println(flable()+"end:");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:78
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:87
    */
   public int eval(ActivationRecord actrec){
 		int i = getExpr().eval(actrec);
 		while(i==1){
+			try{
+				Thread.sleep(100);
+			} catch (Exception e){
+				;
+			}
 			ActivationRecord a = new ActivationRecord(actrec.m);
 			for (i = 0; i < getNumStat(); ++i) {
 				int r = getStat(i).eval(actrec);
 				if(getStat(i) instanceof Ret){
-					System.out.println("Ret: "+r);
+					// System.out.println("Ret: "+r);
+					actrec.m.put("ret",r);
 					return r;
 				}
 			}
@@ -36,7 +57,7 @@ public class While extends Stat implements Cloneable {
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:34
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:34
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print("while" + "(");
@@ -50,7 +71,7 @@ public class While extends Stat implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Visitor.jrag:45
+   * @declaredat /home/john/SimpliC/src/jastadd/Visitor.jrag:45
    */
   public Object accept(Visitor visitor, Object data)
     {
@@ -320,10 +341,10 @@ protected java.util.Set localLookup_String_Object_visited;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:50
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:50
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:50")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:50")
   public IdDecl localLookup(String name, Object o) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(name);
@@ -353,10 +374,10 @@ protected boolean expectedType_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:24
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:27
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:24")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:27")
   public Type expectedType() {
     if (expectedType_visited) {
       throw new RuntimeException("Circular definition of attribute Stat.expectedType().");
@@ -371,10 +392,10 @@ protected boolean typeOk_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:35
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:35")
   public boolean typeOk() {
     if (typeOk_visited) {
       throw new RuntimeException("Circular definition of attribute Stat.typeOk().");
@@ -385,12 +406,28 @@ protected boolean typeOk_visited = false;
     return typeOk_value;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:125
+   * @apilevel internal
+   */
+  public String Define_lable(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getExprNoTransform()) {
+      // @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:131
+      return flable()+"end";
+    }
+    else {
+      return getParent().Define_lable(this, _callerNode);
+    }
+  }
+  protected boolean canDefine_lable(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:3
    * @apilevel internal
    */
   public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
     if (_callerNode == getStatListNoTransform()) {
-      // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:15
+      // @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:15
       int childIndex = _callerNode.getIndexOfChild(_childNode);
       {
       		IdDecl decl = localLookup(name, o);

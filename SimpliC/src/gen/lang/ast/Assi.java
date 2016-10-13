@@ -8,27 +8,37 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:12
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:12
  * @production Assi : {@link Stat} ::= <span class="component">{@link IdUse}</span> <span class="component">{@link Expr}</span>;
 
  */
 public class Assi extends Stat implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:219
+   */
+  public void genEval(PrintStream out)
+	{
+		getExpr().genEval(out);
+	    out.println("        movq %rax, "+getIdUse().decl().address);
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:44
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:48
    */
   public int eval(ActivationRecord actrec){
 
 		int i = getExpr().eval(actrec);
 		actrec.m.put(getIdUse().getID(),i);
-		System.out.println("A: "+getIdUse().getID()+" = "+i);
+		// System.out.println("A: "+getIdUse().getID()+" = "+i);
 		return i;
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:72
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:72
    */
   public void prettyPrint(PrintStream out, String ind) {
 		getIdUse().prettyPrint(out, ind);
@@ -210,12 +220,12 @@ public class Assi extends Stat implements Cloneable {
     return (Expr) getChildNoTransform(1);
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:3
    * @apilevel internal
    */
   public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
     if (_callerNode == getExprNoTransform()) {
-      // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:79
+      // @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:79
       return lookup(name, this);
     }
     else {

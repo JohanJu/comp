@@ -8,23 +8,36 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:35
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:35
  * @production Add : {@link Art};
 
  */
 public class Add extends Art implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:273
+   */
+  public void genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        addq %rbx, %rax");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:124
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:140
    */
   public int eval(ActivationRecord actrec){
 		return getLeft().eval(actrec)+getRight().eval(actrec);
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:128
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:128
    */
   public void prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);

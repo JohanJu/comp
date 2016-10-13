@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
  * @production List : {@link ASTNode};
@@ -16,7 +17,7 @@ import java.util.HashMap;
 public class List<T extends ASTNode> extends ASTNode<T> implements Cloneable, Iterable<T> {
   /**
    * @aspect Visitor
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Visitor.jrag:17
+   * @declaredat /home/john/SimpliC/src/jastadd/Visitor.jrag:17
    */
   public Object accept(Visitor visitor, Object data)
     {

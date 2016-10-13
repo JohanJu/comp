@@ -1,0 +1,25 @@
+Program
+  List
+    Func ID="main"
+      List
+      List
+        IdDecl ID="a"
+          Opt
+            Num NUM="5"
+        If
+          GtExp
+            IdUse ID="a"
+            Num NUM="1"
+          List
+            If
+              LtExp
+                IdUse ID="a"
+                Num NUM="10"
+              List
+                Assi
+                  IdUse ID="a"
+                  Num NUM="2"
+              Opt
+          Opt
+        Ret
+          Num NUM="0"

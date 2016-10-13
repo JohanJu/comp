@@ -8,23 +8,35 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:16
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:16
  * @production Ret : {@link Stat} ::= <span class="component">{@link Expr}</span>;
 
  */
 public class Ret extends Stat implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:228
+   */
+  public void genEval(PrintStream out)
+	{
+		getExpr().genEval(out);
+		out.println("        movq %rbp, %rsp");
+		out.println("        popq %rbp");
+		out.println("        ret");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:93
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:108
    */
   public int eval(ActivationRecord actrec){
 		return getExpr().eval(actrec);
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:151
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:151
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind+"return ");
@@ -182,10 +194,10 @@ protected boolean typeOk_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:35
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:32")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:35")
   public boolean typeOk() {
     if (typeOk_visited) {
       throw new RuntimeException("Circular definition of attribute Stat.typeOk().");
@@ -196,12 +208,12 @@ protected boolean typeOk_visited = false;
     return typeOk_value;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:3
    * @apilevel internal
    */
   public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
     if (_callerNode == getExprNoTransform()) {
-      // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:78
+      // @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:78
       return lookup(name, this);
     }
     else {

@@ -19,6 +19,9 @@ aspect Type {
 	
 	eq Bool.Type() = boolType();
 	eq Art.Type() = intType();
+	eq Num.Type() = intType();
+	eq Fcall.Type() = intType();
+	eq IdUse.Type() = intType();
 	syn Type IdDecl.Type() = intType();
 	
 	syn Type Stat.expectedType() = intType();

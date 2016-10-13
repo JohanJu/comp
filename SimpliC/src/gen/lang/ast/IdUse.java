@@ -8,23 +8,31 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:21
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:21
  * @production IdUse : {@link Expr} ::= <span class="component">&lt;ID:String&gt;</span>;
 
  */
 public class IdUse extends Expr implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:236
+   */
+  public void genEval(PrintStream out) {
+		out.println("        movq " + decl().address + ", %rax");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:141
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:170
    */
   public int eval(ActivationRecord actrec){
 		return actrec.m.get(getID());
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:161
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:161
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind+getID());
@@ -198,10 +206,10 @@ protected boolean decl_visited = false;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:2
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:2
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:2")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:2")
   public IdDecl decl() {
     if (decl_visited) {
       throw new RuntimeException("Circular definition of attribute IdUse.decl().");
@@ -211,13 +219,31 @@ protected boolean decl_visited = false;
     decl_visited = false;
     return decl_value;
   }
+/** @apilevel internal */
+protected boolean Type_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:18
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:18")
+  public Type Type() {
+    if (Type_visited) {
+      throw new RuntimeException("Circular definition of attribute Expr.Type().");
+    }
+    Type_visited = true;
+    Type Type_value = intType();
+    Type_visited = false;
+    return Type_value;
+  }
   /**
    * @attribute inh
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:3
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:3")
   public IdDecl lookup(String name, Object o) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(name);
@@ -234,7 +260,7 @@ protected boolean decl_visited = false;
 /** @apilevel internal */
 protected java.util.Set lookup_String_Object_visited;
   protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
-    // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:39
+    // @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:39
     if (decl().isUnknown()) {
       {
         Program target = (Program) (program());

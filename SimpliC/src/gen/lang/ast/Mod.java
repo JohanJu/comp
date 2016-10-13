@@ -8,23 +8,38 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:34
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:34
  * @production Mod : {@link Art};
 
  */
 public class Mod extends Art implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:308
+   */
+  public void genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        movq $0, %rdx");// NB: clear RDX to prepare division RDX:RAX / RBX
+		out.println("        idivq %rbx");
+		out.println("        movq %rdx, %rax");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:121
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:137
    */
   public int eval(ActivationRecord actrec){
 		return getLeft().eval(actrec)%getRight().eval(actrec);
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:122
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:122
    */
   public void prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);

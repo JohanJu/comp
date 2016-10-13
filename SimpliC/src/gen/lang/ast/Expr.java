@@ -8,16 +8,17 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:18
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:18
  * @production Expr : {@link Stat};
 
  */
 public abstract class Expr extends Stat implements Cloneable {
   /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:96
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:111
    */
   public abstract int eval(ActivationRecord actrec);
   /**
@@ -92,10 +93,10 @@ protected boolean Type_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:18
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:18
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:18")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:18")
   public Type Type() {
     if (Type_visited) {
       throw new RuntimeException("Circular definition of attribute Expr.Type().");

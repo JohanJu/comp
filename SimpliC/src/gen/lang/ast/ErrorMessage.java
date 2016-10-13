@@ -8,10 +8,11 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast class
  * @aspect Errors
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:5
+ * @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:5
  */
 public class ErrorMessage extends java.lang.Object implements Comparable<ErrorMessage> {
   

@@ -8,22 +8,34 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:14
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:14
  * @production Else : {@link Stat} ::= <span class="component">{@link Stat}*</span>;
 
  */
 public class Else extends Stat implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:192
+   */
+  public void genEval(PrintStream out)
+	{		
+		for (int i = 0; i < getNumStat(); ++i) {
+			getStat(i).genEval(out);
+		}
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:68
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:76
    */
   public int eval(ActivationRecord actrec){
 		for (int i = 0; i < getNumStat(); ++i) {
 				int r = getStat(i).eval(actrec);
 				if(getStat(i) instanceof Ret){
-					System.out.println("Ret: "+r);
+					actrec.m.put("ret",r);
+					// System.out.println("Ret: "+r);
 					return r;
 				}
 			}
@@ -31,7 +43,7 @@ public class Else extends Stat implements Cloneable {
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:57
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:57
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.println(ind+"else {");
@@ -278,10 +290,10 @@ protected java.util.Set localLookup_String_Object_visited;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:39
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:39
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:39")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:39")
   public IdDecl localLookup(String name, Object o) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(name);
@@ -307,12 +319,12 @@ protected java.util.Set localLookup_String_Object_visited;
     }
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:3
    * @apilevel internal
    */
   public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
     if (_callerNode == getStatListNoTransform()) {
-      // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:11
+      // @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:11
       int childIndex = _callerNode.getIndexOfChild(_childNode);
       {
       		IdDecl decl = localLookup(name, o);

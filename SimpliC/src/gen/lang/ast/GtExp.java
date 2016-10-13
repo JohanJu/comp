@@ -8,23 +8,38 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:28
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:28
  * @production GtExp : {@link Bool};
 
  */
 public class GtExp extends Bool implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:264
+   */
+  public void genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        cmpq %rbx, %rax");
+		out.println("        jle "+lable());
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:103
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:118
    */
   public int eval(ActivationRecord actrec){
+		// System.out.println("GtExp: "+(getLeft().eval(actrec)>getRight().eval(actrec)));
 		return getLeft().eval(actrec)>getRight().eval(actrec)?1:0;
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:89
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:89
    */
   public void prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);

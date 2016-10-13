@@ -1,5 +1,6 @@
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 
 aspect Interpreter {
 	public class ActivationRecord{
@@ -20,11 +21,14 @@ aspect Interpreter {
 		}
 	}
 	public int Func.eval(ActivationRecord actrec){
-		System.out.println("Call: "+getID());
+		// System.out.println("Call: "+getID());
 		for (int i = 0; i < getNumStats(); ++i) {
+			if(actrec.m.containsKey("ret")){
+					return actrec.m.get("ret");
+				}
 			int r = getStats(i).eval(actrec);
 			if(getStats(i) instanceof Ret){
-				System.out.println("Ret: "+r);
+				// System.out.println("Ret: "+r);
 				return r;
 			}
 		}
@@ -38,30 +42,34 @@ aspect Interpreter {
 			i = getExpr().eval(actrec);
 		}
 		actrec.m.put(getID(),i);
-		System.out.println("D: "+getID()+" = "+i);
+		// System.out.println("D: "+getID()+" = "+i);
 		return 0;
 	}
 	public int Assi.eval(ActivationRecord actrec){
 
 		int i = getExpr().eval(actrec);
 		actrec.m.put(getIdUse().getID(),i);
-		System.out.println("A: "+getIdUse().getID()+" = "+i);
+		// System.out.println("A: "+getIdUse().getID()+" = "+i);
 		return i;
 	}
 	public int If.eval(ActivationRecord actrec){
-		int i = getExpr().eval(actrec);
-		if(i==1){
-			ActivationRecord a = new ActivationRecord(actrec.m);
-			for (i = 0; i < getNumStat(); ++i) {
+		int j = getExpr().eval(actrec);
+		if(j==1){
+			// ActivationRecord a = new ActivationRecord(actrec.m);
+			for (int i = 0; i < getNumStat(); ++i) {
+				if(actrec.m.containsKey("ret")){
+					return actrec.m.get("ret");
+				}
 				int r = getStat(i).eval(actrec);
 				if(getStat(i) instanceof Ret){
-					System.out.println("Ret: "+r);
+					actrec.m.put("ret",r);
+					// System.out.println("Ret: "+r);
 					return r;
 				}
 			}
-		}if(hasElse()){
+		}if(j == 0&&hasElse()){
 			ActivationRecord a = new ActivationRecord(actrec.m);
-			getElse().eval(a);
+			getElse().eval(actrec);
 		}
 		return 0;
 	}
@@ -69,7 +77,8 @@ aspect Interpreter {
 		for (int i = 0; i < getNumStat(); ++i) {
 				int r = getStat(i).eval(actrec);
 				if(getStat(i) instanceof Ret){
-					System.out.println("Ret: "+r);
+					actrec.m.put("ret",r);
+					// System.out.println("Ret: "+r);
 					return r;
 				}
 			}
@@ -78,11 +87,17 @@ aspect Interpreter {
 	public int While.eval(ActivationRecord actrec){
 		int i = getExpr().eval(actrec);
 		while(i==1){
+			try{
+				Thread.sleep(100);
+			} catch (Exception e){
+				;
+			}
 			ActivationRecord a = new ActivationRecord(actrec.m);
 			for (i = 0; i < getNumStat(); ++i) {
 				int r = getStat(i).eval(actrec);
 				if(getStat(i) instanceof Ret){
-					System.out.println("Ret: "+r);
+					// System.out.println("Ret: "+r);
+					actrec.m.put("ret",r);
 					return r;
 				}
 			}
@@ -101,6 +116,7 @@ aspect Interpreter {
 		return getLeft().eval(actrec)!=getRight().eval(actrec)?1:0;
 	}
 	public int GtExp.eval(ActivationRecord actrec){
+		// System.out.println("GtExp: "+(getLeft().eval(actrec)>getRight().eval(actrec)));
 		return getLeft().eval(actrec)>getRight().eval(actrec)?1:0;
 	}
 	public int LtExp.eval(ActivationRecord actrec){
@@ -128,11 +144,24 @@ aspect Interpreter {
 		return getLeft().eval(actrec)-getRight().eval(actrec);
 	}
 	public int Fcall.eval(ActivationRecord actrec){
+		if(getID().equals("print")){
+			System.out.println("print: "+getExpr(0).eval(actrec));
+			return 0;
+		}
+		if(getID().equals("read")){
+			System.out.println("input: ");
+			Scanner in = new Scanner(System.in);
+			int num = in.nextInt();
+			return num;
+		}
 		ActivationRecord a = new ActivationRecord();
 		Func f = decl();
 		for (int i = 0; i < f.getNumArgs(); ++i) {
+			// System.out.print(": "+getExpr(i).eval(actrec));
 			a.m.put(((IdDecl)f.getArgs(i)).getID(),getExpr(i).eval(actrec));
 		}
+		// System.out.println();
+
 		return f.eval(a);
 	}
 	public int Num.eval(ActivationRecord actrec){

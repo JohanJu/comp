@@ -8,16 +8,37 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:10
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:10
  * @production IdDecl : {@link Stat} ::= <span class="component">&lt;ID:String&gt;</span> <span class="component">[{@link Expr}]</span>;
 
  */
 public class IdDecl extends Stat implements Cloneable {
   /**
+   * Generate code to evaluate the expression and
+   * store the result in RAX.
+   * 
+   * This must be implemented for every subclass of Expr!
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:121
+   */
+  String address = "";
+  /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:239
+   */
+  public void genEval(PrintStream out) {
+		out.println("        pushq %rcx");
+		if (hasExpr()) {
+			getExpr().genEval(out);
+		}
+		out.println("        movq %rax, "+address);
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:35
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:39
    */
   public int eval(ActivationRecord actrec){
 		int i = 0;
@@ -25,12 +46,12 @@ public class IdDecl extends Stat implements Cloneable {
 			i = getExpr().eval(actrec);
 		}
 		actrec.m.put(getID(),i);
-		System.out.println("D: "+getID()+" = "+i);
+		// System.out.println("D: "+getID()+" = "+i);
 		return 0;
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:65
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:65
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind+"int "+getID());
@@ -263,10 +284,10 @@ protected boolean isMultiplyDeclared_visited = false;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:108
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:108
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:108")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:108")
   public boolean isMultiplyDeclared() {
     if (isMultiplyDeclared_visited) {
       throw new RuntimeException("Circular definition of attribute IdDecl.isMultiplyDeclared().");
@@ -281,10 +302,10 @@ protected boolean Type_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:22
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:25
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:22")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:25")
   public Type Type() {
     if (Type_visited) {
       throw new RuntimeException("Circular definition of attribute IdDecl.Type().");
@@ -299,10 +320,10 @@ protected boolean isUnknown_visited = false;
   /**
    * @attribute syn
    * @aspect UnknownDecl
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:7
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:7
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:7")
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/home/john/SimpliC/src/jastadd/UnknownDecl.jrag:7")
   public boolean isUnknown() {
     if (isUnknown_visited) {
       throw new RuntimeException("Circular definition of attribute IdDecl.isUnknown().");
@@ -315,10 +336,10 @@ protected boolean isUnknown_visited = false;
   /**
    * @attribute inh
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:107
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:107
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:107")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:107")
   public IdDecl lookup(String name, Object o) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(name);
@@ -335,7 +356,7 @@ protected boolean isUnknown_visited = false;
 /** @apilevel internal */
 protected java.util.Set lookup_String_Object_visited;
   protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
-    // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:43
+    // @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:43
     if (isMultiplyDeclared()) {
       {
         Program target = (Program) (program());

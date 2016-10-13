@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
  * @production ASTNode;
@@ -16,12 +17,12 @@ import java.util.HashMap;
 public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneable {
   /**
    * @aspect DumpTree
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\DumpTree.jrag:9
+   * @declaredat /home/john/SimpliC/src/jastadd/DumpTree.jrag:9
    */
   private String DUMP_TREE_INDENT = "  ";
   /**
    * @aspect DumpTree
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\DumpTree.jrag:11
+   * @declaredat /home/john/SimpliC/src/jastadd/DumpTree.jrag:11
    */
   public String dumpTree() {
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -30,7 +31,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect DumpTree
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\DumpTree.jrag:17
+   * @declaredat /home/john/SimpliC/src/jastadd/DumpTree.jrag:17
    */
   public void dumpTree(PrintStream out) {
 		dumpTree(out, "");
@@ -38,7 +39,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect DumpTree
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\DumpTree.jrag:22
+   * @declaredat /home/john/SimpliC/src/jastadd/DumpTree.jrag:22
    */
   public void dumpTree(PrintStream out, String indent) {
 		out.print(indent + getClass().getSimpleName());
@@ -54,7 +55,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect DumpTree
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\DumpTree.jrag:35
+   * @declaredat /home/john/SimpliC/src/jastadd/DumpTree.jrag:35
    */
   public String getTokens() {
 		StringBuilder sb = new StringBuilder();
@@ -73,14 +74,14 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect Errors
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:22
+   * @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:22
    */
   protected ErrorMessage error(String message) {
 		return new ErrorMessage(message, getLine(getStart()));
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:4
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:4
    */
   public void prettyPrint(PrintStream out) {
 		prettyPrint(out, "");
@@ -88,7 +89,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:9
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:9
    */
   public void prettyPrint(PrintStream out, String ind) {
 		for (int i = 0; i < getNumChild(); ++i) {
@@ -97,7 +98,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect Visitor
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Visitor.jrag:25
+   * @declaredat /home/john/SimpliC/src/jastadd/Visitor.jrag:25
    */
   public Object accept(Visitor visitor, Object data)
     {
@@ -495,7 +496,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:26
+   * @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:26
    */
     protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
     for (int i = 0; i < getNumChild(); i++) {
@@ -508,10 +509,10 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
   /**
    * @attribute inh
    * @aspect Errors
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:28
+   * @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:28
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="Errors", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:28")
+  @ASTNodeAnnotation.Source(aspect="Errors", declaredAt="/home/john/SimpliC/src/jastadd/Errors.jrag:28")
   public Program program() {
     if (program_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.program().");
@@ -526,10 +527,10 @@ protected boolean program_visited = false;
   /**
    * @attribute inh
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:3
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:3")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:3")
   public Type Type() {
     if (Type_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.Type().");
@@ -544,10 +545,10 @@ protected boolean Type_visited = false;
   /**
    * @attribute inh
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:7
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:7
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:7")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:7")
   public Type unknownType() {
     if (unknownType_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.unknownType().");
@@ -562,10 +563,10 @@ protected boolean unknownType_visited = false;
   /**
    * @attribute inh
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:11
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:11
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:11")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:11")
   public Type intType() {
     if (intType_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.intType().");
@@ -580,10 +581,10 @@ protected boolean intType_visited = false;
   /**
    * @attribute inh
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:15
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:15
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:15")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:15")
   public Type boolType() {
     if (boolType_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.boolType().");
@@ -598,10 +599,10 @@ protected boolean boolType_visited = false;
   /**
    * @attribute inh
    * @aspect UnknownDecl
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:4
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:4
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:4")
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/home/john/SimpliC/src/jastadd/UnknownDecl.jrag:4")
   public UnknownDecl unknownDecl() {
     if (unknownDecl_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.unknownDecl().");
@@ -616,10 +617,10 @@ protected boolean unknownDecl_visited = false;
   /**
    * @attribute inh
    * @aspect UnknownDecl
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:12
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:12
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:12")
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/home/john/SimpliC/src/jastadd/UnknownDecl.jrag:12")
   public UnknownFunc UnknownFunc() {
     if (UnknownFunc_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.UnknownFunc().");
@@ -631,6 +632,46 @@ protected boolean unknownDecl_visited = false;
   }
 /** @apilevel internal */
 protected boolean UnknownFunc_visited = false;
+  /** @apilevel internal */
+  public String Define_lable(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_lable(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_lable(self, _callerNode);
+  }
+
+  /**
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:131
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute lable
+   */
+  protected boolean canDefine_lable(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
+  public String Define_flable(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_flable(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_flable(self, _callerNode);
+  }
+
+  /**
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:129
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute flable
+   */
+  protected boolean canDefine_flable(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
   /** @apilevel internal */
   public Program Define_program(ASTNode _callerNode, ASTNode _childNode) {
     ASTNode self = this;
@@ -644,7 +685,7 @@ protected boolean UnknownFunc_visited = false;
   }
 
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:29
+   * @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:29
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute program
    */
@@ -664,7 +705,7 @@ protected boolean UnknownFunc_visited = false;
   }
 
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:81
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:81
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute Flookup
    */
@@ -684,7 +725,7 @@ protected boolean UnknownFunc_visited = false;
   }
 
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:78
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:78
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute lookup
    */
@@ -704,7 +745,7 @@ protected boolean UnknownFunc_visited = false;
   }
 
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:4
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:4
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute Type
    */
@@ -724,7 +765,7 @@ protected boolean UnknownFunc_visited = false;
   }
 
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:8
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:8
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute unknownType
    */
@@ -744,7 +785,7 @@ protected boolean UnknownFunc_visited = false;
   }
 
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:12
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:12
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute intType
    */
@@ -764,7 +805,7 @@ protected boolean UnknownFunc_visited = false;
   }
 
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:16
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:16
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute boolType
    */
@@ -784,7 +825,7 @@ protected boolean UnknownFunc_visited = false;
   }
 
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:5
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:5
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute unknownDecl
    */
@@ -804,7 +845,7 @@ protected boolean UnknownFunc_visited = false;
   }
 
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:13
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:13
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute UnknownFunc
    */

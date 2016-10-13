@@ -8,9 +8,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:24
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:24
  * @production Bool : {@link Binary};
 
  */
@@ -147,10 +148,10 @@ protected boolean Type_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:18
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:18
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:18")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:18")
   public Type Type() {
     if (Type_visited) {
       throw new RuntimeException("Circular definition of attribute Expr.Type().");
@@ -160,4 +161,22 @@ protected boolean Type_visited = false;
     Type_visited = false;
     return Type_value;
   }
+  /**
+   * @attribute inh
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:125
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="CodeGen", declaredAt="/home/john/SimpliC/src/jastadd/CodeGen.jrag:125")
+  public String lable() {
+    if (lable_visited) {
+      throw new RuntimeException("Circular definition of attribute Bool.lable().");
+    }
+    lable_visited = true;
+    String lable_value = getParent().Define_lable(this, null);
+    lable_visited = false;
+    return lable_value;
+  }
+/** @apilevel internal */
+protected boolean lable_visited = false;
 }

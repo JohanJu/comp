@@ -8,23 +8,32 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:20
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:20
  * @production Num : {@link Expr} ::= <span class="component">&lt;NUM:String&gt;</span>;
 
  */
 public class Num extends Expr implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:224
+   */
+  public void genEval(PrintStream out)
+	{
+	    out.println("        movq $" + getNUM() + ", %rax");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:138
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:167
    */
   public int eval(ActivationRecord actrec){
 		return Integer.parseInt(getNUM());
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:157
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:157
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(getNUM());
@@ -192,5 +201,23 @@ public class Num extends Expr implements Cloneable {
   @ASTNodeAnnotation.Token(name="NUM")
   public String getNUM() {
     return tokenString_NUM != null ? tokenString_NUM : "";
+  }
+/** @apilevel internal */
+protected boolean Type_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:18
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:18")
+  public Type Type() {
+    if (Type_visited) {
+      throw new RuntimeException("Circular definition of attribute Expr.Type().");
+    }
+    Type_visited = true;
+    Type Type_value = intType();
+    Type_visited = false;
+    return Type_value;
   }
 }

@@ -8,10 +8,11 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast class
  * @aspect Interpreter
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:5
+ * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:6
  */
 public class ActivationRecord extends java.lang.Object {
   

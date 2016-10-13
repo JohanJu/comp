@@ -8,9 +8,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:4
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:4
  * @production Type : {@link ASTNode} ::= <span class="component">&lt;String:String&gt;</span>;
 
  */

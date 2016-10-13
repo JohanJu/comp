@@ -8,28 +8,67 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:19
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:19
  * @production Fcall : {@link Expr} ::= <span class="component">&lt;ID:String&gt;</span> <span class="component">{@link Expr}*</span>;
 
  */
 public class Fcall extends Expr implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:198
+   */
+  public void genEval(PrintStream out)
+	{
+		Func f = decl();
+
+		// if(f.getID().equals("print")){
+		// 	getExpr(0).genEval(out);
+		// 	out.println("        call print");
+		// 	return;
+		// }
+		// if(f.getID().equals("read")){
+		// 	out.println("        call read");
+		// 	return;
+		// }
+
+		for (int i = getNumExpr()-1; i >= 0; --i) {
+			getExpr(i).genEval(out);
+			out.println("        pushq %rax");
+		}
+		out.println("        call "+f.getID());
+		out.println("        subq $" + (getNumExpr()*8) + ", %rsp");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:130
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:146
    */
   public int eval(ActivationRecord actrec){
+		if(getID().equals("print")){
+			System.out.println("print: "+getExpr(0).eval(actrec));
+			return 0;
+		}
+		if(getID().equals("read")){
+			System.out.println("input: ");
+			Scanner in = new Scanner(System.in);
+			int num = in.nextInt();
+			return num;
+		}
 		ActivationRecord a = new ActivationRecord();
 		Func f = decl();
 		for (int i = 0; i < f.getNumArgs(); ++i) {
+			// System.out.print(": "+getExpr(i).eval(actrec));
 			a.m.put(((IdDecl)f.getArgs(i)).getID(),getExpr(i).eval(actrec));
 		}
+		// System.out.println();
+
 		return f.eval(a);
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\PrettyPrint.jrag:139
+   * @declaredat /home/john/SimpliC/src/jastadd/PrettyPrint.jrag:139
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind+getID()+"(");
@@ -325,10 +364,10 @@ protected boolean decl_visited = false;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:4
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:4
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:4")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:4")
   public Func decl() {
     if (decl_visited) {
       throw new RuntimeException("Circular definition of attribute Fcall.decl().");
@@ -339,14 +378,32 @@ protected boolean decl_visited = false;
     return decl_value;
   }
 /** @apilevel internal */
+protected boolean Type_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Type
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:18
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:18")
+  public Type Type() {
+    if (Type_visited) {
+      throw new RuntimeException("Circular definition of attribute Expr.Type().");
+    }
+    Type_visited = true;
+    Type Type_value = intType();
+    Type_visited = false;
+    return Type_value;
+  }
+/** @apilevel internal */
 protected boolean nbrArgOk_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:38
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:41
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:38")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:41")
   public boolean nbrArgOk() {
     if (nbrArgOk_visited) {
       throw new RuntimeException("Circular definition of attribute Fcall.nbrArgOk().");
@@ -368,10 +425,10 @@ protected boolean nbrArgOk_visited = false;
   /**
    * @attribute inh
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:5
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:5
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:5")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:5")
   public Func Flookup(String name) {
     Object _parameters = name;
     if (Flookup_String_visited == null) Flookup_String_visited = new java.util.HashSet(4);
@@ -386,7 +443,7 @@ protected boolean nbrArgOk_visited = false;
 /** @apilevel internal */
 protected java.util.Set Flookup_String_visited;
   protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
-    // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:35
+    // @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:35
     if (decl().isUnknown()) {
       {
         Program target = (Program) (program());
@@ -398,7 +455,7 @@ protected java.util.Set Flookup_String_visited;
         contributors.add(this);
       }
     }
-    // @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:51
+    // @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:51
     if (!nbrArgOk()) {
       {
         Program target = (Program) (program());

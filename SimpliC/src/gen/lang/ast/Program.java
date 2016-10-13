@@ -8,16 +8,127 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 /**
  * @ast node
- * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\lang.ast:1
+ * @declaredat /home/john/SimpliC/src/jastadd/lang.ast:1
  * @production Program : {@link ASTNode} ::= <span class="component">{@link Func}*</span>;
 
  */
 public class Program extends ASTNode<ASTNode> implements Cloneable {
   /**
+   * @aspect CodeGen
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:6
+   */
+  public void genCode(PrintStream out) {
+		out.println(".global _start");
+		out.println(".data");
+		out.println("ask_message: .ascii \"Please enter a number: \"");
+		out.println("ask_msg_len: .quad 23");
+		out.println("buf: .skip 1024");
+		out.println();
+		out.println(".text");
+
+		// allocate space for local variables (bindings):
+		// out.println("        pushq %rbp");
+		// out.println("        movq %rsp, %rbp");
+		// out.println("        subq $" + (getExpr().numLocals()*8) + ", %rsp");
+
+		// getExpr().genEval(out);// stores result in RAX
+
+		for (int i = 0; i < getNumFunc(); ++i) {
+			getFunc(i).genEval(out);
+		}
+
+		out.println("_start:");
+		// print result:
+		out.println("        call main");
+
+		// de-allocate local variables:
+		// out.println("        movq %rbp, %rsp");
+		// out.println("        popq %rbp");
+
+		// call sys_exit:
+		out.println("        movq %rax, %rdi");
+		out.println("        movq $60, %rax");
+		out.println("        syscall"); // done!
+
+		// helper functions
+		out.println("# Procedure to read number from stdin");
+		out.println("# C signature: long int read(void)");
+		out.println("read:");
+		out.println("        pushq %rbp");
+		out.println("        movq %rsp, %rbp");
+		out.println("        movq $0, %rdi");
+		out.println("        movq $buf, %rsi");
+		out.println("        movq $1024, %rdx");
+		out.println("        movq $0, %rax");
+		out.println("        syscall                 # %rax = sys_read(0, buf, 1024)");
+		out.println("        ### convert string to integer:");
+		out.println("        ### %rax contains nchar");
+		out.println("        ### %rsi contains ptr");
+		out.println("        movq $0, %rdx           # sum = 0");
+		out.println("atoi_loop:");
+		out.println("        cmpq $0, %rax           # while (nchar > 0)");
+		out.println("        jle atoi_done           # leave loop if nchar <= 0");
+		out.println("        movzbq (%rsi), %rbx     # move byte, and sign extend to qword");
+		out.println("        cmpq $0x30, %rbx        # test if < '0'");
+		out.println("        jl atoi_done            # character is not numeric");
+		out.println("        cmpq $0x39, %rbx        # test if > '9'");
+		out.println("        jg atoi_done            # character is not numeric");
+		out.println("        imulq $10, %rdx         # multiply sum by 10");
+		out.println("        subq $0x30, %rbx        # value of character");
+		out.println("        addq %rbx, %rdx         # add to sum");
+		out.println("        incq %rsi               # step to next char");
+		out.println("        decq %rax               # nchar--");
+		out.println("        jmp atoi_loop           # loop back");
+		out.println("atoi_done:");
+		out.println("        movq %rdx, %rax         # return value in RAX");
+		out.println("        popq %rbp");
+		out.println("        ret");
+		out.println();
+		out.println("# Procedure to print number to stdout");
+		out.println("# C signature: void print(long int)");
+		out.println("print:");
+		out.println("        pushq %rbp");
+		out.println("        movq %rsp, %rbp");
+		out.println("        ### convert integer to string");
+		out.println("        movq 16(%rbp), %rax     # parameter");
+		out.println("        movq $(buf+1023), %rsi  # write ptr (start from end of buf)");
+		out.println("        movb $0x0a, (%rsi)      # insert newline");
+		out.println("        movq $1, %rcx           # string length");
+		out.println("itoa_loop:                      # do.. while (at least one iteration)");
+		out.println("        movq $10, %rbx");
+		out.println("        movq $0, %rdx");
+		out.println("        idivq %rbx              # divide rdx:rax by 10");
+		out.println("        addb $0x30, %dl         # remainder + '0'");
+		out.println("        decq %rsi               # move string pointer");
+		out.println("        movb %dl, (%rsi)");
+		out.println("        incq %rcx               # increment string length");
+		out.println("        cmpq $0, %rax");
+		out.println("        jg itoa_loop            # produce more digits");
+		out.println("itoa_done:");
+		out.println("        movq $1, %rdi");
+		out.println("        movq %rcx, %rdx");
+		out.println("        movq $1, %rax");
+		out.println("        syscall");
+		out.println("        popq %rbp");
+		out.println("        ret");
+		out.println();
+		out.println("print_string:");
+		out.println("        pushq %rbp");
+		out.println("        movq %rsp, %rbp");
+		out.println("        movq $1, %rdi");
+		out.println("        movq 16(%rbp), %rsi");
+		out.println("        movq 24(%rbp), %rdx");
+		out.println("        movq $1, %rax");
+		out.println("        syscall");
+		out.println("        popq %rbp");
+		out.println("        ret");
+	}
+  /**
    * @aspect Interpreter
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Interpretor.jrag:14
+   * @declaredat /home/john/SimpliC/src/jastadd/Interpretor.jrag:15
    */
   public void eval(){
 		ActivationRecord a = new ActivationRecord();
@@ -29,7 +140,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Visitor.jrag:29
+   * @declaredat /home/john/SimpliC/src/jastadd/Visitor.jrag:29
    */
   public Object accept(Visitor visitor, Object data)
     {
@@ -280,7 +391,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:26
+   * @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:26
    */
   protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_Program_errors = null;
 
@@ -309,10 +420,10 @@ protected boolean predefinedFunctions_visited = false;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:96
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:96
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:96")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/home/john/SimpliC/src/jastadd/NameAnalysis.jrag:96")
   public List<Func> predefinedFunctions() {
     ASTNode$State state = state();
     if (predefinedFunctions_computed) {
@@ -355,10 +466,10 @@ protected boolean unknownType_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:6
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:6
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:6")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:6")
   public Type unknownType() {
     ASTNode$State state = state();
     if (unknownType_computed) {
@@ -394,10 +505,10 @@ protected boolean intType_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:10
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:10
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:10")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:10")
   public Type intType() {
     ASTNode$State state = state();
     if (intType_computed) {
@@ -433,10 +544,10 @@ protected boolean boolType_visited = false;
   /**
    * @attribute syn
    * @aspect Type
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:14
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:14
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:14")
+  @ASTNodeAnnotation.Source(aspect="Type", declaredAt="/home/john/SimpliC/src/jastadd/Type.jrag:14")
   public Type boolType() {
     ASTNode$State state = state();
     if (boolType_computed) {
@@ -472,10 +583,10 @@ protected boolean unknownDecl_visited = false;
   /**
    * @attribute syn
    * @aspect UnknownDecl
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:2
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:2
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:2")
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/home/john/SimpliC/src/jastadd/UnknownDecl.jrag:2")
   public UnknownDecl unknownDecl() {
     ASTNode$State state = state();
     if (unknownDecl_computed) {
@@ -511,10 +622,10 @@ protected boolean UnknownFunc_visited = false;
   /**
    * @attribute syn
    * @aspect UnknownDecl
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:10
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:10
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:10")
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/home/john/SimpliC/src/jastadd/UnknownDecl.jrag:10")
   public UnknownFunc UnknownFunc() {
     ASTNode$State state = state();
     if (UnknownFunc_computed) {
@@ -533,7 +644,29 @@ protected boolean UnknownFunc_visited = false;
     return UnknownFunc_value;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:28
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:125
+   * @apilevel internal
+   */
+  public String Define_lable(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return "";
+  }
+  protected boolean canDefine_lable(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /home/john/SimpliC/src/jastadd/CodeGen.jrag:126
+   * @apilevel internal
+   */
+  public String Define_flable(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return "";
+  }
+  protected boolean canDefine_flable(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:28
    * @apilevel internal
    */
   public Program Define_program(ASTNode _callerNode, ASTNode _childNode) {
@@ -544,7 +677,7 @@ protected boolean UnknownFunc_visited = false;
     return true;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:5
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:5
    * @apilevel internal
    */
   public Func Define_Flookup(ASTNode _callerNode, ASTNode _childNode, String name) {
@@ -569,7 +702,7 @@ protected boolean UnknownFunc_visited = false;
     return true;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\NameAnalysis.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/NameAnalysis.jrag:3
    * @apilevel internal
    */
   public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name, Object o) {
@@ -580,7 +713,7 @@ protected boolean UnknownFunc_visited = false;
     return true;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:3
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:3
    * @apilevel internal
    */
   public Type Define_Type(ASTNode _callerNode, ASTNode _childNode) {
@@ -591,7 +724,7 @@ protected boolean UnknownFunc_visited = false;
     return true;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:7
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:7
    * @apilevel internal
    */
   public Type Define_unknownType(ASTNode _callerNode, ASTNode _childNode) {
@@ -602,7 +735,7 @@ protected boolean UnknownFunc_visited = false;
     return true;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:11
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:11
    * @apilevel internal
    */
   public Type Define_intType(ASTNode _callerNode, ASTNode _childNode) {
@@ -613,7 +746,7 @@ protected boolean UnknownFunc_visited = false;
     return true;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Type.jrag:15
+   * @declaredat /home/john/SimpliC/src/jastadd/Type.jrag:15
    * @apilevel internal
    */
   public Type Define_boolType(ASTNode _callerNode, ASTNode _childNode) {
@@ -624,7 +757,7 @@ protected boolean UnknownFunc_visited = false;
     return true;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:4
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:4
    * @apilevel internal
    */
   public UnknownDecl Define_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
@@ -635,7 +768,7 @@ protected boolean UnknownFunc_visited = false;
     return true;
   }
   /**
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\UnknownDecl.jrag:12
+   * @declaredat /home/john/SimpliC/src/jastadd/UnknownDecl.jrag:12
    * @apilevel internal
    */
   public UnknownFunc Define_UnknownFunc(ASTNode _callerNode, ASTNode _childNode) {
@@ -650,10 +783,10 @@ protected boolean Program_errors_visited = false;
   /**
    * @attribute coll
    * @aspect Errors
-   * @declaredat C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:26
+   * @declaredat /home/john/SimpliC/src/jastadd/Errors.jrag:26
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Errors", declaredAt="C:\\avx\\ws\\comp\\SimpliC\\src\\jastadd\\Errors.jrag:26")
+  @ASTNodeAnnotation.Source(aspect="Errors", declaredAt="/home/john/SimpliC/src/jastadd/Errors.jrag:26")
   public Set<ErrorMessage> errors() {
     ASTNode$State state = state();
     if (Program_errors_computed) {
